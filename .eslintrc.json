@@ -1,15 +1,17 @@
 {
-  "env": {
-    "browser": true,
-    "commonjs": true,
-    "es2021": true
-  },
-  "extends": ["prettier", "airbnb-base"],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "project": "tsconfig.json",
+    "sourceType": "module"
   },
-  "rules": {
-    "prettier/prettier": "error"
+  "env": {
+    "node": true
   },
-  "plugins": ["prettier"]
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "plugins": ["@typescript-eslint/eslint-plugin"],
+  "root": true
 }

@@ -1,7 +1,7 @@
 const restify = require('restify');
 const mongoose = require('mongoose');
 const restifyPlugins = require('restify-plugins');
-const config = require('./config.js');
+const config = require('./config');
 
 const server = restify.createServer({
   name: config.name,
