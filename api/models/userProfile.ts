@@ -1,7 +1,7 @@
-import mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
-import Activities = require('./activities');
+import { ActivitySchema } from './activity';
 
 const UserProfileSchema = new Schema({
   userId: {
@@ -29,7 +29,7 @@ const UserProfileSchema = new Schema({
     type: String,
   },
   activities: {
-    type: [Activities],
+    type: [ActivitySchema],
   },
   haveKids: {
     type: Boolean,

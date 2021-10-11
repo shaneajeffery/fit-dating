@@ -5,10 +5,10 @@ import { userService } from '../services/user';
 
 export class UserController implements Controller {
   public initialize(httpServer: HttpServer): void {
-    httpServer.get('/user', this.list.bind(this));
-    httpServer.get('/user/:id', this.getById.bind(this));
-    httpServer.post('/user', this.create.bind(this));
-    httpServer.put('/user/:id', this.update.bind(this));
+    httpServer.get('/api/v1/user', this.list.bind(this));
+    httpServer.get('/api/v1/user/:id', this.getById.bind(this));
+    httpServer.post('/api/v1/user', this.create.bind(this));
+    httpServer.put('/api/v1/user/:id', this.update.bind(this));
   }
 
   private async list(req: Request, res: Response): Promise<void> {
