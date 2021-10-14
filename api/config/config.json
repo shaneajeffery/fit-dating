@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "shanejeffery",
+    "password": null,
+    "database": "prototype",
+    "port": 5433,
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "shanejeffery",
+    "password": null,
+    "database": "prototype",
+    "port": 5433,
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "shanejeffery",
+    "password": null,
+    "port": 5433,
+    "database": "prototype",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}
