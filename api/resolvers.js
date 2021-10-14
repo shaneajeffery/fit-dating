@@ -1,42 +1,31 @@
-const { students } = require('./database');
+const bcrypt = require('bcryptjs');
 
 const resolvers = {
-  Student: {
-    id: (parent, args, context, info) => parent.id,
-    email: (parent) => parent.email,
-    fullName: (parent) => parent.fullName,
-    dept: (parent) => parent.dept,
-    enrolled: (parent) => parent.enrolled,
-  },
-
   Query: {
-    enrollment: (parent, args) =>
-      students.filter((student) => student.enrolled),
-    student: (parent, args) =>
-      students.find((student) => student.id === Number(args.id)),
+    async getUser(root, { id }, { models }) {
+      return models.User.findByPk(id);
+    },
+    async listUsers(root, _, { models }) {
+      return models.User.findAll({});
+    },
   },
 
   Mutation: {
-    registerStudent: (parent, args) => {
-      students.push({
-        id: students.length + 1,
-        email: args.email,
-        fullName: args.fullName,
-        dept: args.dept,
-        enrolled: false,
+    async createUser(
+      root,
+      { name, email, password, phone, dateOfBirth, zipCode },
+      { models }
+    ) {
+      return models.User.create({
+        name,
+        email,
+        password: await bcrypt.hash(password, 10),
+        phone,
+        dateOfBirth,
+        zipCode,
       });
-      return students[students.length - 1];
-    },
-    enroll: (parent, args) => {
-      const studentToEnroll = students.find(
-        (student) => student.id === Number(args.id)
-      );
-      studentToEnroll.enrolled = true;
-      return studentToEnroll;
     },
   },
 };
 
-module.exports = {
-  resolvers,
-};
+module.exports = resolvers;

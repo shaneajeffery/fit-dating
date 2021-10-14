@@ -2,10 +2,10 @@
   "name": "sp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "api/index.js",
   "scripts": {
-    "dev": "nodemon src/server",
-    "start": "node src/server",
+    "dev": "nodemon api/server",
+    "start": "node api/sever",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
