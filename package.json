@@ -17,7 +17,8 @@
     "mongoose-timestamp": "^0.6.0",
     "restify": "^8.6.0",
     "restify-errors": "^8.0.2",
-    "restify-plugins": "^1.6.0"
+    "restify-plugins": "^1.6.0",
+    "sequelize": "^6.7.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.33.0",
