@@ -4,6 +4,8 @@
   "description": "",
   "main": "api/index.js",
   "scripts": {
+    "migrate:undo": "sequelize db:seed:undo:all",
+    "migrate": "sequelize db:seed:all",
     "dev": "nodemon api/server",
     "start": "node api/sever",
     "test": "echo \"Error: no test specified\" && exit 1"
