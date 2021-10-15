@@ -4,6 +4,10 @@ const { merge } = require('lodash');
 
 const userSchema = require('./user/schema');
 const userResolvers = require('./user/resolvers');
+const activitySchema = require('./activity/schema');
+const activityResolvers = require('./activity/resolvers');
+const dietaryInterestSchema = require('./dietaryInterest/schema');
+const dietaryInterestResolvers = require('./dietaryInterest/resolvers');
 
 const query = gql`
   type Query {
@@ -18,8 +22,13 @@ const query = gql`
 const resolvers = {};
 
 const schema = makeExecutableSchema({
-  typeDefs: [query, userSchema],
-  resolvers: merge(resolvers, userResolvers),
+  typeDefs: [query, userSchema, activitySchema, dietaryInterestSchema],
+  resolvers: merge(
+    resolvers,
+    userResolvers,
+    activityResolvers,
+    dietaryInterestResolvers
+  ),
 });
 
 module.exports = schema;
