@@ -3,9 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const Op = require('Sequelize').Op;
 
-require('dotenv').config();
-
-const resolvers = {
+module.exports = {
   Query: {
     async getUser(root, { id }, { models }) {
       return models.User.findByPk(id);
@@ -107,5 +105,3 @@ const resolvers = {
     },
   },
 };
-
-module.exports = resolvers;
