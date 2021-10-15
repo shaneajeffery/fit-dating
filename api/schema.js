@@ -2,7 +2,7 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
   type User {
-    id: ID!
+    id: String!
     username: String!
     email: String!
     password: String!
@@ -11,6 +11,11 @@ const typeDefs = gql`
     zipCode: String!
     createdAt: String!
     updatedAt: String!
+  }
+
+  type AuthPayload {
+    token: String!
+    user: User!
   }
 
   type Query {
@@ -26,7 +31,8 @@ const typeDefs = gql`
       phone: String!
       dateOfBirth: String!
       zipCode: String!
-    ): User!
+    ): AuthPayload!
+    login(email: String!, password: String!): AuthPayload!
   }
 `;
 
