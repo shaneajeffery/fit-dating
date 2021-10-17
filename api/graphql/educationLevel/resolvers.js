@@ -1,6 +1,6 @@
 module.exports = {
   Query: {
-    async getEducationlevel(root, { id }, { models }) {
+    async getEducationLevel(root, { id }, { models }) {
       return models.EducationLevel.findByPk(id);
     },
     async listEducationLevels(root, _, { models }) {
