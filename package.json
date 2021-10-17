@@ -4,9 +4,11 @@
   "description": "",
   "main": "api/index.js",
   "scripts": {
-    "migrate:undo": "sequelize db:seed:undo:all",
-    "migrate": "sequelize db:seed:all",
+    "seed:all": "cd api && sequelize db:seed:all",
+    "seed:undo:all": "cd api && sequelize db:seed:undo:all",
     "dev": "nodemon api/server",
+    "migrate": "cd api && sequelize db:migrate",
+    "migrate:undo:all": "cd api && sequelize db:migrate:undo:all",
     "start": "node api/sever",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

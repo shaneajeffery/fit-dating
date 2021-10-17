@@ -1,27 +1,12 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('PoliticalViews', {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      username: {
         type: Sequelize.STRING,
       },
-      email: {
-        type: Sequelize.STRING,
-      },
-      password: {
-        type: Sequelize.STRING,
-      },
-      phone: {
-        type: Sequelize.STRING,
-      },
-      dateOfBirth: {
-        type: Sequelize.STRING,
-      },
-      zipCode: {
+      name: {
         type: Sequelize.STRING,
       },
       createdAt: {
@@ -36,6 +21,6 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('PoliticalViews');
   },
 };
