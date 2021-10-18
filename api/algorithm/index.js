@@ -16,14 +16,26 @@
  * Religion
  * Politics
  * Likes Dogs / Cats / Animals
- * Kids
+ * Has / Wants Kids
  * Height
  * Job / Employment Status
  *
  */
 
-const scoringWeights = {
-  activities: 1,
-  religion: 1,
-  politics: 1,
+const axios = require('axios').default;
+require('dotenv').config();
+
+const matchingAlgo = async (
+  orderOfImportanceArray,
+  zipCode,
+  distance,
+  unitOfDistance
+) => {
+  const zipCodes = await axios.get(
+    `https://www.zipcodeapi.com/rest/${process.env.ZIP_CODE_API_KEY}/radius.json/${zipCode}/${distance}/${unitOfDistance}`
+  );
+
+  console.log(zipCodes);
 };
+
+module.exports = matchingAlgo;
