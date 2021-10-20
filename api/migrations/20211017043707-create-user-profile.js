@@ -5,15 +5,42 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
+        references: { model: 'Users', key: 'id' },
       },
       job: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
       height: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
       hometown: {
+        allowNull: false,
         type: Sequelize.STRING,
+      },
+      religion: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references: { model: 'Religions', key: 'id' },
+      },
+      politicalView: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references: { model: 'PoliticalViews', key: 'id' },
+      },
+      relationshipStatus: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references: { model: 'RelationshipStatuses', key: 'id' },
+      },
+      haveKids: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+      },
+      wantKids: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -23,42 +50,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-    });
-
-    await queryInterface.addColumn('UserProfiles', 'religion', {
-      type: Sequelize.UUID,
-      references: {
-        model: 'Religion',
-        key: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-      defaultValue: null,
-      after: 'can_maintain_system',
-    });
-
-    await queryInterface.addColumn('UserProfiles', 'politicalView', {
-      type: Sequelize.UUID,
-      references: {
-        model: 'PoliticalView',
-        key: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-      defaultValue: null,
-      after: 'can_maintain_system',
-    });
-
-    await queryInterface.addColumn('UserProfiles', 'relationshipStatus', {
-      type: Sequelize.UUID,
-      references: {
-        model: 'RelationshipStatus',
-        key: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-      defaultValue: null,
-      after: 'can_maintain_system',
     });
   },
 

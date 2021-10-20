@@ -24,6 +24,10 @@ module.exports = {
       zipCode: {
         type: Sequelize.STRING,
       },
+      gender: {
+        type: Sequelize.UUID,
+        references: { model: 'Genders', key: 'id' },
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
