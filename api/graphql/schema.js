@@ -24,6 +24,8 @@ const userSchema = require('./user/schema');
 const userResolvers = require('./user/resolvers');
 const userProfileSchema = require('./userProfile/schema');
 const userProfileResolvers = require('./userProfile/resolvers');
+const userMessageSchema = require('./userMessage/schema');
+const userMessageResolvers = require('./userMessage/resolvers');
 
 const query = gql`
   type Query {
@@ -51,6 +53,7 @@ const schema = makeExecutableSchema({
     religionSchema,
     userSchema,
     userProfileSchema,
+    userMessageSchema,
   ],
   resolvers: merge(
     resolvers,
@@ -64,7 +67,8 @@ const schema = makeExecutableSchema({
     relationshipStatusResolvers,
     religionResolvers,
     userResolvers,
-    userProfileResolvers
+    userProfileResolvers,
+    userMessageResolvers
   ),
 });
 
