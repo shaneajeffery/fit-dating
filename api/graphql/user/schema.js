@@ -26,6 +26,8 @@ const typeDef = `
     dateOfBirth: String!
     zipCode: String!
     _gender: Gender!
+    _activities: [Activity!]
+    _dietaryInterests: [DietaryInterest!]
     createdAt: String!
     updatedAt: String!
   }

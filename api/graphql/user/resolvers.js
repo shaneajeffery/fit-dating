@@ -12,10 +12,16 @@ module.exports = {
             model: models.Gender,
             as: '_gender',
           },
+          {
+            model: models.Activity,
+            as: '_activities',
+          },
+          {
+            model: models.DietaryInterest,
+            as: '_dietaryInterests',
+          },
         ],
       });
-
-      console.log(data);
 
       return data;
     },

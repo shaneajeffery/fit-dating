@@ -8,6 +8,20 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id',
         as: '_gender',
       });
+
+      this.belongsToMany(models.Activity, {
+        through: 'UserActivities',
+        sourceKey: 'id',
+        foreignKey: 'userId',
+        as: '_activities',
+      });
+
+      this.belongsToMany(models.DietaryInterest, {
+        through: 'UserDietaryInterests',
+        sourceKey: 'id',
+        foreignKey: 'userId',
+        as: '_dietaryInterests',
+      });
     }
   }
 
