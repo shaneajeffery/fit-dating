@@ -13,6 +13,11 @@ module.exports = {
       'RelationshipStatuses'
     );
 
+    const educationLevelRows = await getQueryResults(
+      queryInterface,
+      'EducationLevels'
+    );
+
     const userProfileArrayMap = userRows.map((user) => {
       return {
         userId: user.id,
@@ -28,6 +33,10 @@ module.exports = {
         relationshipStatus:
           relationshipStatusRows[
             Math.floor(Math.random() * relationshipStatusRows.length)
+          ].id,
+        educationLevel:
+          educationLevelRows[
+            Math.floor(Math.random() * educationLevelRows.length)
           ].id,
         haveKids: faker.datatype.boolean(),
         wantKids: faker.datatype.boolean(),

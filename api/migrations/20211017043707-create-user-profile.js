@@ -34,6 +34,11 @@ module.exports = {
         type: Sequelize.UUID,
         references: { model: 'RelationshipStatuses', key: 'id' },
       },
+      educationLevel: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references: { model: 'EducationLevels', key: 'id' },
+      },
       haveKids: {
         allowNull: false,
         type: Sequelize.BOOLEAN,

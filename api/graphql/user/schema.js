@@ -12,6 +12,7 @@ const typeDef = `
       phone: String!
       dateOfBirth: String!
       zipCode: String!
+      gender: String!
     ): AuthPayload!
     login(email: String!, password: String!): AuthPayload!
   }
@@ -24,6 +25,7 @@ const typeDef = `
     phone: String!
     dateOfBirth: String!
     zipCode: String!
+    _gender: Gender!
     createdAt: String!
     updatedAt: String!
   }

@@ -6,17 +6,35 @@ const Op = require('Sequelize').Op;
 module.exports = {
   Query: {
     async getUser(root, { id }, { models }) {
-      return models.User.findByPk(id);
+      const data = await models.User.findByPk(id, {
+        include: [
+          {
+            model: models.Gender,
+            as: '_gender',
+          },
+        ],
+      });
+
+      console.log(data);
+
+      return data;
     },
     async listUsers(root, _, { models }) {
-      return models.User.findAll({});
+      return await models.User.findAll({
+        include: [
+          {
+            model: models.Gender,
+            as: '_gender',
+          },
+        ],
+      });
     },
   },
 
   Mutation: {
     async createUser(
       _,
-      { username, email, password, phone, dateOfBirth, zipCode },
+      { username, email, password, phone, dateOfBirth, zipCode, gender },
       { models }
     ) {
       try {
@@ -51,6 +69,7 @@ module.exports = {
           phone,
           dateOfBirth,
           zipCode,
+          gender,
         });
 
         const token = jsonwebtoken.sign(
@@ -89,8 +108,6 @@ module.exports = {
           process.env.JWT_SECRET,
           { expiresIn: '1d' }
         );
-
-        console.log(user.dataValues);
 
         return {
           token,

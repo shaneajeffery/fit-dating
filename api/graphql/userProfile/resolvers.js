@@ -13,10 +13,20 @@ module.exports = {
             model: models.Religion,
             as: '_religion',
           },
+          {
+            model: models.PoliticalView,
+            as: '_politicalView',
+          },
+          {
+            model: models.RelationshipStatus,
+            as: '_relationshipStatus',
+          },
+          {
+            model: models.EducationLevel,
+            as: '_educationLevel',
+          },
         ],
       });
-
-      console.log(data.toJSON());
 
       return data;
     },

@@ -9,6 +9,9 @@ const typeDef = `
     height: String!
     hometown: String!
     _religion: Religion!
+    _politicalView: PoliticalView!
+    _relationshipStatus: RelationshipStatus!
+    _educationLevel: EducationLevel!
     haveKids: String!
     wantKids: String!
     havePets: String!
