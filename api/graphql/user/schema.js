@@ -28,6 +28,8 @@ const typeDef = `
     _gender: Gender!
     _activities: [Activity!]
     _dietaryInterests: [DietaryInterest!]
+    _ethnicities: [Ethnicity!]
+    _languages: [Language!]
     createdAt: String!
     updatedAt: String!
   }

@@ -22,6 +22,20 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
         as: '_dietaryInterests',
       });
+
+      this.belongsToMany(models.Language, {
+        through: 'UserLanguages',
+        sourceKey: 'id',
+        foreignKey: 'userId',
+        as: '_languages',
+      });
+
+      this.belongsToMany(models.Ethnicity, {
+        through: 'UserEthnicities',
+        sourceKey: 'id',
+        foreignKey: 'userId',
+        as: '_ethnicities',
+      });
     }
   }
 

@@ -20,6 +20,14 @@ module.exports = {
             model: models.DietaryInterest,
             as: '_dietaryInterests',
           },
+          {
+            model: models.Language,
+            as: '_languages',
+          },
+          {
+            model: models.Ethnicity,
+            as: '_ethnicities',
+          },
         ],
       });
 

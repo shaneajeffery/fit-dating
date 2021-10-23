@@ -17,6 +17,8 @@ module.exports = {
       'Distance Running',
       'Martial Arts',
       'Swimming',
+      'Orange Theory',
+      'SoulCycle',
     ];
 
     const activityArrayMap = await activityArray.map((activity) => {
