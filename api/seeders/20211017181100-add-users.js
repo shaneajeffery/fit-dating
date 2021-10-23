@@ -97,6 +97,7 @@ module.exports = {
         id: uuidv4(),
         createdAt: new Date(),
         updatedAt: new Date(),
+        lastLogin: new Date(),
       };
     });
 

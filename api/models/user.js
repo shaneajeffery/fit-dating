@@ -48,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       dateOfBirth: DataTypes.STRING,
       zipCode: DataTypes.STRING,
       gender: DataTypes.UUID,
+      lastLogin: DataTypes.DATE,
     },
     {
       sequelize,
