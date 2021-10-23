@@ -1,36 +1,20 @@
 const typeDef = `
   extend type Query {
-    listUsers: [User!]!
-    getUser(id: ID!): User
+    getUserProfile(userId: String!): UserProfile
   }
 
-  extend type Mutation {
-    createUser(
-      username: String!
-      email: String!
-      password: String!
-      phone: String!
-      dateOfBirth: String!
-      zipCode: String!
-    ): AuthPayload!
-    login(email: String!, password: String!): AuthPayload!
-  }
-
-  type User {
-    id: String!
-    username: String!
-    email: String!
-    password: String!
-    phone: String!
-    dateOfBirth: String!
-    zipCode: String!
+  type UserProfile {
+    userId: String!
+    job: String!
+    height: String!
+    hometown: String!
+    _religion: Religion!
+    haveKids: String!
+    wantKids: String!
+    havePets: String!
+    wantPets: String!
     createdAt: String!
     updatedAt: String!
-  }
-
-  type AuthPayload {
-    token: String!
-    user: User!
   }
 `;
 
