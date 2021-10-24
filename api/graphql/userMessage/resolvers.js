@@ -1,6 +1,3 @@
-// const bcrypt = require('bcryptjs');
-// const jsonwebtoken = require('jsonwebtoken');
-// const { v4: uuidv4 } = require('uuid');
 const Op = require('Sequelize').Op;
 
 module.exports = {
@@ -29,4 +26,6 @@ module.exports = {
       return data;
     },
   },
+
+  // TODO: Need to have a CREATE and UPDATE mutation.
 };
