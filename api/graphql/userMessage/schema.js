@@ -3,6 +3,17 @@ const typeDef = `
     getUserMessages(userId: String!): [UserMessage!]
   }
 
+  extend type Mutation {
+    createUserMessage(
+      toUserId: String!
+      fromUserId: String!
+      message: String!
+    ): UserMessage!
+    updateMessageReadAt(
+      messageId: String!
+    ): UserMessage!
+  }
+
   type UserMessage {
     toUserId: String!
     fromUserId: String!

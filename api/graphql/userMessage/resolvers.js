@@ -1,8 +1,9 @@
 const Op = require('Sequelize').Op;
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
   Query: {
-    async getUserMessages(root, { userId }, { models }) {
+    async getUserMessages(_, { userId }, { models }) {
       const data = await models.UserMessage.findAll({
         where: {
           [Op.or]: [
@@ -27,5 +28,37 @@ module.exports = {
     },
   },
 
-  // TODO: Need to have a CREATE and UPDATE mutation.
+  Mutation: {
+    async createUserMessage(_, { toUserId, fromUserId, message }, { models }) {
+      try {
+        return await models.UserMessage.create({
+          toUserId,
+          fromUserId,
+          messageId: uuidv4(),
+          message,
+        });
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+
+    async updateMessageReadAt(_, { messageId }, { models }) {
+      try {
+        const message = await models.UserMessage.findOne({
+          where: { messageId },
+        });
+
+        if (!message) {
+          throw new Error(`Couldn’t find message with id ${messageId}`);
+        }
+
+        message.messageReadAt = new Date();
+        await message.save();
+
+        return message;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+  },
 };
