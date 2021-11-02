@@ -2,6 +2,8 @@ const { ApolloServer } = require('apollo-server');
 const schema = require('./graphql/schema');
 const models = require('./models');
 
+require('dotenv').config();
+
 // eslint-disable-next-line no-undef
 const port = process.env.PORT || 9090;
 

@@ -19,7 +19,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const client = new ApolloClient({
-  uri: 'localhost:9090',
+  uri: 'http://localhost:9090',
   cache,
   defaultOptions: { watchQuery: { fetchPolicy: 'cache-and-network' } },
 });
@@ -49,7 +49,14 @@ export default function App() {
         <NavigationContainer>
           {loggedIn === false ? (
             <Stack.Navigator>
-              <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="Login">
+                {(props) => (
+                  <LoginScreen
+                    {...props}
+                    handleChangeLoginState={handleChangeLoginState}
+                  />
+                )}
+              </Stack.Screen>
               <Stack.Screen name="Register" component={RegisterScreen} />
               {/* <Tab.Screen name="ResetPassword" component={ResetPassword} /> */}
             </Stack.Navigator>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Text,
@@ -12,13 +12,44 @@ import {
   Divider,
 } from 'native-base';
 import { Link } from '@react-navigation/native';
+import { gql, useMutation } from '@apollo/client';
+import { setItem } from '../../utils/async-storage';
+
+const LOGIN = gql`
+  mutation LoginMutation($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+    }
+  }
+`;
 
 const LoginScreen = () => {
+  const [login, { data: loginData, loading: loginLoading, error: loginError }] =
+    useMutation(LOGIN);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  console.log(loginLoading);
+  console.log(loginData);
   console.log(email);
   console.log(password);
+
+  useEffect(() => {
+    if (loginData) {
+      const authToken = loginData.login.token;
+      setItem('authToken', authToken);
+      handleChangeLoginState(true);
+    }
+  }, [loginData, loginLoading, loginError]);
+
+  const handleLogin = (event) => {
+    console.log('hit login');
+
+    event.preventDefault();
+    login({ variables: { email, password } });
+    setItem('authToken');
+  };
 
   return (
     <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
@@ -40,7 +71,11 @@ const LoginScreen = () => {
           >
             Email
           </FormControl.Label>
-          <Input onChangeText={(text) => setEmail(text)} defaultValue={email} />
+          <Input
+            autoCapitalize="none"
+            onChangeText={(text) => setEmail(text)}
+            defaultValue={email}
+          />
         </FormControl>
         <FormControl>
           <FormControl.Label
@@ -65,7 +100,12 @@ const LoginScreen = () => {
             Forget Password?
           </Link> */}
         </FormControl>
-        <Button mt="2" colorScheme="indigo" _text={{ color: 'white' }}>
+        <Button
+          mt="2"
+          colorScheme="indigo"
+          _text={{ color: 'white' }}
+          onPress={handleLogin}
+        >
           Sign in
         </Button>
         <HStack mt="6" justifyContent="center">
