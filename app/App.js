@@ -12,6 +12,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/screens/Home';
 import LoginScreen from './src/screens/Auth/Login';
 import RegisterScreen from './src/screens/Auth/Register';
+import LikesScreen from './src/screens/Likes/Likes';
+import MessagesScreen from './src/screens/Messages/Messages';
+import ProfileScreen from './src/screens/Profile/Profile';
 
 const cache = new InMemoryCache();
 
@@ -63,9 +66,9 @@ export default function App() {
           ) : (
             <Tab.Navigator>
               <Tab.Screen name="Home" component={HomeScreen} />
-              {/* <Tab.Screen name="Likes" component={LikesScreen} />
-                <Tab.Screen name="Messages" component={MessagesScreen} />
-                <Tab.Screen name="Profile" component={ProfileScreen} /> */}
+              <Tab.Screen name="Likes" component={LikesScreen} />
+              <Tab.Screen name="Messages" component={MessagesScreen} />
+              <Tab.Screen name="Profile" component={ProfileScreen} />
             </Tab.Navigator>
           )}
         </NavigationContainer>

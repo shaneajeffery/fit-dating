@@ -9,11 +9,11 @@ import {
   // Link,
   Button,
   HStack,
-  Divider,
 } from 'native-base';
 import { Link } from '@react-navigation/native';
 import { gql, useMutation } from '@apollo/client';
 import { setItem } from '../../utils/async-storage';
+import { useForm, useController } from 'react-hook-form';
 
 const LOGIN = gql`
   mutation LoginMutation($email: String!, $password: String!) {
@@ -24,16 +24,10 @@ const LOGIN = gql`
 `;
 
 const LoginScreen = () => {
+  const { control, handleSubmit } = useForm();
+
   const [login, { data: loginData, loading: loginLoading, error: loginError }] =
     useMutation(LOGIN);
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  console.log(loginLoading);
-  console.log(loginData);
-  console.log(email);
-  console.log(password);
 
   useEffect(() => {
     if (loginData) {
@@ -43,12 +37,25 @@ const LoginScreen = () => {
     }
   }, [loginData, loginLoading, loginError]);
 
-  const handleLogin = (event) => {
-    console.log('hit login');
-
-    event.preventDefault();
+  const onLogin = ({ email, password }) => {
     login({ variables: { email, password } });
-    setItem('authToken');
+  };
+
+  const ControlledInput = ({ type, name, control }) => {
+    const { field } = useController({
+      control,
+      defaultValue: '',
+      name,
+    });
+
+    return (
+      <Input
+        type={type}
+        autoCapitalize="none"
+        value={field.value}
+        onChangeText={field.onChange}
+      />
+    );
   };
 
   return (
@@ -71,11 +78,7 @@ const LoginScreen = () => {
           >
             Email
           </FormControl.Label>
-          <Input
-            autoCapitalize="none"
-            onChangeText={(text) => setEmail(text)}
-            defaultValue={email}
-          />
+          <ControlledInput type="text" name="email" control={control} />
         </FormControl>
         <FormControl>
           <FormControl.Label
@@ -87,11 +90,7 @@ const LoginScreen = () => {
           >
             Password
           </FormControl.Label>
-          <Input
-            type="password"
-            onChangeText={(text) => setPassword(text)}
-            defaultValue={password}
-          />
+          <ControlledInput type="password" name="password" control={control} />
           {/* <Link
             _text={{ fontSize: 'xs', fontWeight: '500', color: 'indigo.500' }}
             alignSelf="flex-end"
@@ -104,7 +103,7 @@ const LoginScreen = () => {
           mt="2"
           colorScheme="indigo"
           _text={{ color: 'white' }}
-          onPress={handleLogin}
+          onPress={handleSubmit(onLogin)}
         >
           Sign in
         </Button>

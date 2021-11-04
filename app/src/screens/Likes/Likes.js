@@ -1,12 +1,10 @@
 import React from 'react';
-import { Container, Text, Content } from 'native-base';
+import { Container, Text } from 'native-base';
 
 const LikesScreen = () => {
   return (
     <Container>
-      <Content>
-        <Text>Likes screen</Text>
-      </Content>
+      <Text>Likes screen</Text>
     </Container>
   );
 };

@@ -4,9 +4,7 @@ import { Container, Text, Content } from 'native-base';
 const MessagesScreen = () => {
   return (
     <Container>
-      <Content>
-        <Text>Messages screen</Text>
-      </Content>
+      <Text>Messages screen</Text>
     </Container>
   );
 };
