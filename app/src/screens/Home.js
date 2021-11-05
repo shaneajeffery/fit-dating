@@ -1,11 +1,11 @@
 import React from 'react';
-import { Container, Text, Content } from 'native-base';
+import { Layout, Text } from '@ui-kitten/components';
 
 const HomeScreen = () => {
   return (
-    <Container>
+    <Layout>
       <Text>Home screen</Text>
-    </Container>
+    </Layout>
   );
 };
 

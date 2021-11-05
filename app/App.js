@@ -6,7 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { persistCache } from 'apollo3-cache-persist';
-import { NativeBaseProvider } from 'native-base';
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider } from '@ui-kitten/components';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from './src/screens/Home';
@@ -48,7 +49,7 @@ export default function App() {
 
   return (
     <ApolloProvider client={client}>
-      <NativeBaseProvider>
+      <ApplicationProvider {...eva} theme={eva.light}>
         <NavigationContainer>
           {loggedIn === false ? (
             <Stack.Navigator>
@@ -72,7 +73,7 @@ export default function App() {
             </Tab.Navigator>
           )}
         </NavigationContainer>
-      </NativeBaseProvider>
+      </ApplicationProvider>
     </ApolloProvider>
   );
 }

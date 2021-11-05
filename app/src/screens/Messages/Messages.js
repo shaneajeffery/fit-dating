@@ -1,11 +1,11 @@
 import React from 'react';
-import { Container, Text, Content } from 'native-base';
+import { Layout, Text } from '@ui-kitten/components';
 
 const MessagesScreen = () => {
   return (
-    <Container>
+    <Layout>
       <Text>Messages screen</Text>
-    </Container>
+    </Layout>
   );
 };
 

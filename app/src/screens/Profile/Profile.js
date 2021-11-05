@@ -1,11 +1,11 @@
 import React from 'react';
-import { Container, Text, Content } from 'native-base';
+import { Layout, Text } from '@ui-kitten/components';
 
 const ProfileScreen = () => {
   return (
-    <Container>
+    <Layout>
       <Text>Profile screen</Text>
-    </Container>
+    </Layout>
   );
 };
 
