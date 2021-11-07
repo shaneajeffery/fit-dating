@@ -9,6 +9,7 @@ import {
   Datepicker,
   Select,
   SelectItem,
+  NativeDateService,
 } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 import { setItem } from '../../utils/async-storage';
@@ -58,6 +59,10 @@ const RegisterScreen = () => {
   const [selectedGenderIndex, setSelectedGenderIndex] = useState(
     new IndexPath(0)
   );
+
+  const formatDateService = new NativeDateService('en', {
+    format: 'MM/DD/YYYY',
+  });
 
   const {
     data: genderData,
@@ -168,6 +173,7 @@ const RegisterScreen = () => {
             accessoryRight={CalendarIcon}
             min={new Date(1920, 1, 1)}
             max={new Date()}
+            dateService={formatDateService}
           />
           <ControlledInput label="Zip Code" name="zipCode" control={control} />
 
