@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { KeyboardAvoidingView } from './extra/keyboard-avoiding-view';
 import { ImageOverlay } from './extra/image-overlay';
-import { Text, Button, Input, Datepicker } from '@ui-kitten/components';
+import {
+  Text,
+  Button,
+  Input,
+  IndexPath,
+  Datepicker,
+  Select,
+  SelectItem,
+} from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 import { setItem } from '../../utils/async-storage';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { useForm, useController } from 'react-hook-form';
 import { CalendarIcon } from './extra/icons';
+import IntlPhoneInput from 'react-native-intl-phone-input';
 
 const REGISTER_MUTATION = gql`
   mutation RegisterMutation(
@@ -32,10 +41,29 @@ const REGISTER_MUTATION = gql`
   }
 `;
 
+const GENDER_QUERY = gql`
+  query GenderQuery {
+    listGenders {
+      id
+      name
+    }
+  }
+`;
+
 const RegisterScreen = () => {
   const { control, handleSubmit } = useForm();
   // const [showPassword, setShowPassword] = useState(false);
   const [selectedDateOfBirth, setSelectedDateOfBirth] = useState(new Date());
+  const [enteredPhoneNumber, setEnteredPhoneNumber] = useState();
+  const [selectedGenderIndex, setSelectedGenderIndex] = useState(
+    new IndexPath(0)
+  );
+
+  const {
+    data: genderData,
+    loading: genderLoading,
+    error: genderError,
+  } = useQuery(GENDER_QUERY);
 
   const [
     register,
@@ -50,31 +78,20 @@ const RegisterScreen = () => {
     }
   }, [registerData, registerLoading, registerError]);
 
-  const onRegister = ({
-    email,
-    password,
-    phoneNumber,
-    zipCode,
-    gender,
-    username,
-  }) => {
-    console.log(
-      email,
-      password,
-      phoneNumber,
-      zipCode,
-      gender,
-      username,
-      selectedDateOfBirth
-    );
+  const onChangeText = ({ dialCode, phoneNumber, isVerified }) => {
+    if (isVerified) {
+      setEnteredPhoneNumber(`${dialCode} ${phoneNumber}`);
+    }
+  };
 
+  const onRegister = ({ email, password, zipCode, username }) => {
     register({
       variables: {
         email,
         password,
-        phone: phoneNumber,
+        phone: enteredPhoneNumber,
         zipCode,
-        gender,
+        gender: genderData.listGenders[selectedGenderIndex].id,
         username,
         dateOfBirth: selectedDateOfBirth,
       },
@@ -108,6 +125,10 @@ const RegisterScreen = () => {
     );
   };
 
+  if (genderLoading) {
+    return <Text>Loading...</Text>;
+  }
+
   return (
     <KeyboardAvoidingView>
       <ImageOverlay style={styles.container}>
@@ -127,11 +148,18 @@ const RegisterScreen = () => {
           />
           <ControlledInput label="Username" name="username" control={control} />
 
-          <ControlledInput
-            label="Phone Number"
-            name="phoneNumber"
-            control={control}
-          />
+          <Text
+            style={{
+              color: '#8F9BB3',
+              fontSize: '12px',
+              fontWeight: '800',
+              marginBottom: 4,
+            }}
+          >
+            Phone Number
+          </Text>
+
+          <IntlPhoneInput onChangeText={onChangeText} defaultCountry="US" />
 
           <Datepicker
             label="Date of Birth"
@@ -142,7 +170,18 @@ const RegisterScreen = () => {
             max={new Date()}
           />
           <ControlledInput label="Zip Code" name="zipCode" control={control} />
-          <ControlledInput label="Gender" name="gender" control={control} />
+
+          <Select
+            selectedIndex={selectedGenderIndex}
+            onSelect={(index) => {
+              setSelectedGenderIndex(index);
+            }}
+            value={genderData.listGenders[selectedGenderIndex - 1].name}
+          >
+            {genderData.listGenders.map((gender) => (
+              <SelectItem title={gender.name} />
+            ))}
+          </Select>
         </View>
         <Button
           mt="2"

@@ -5456,6 +5456,11 @@ react-native-gesture-handler@^1.10.3:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
+react-native-intl-phone-input@^1.2.27:
+  version "1.2.27"
+  resolved "https://registry.yarnpkg.com/react-native-intl-phone-input/-/react-native-intl-phone-input-1.2.27.tgz#da9c5fda825519e5342899e87457798c4347526e"
+  integrity sha512-cq0yrokCriw2oTwWtJ7EjqxzxvGIUZkHmc4rqKB1RSigdBd1WnVByjij9ZnLodblNgU4mMnjaSk1tca3Wguz6w==
+
 react-native-iphone-x-helper@^1.0.3:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
