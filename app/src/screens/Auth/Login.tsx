@@ -18,7 +18,12 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-const LoginScreen = ({ navigation }) => {
+interface Props {
+  navigation: any;
+  handleChangeLoginState: any;
+}
+
+const LoginScreen = ({ navigation, handleChangeLoginState }: Props) => {
   const { control, handleSubmit } = useForm();
 
   const [login, { data: loginData, loading: loginLoading, error: loginError }] =
@@ -32,22 +37,21 @@ const LoginScreen = ({ navigation }) => {
     }
   }, [loginData, loginLoading, loginError]);
 
-  const onLogin = ({ email, password }) => {
-    login({ variables: { email, password } });
+  const onLogin = (params: any) => {
+    login({ variables: { email: params.email, password: params.password } });
   };
 
-  const ControlledInput = ({ label, styles, type, name, control }) => {
+  const ControlledInput = (params: any) => {
     const { field } = useController({
-      control,
+      control: params.control,
       defaultValue: '',
-      name,
+      name: params.name,
     });
 
     return (
       <Input
-        label={label}
-        style={styles}
-        type={type}
+        label={params.label}
+        style={params.styles}
         autoCapitalize="none"
         value={field.value}
         onChangeText={field.onChange}

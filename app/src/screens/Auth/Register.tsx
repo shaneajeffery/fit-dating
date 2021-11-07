@@ -51,12 +51,16 @@ const GENDER_QUERY = gql`
   }
 `;
 
-const RegisterScreen = () => {
+interface Props {
+  handleChangeLoginState: any;
+}
+
+const RegisterScreen = (props: Props) => {
   const { control, handleSubmit } = useForm();
   // const [showPassword, setShowPassword] = useState(false);
   const [selectedDateOfBirth, setSelectedDateOfBirth] = useState(new Date());
-  const [enteredPhoneNumber, setEnteredPhoneNumber] = useState();
-  const [selectedGenderIndex, setSelectedGenderIndex] = useState(
+  const [enteredPhoneNumber, setEnteredPhoneNumber] = useState('');
+  const [selectedGenderIndex, setSelectedGenderIndex] = useState<any>(
     new IndexPath(0)
   );
 
@@ -79,53 +83,45 @@ const RegisterScreen = () => {
     if (registerData) {
       const authToken = registerData.createUser.token;
       setItem('authToken', authToken);
-      handleChangeLoginState(true);
+      props.handleChangeLoginState(true);
     }
   }, [registerData, registerLoading, registerError]);
 
-  const onChangeText = ({ dialCode, phoneNumber, isVerified }) => {
-    if (isVerified) {
-      setEnteredPhoneNumber(`${dialCode} ${phoneNumber}`);
+  const onChangeText = (params: any) => {
+    if (params.isVerified) {
+      setEnteredPhoneNumber(`${params.dialCode} ${params.phoneNumber}`);
     }
   };
 
-  const onRegister = ({ email, password, zipCode, username }) => {
+  const onRegister = (params: any) => {
     register({
       variables: {
-        email,
-        password,
+        email: params.email,
+        password: params.password,
         phone: enteredPhoneNumber,
-        zipCode,
+        zipCode: params.zipCode,
         gender: genderData.listGenders[selectedGenderIndex].id,
-        username,
+        username: params.username,
         dateOfBirth: selectedDateOfBirth,
       },
     });
   };
 
-  const ControlledInput = ({
-    label,
-    styles,
-    type,
-    name,
-    control,
-    secureTextEntry,
-  }) => {
+  const ControlledInput = (params: any) => {
     const { field } = useController({
-      control,
+      control: params.control,
       defaultValue: '',
-      name,
+      name: params.name,
     });
 
     return (
       <Input
-        label={label}
-        style={styles}
-        type={type}
+        label={params.label}
+        style={params.styles}
         autoCapitalize="none"
         value={field.value}
         onChangeText={field.onChange}
-        secureTextEntry={secureTextEntry}
+        secureTextEntry={params.secureTextEntry}
       />
     );
   };
@@ -153,16 +149,7 @@ const RegisterScreen = () => {
           />
           <ControlledInput label="Username" name="username" control={control} />
 
-          <Text
-            style={{
-              color: '#8F9BB3',
-              fontSize: '12px',
-              fontWeight: '800',
-              marginBottom: 4,
-            }}
-          >
-            Phone Number
-          </Text>
+          <Text>Phone Number</Text>
 
           <IntlPhoneInput onChangeText={onChangeText} defaultCountry="US" />
 
@@ -179,24 +166,17 @@ const RegisterScreen = () => {
 
           <Select
             selectedIndex={selectedGenderIndex}
-            onSelect={(index) => {
+            onSelect={(index: any) => {
               setSelectedGenderIndex(index);
             }}
             value={genderData.listGenders[selectedGenderIndex - 1].name}
           >
-            {genderData.listGenders.map((gender) => (
+            {genderData.listGenders.map((gender: Record<string, string>) => (
               <SelectItem title={gender.name} />
             ))}
           </Select>
         </View>
-        <Button
-          mt="2"
-          colorScheme="indigo"
-          _text={{ color: 'white' }}
-          onPress={handleSubmit(onRegister)}
-        >
-          Register
-        </Button>
+        <Button onPress={handleSubmit(onRegister)}>Register</Button>
       </ImageOverlay>
     </KeyboardAvoidingView>
   );

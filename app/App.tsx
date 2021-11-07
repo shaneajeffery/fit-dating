@@ -31,7 +31,7 @@ const client = new ApolloClient({
 
 export default function App() {
   const [loadingCache, setLoadingCache] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
     persistCache({
@@ -44,8 +44,8 @@ export default function App() {
     return <Text>Loading...</Text>;
   }
 
-  handleChangeLoginState = (loggedIn) => {
-    setLoggedIn({ loggedIn });
+  const handleChangeLoginState = (loggedIn: boolean) => {
+    setLoggedIn(loggedIn);
   };
 
   return (
