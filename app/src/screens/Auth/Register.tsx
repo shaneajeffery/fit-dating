@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import { KeyboardAvoidingView } from './extra/keyboard-avoiding-view';
 import { ImageOverlay } from './extra/image-overlay';
