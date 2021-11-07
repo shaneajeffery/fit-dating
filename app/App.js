@@ -7,8 +7,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { persistCache } from 'apollo3-cache-persist';
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider } from '@ui-kitten/components';
+import { IconRegistry, ApplicationProvider } from '@ui-kitten/components';
 import { createStackNavigator } from '@react-navigation/stack';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 import HomeScreen from './src/screens/Home';
 import LoginScreen from './src/screens/Auth/Login';
@@ -49,6 +50,7 @@ export default function App() {
 
   return (
     <ApolloProvider client={client}>
+      <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={eva.light}>
         <NavigationContainer>
           {loggedIn === false ? (

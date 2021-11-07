@@ -9,4 +9,6 @@ export const GoogleIcon = (style) => <Icon {...style} name="google" />;
 
 export const FacebookIcon = (style) => <Icon {...style} name="facebook" />;
 
-export const TwitterIcon = (style) => <Icon {...style} name="twitter" />;
+export const AppleIcon = (style) => <Icon {...style} name="apple" />;
+
+export const CalendarIcon = (style) => <Icon {...style} name="calendar" />;

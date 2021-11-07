@@ -1,196 +1,202 @@
-import React from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import React, { useState, useEffect } from 'react';
+import { KeyboardAvoidingView } from './extra/keyboard-avoiding-view';
+import { ImageOverlay } from './extra/image-overlay';
+import { Text, Button, Input, Datepicker } from '@ui-kitten/components';
+import { StyleSheet, View } from 'react-native';
+import { setItem } from '../../utils/async-storage';
+import { gql, useMutation } from '@apollo/client';
+import { useForm, useController } from 'react-hook-form';
+import { CalendarIcon } from './extra/icons';
+
+const REGISTER_MUTATION = gql`
+  mutation RegisterMutation(
+    $username: String!
+    $email: String!
+    $password: String!
+    $phone: String!
+    $dateOfBirth: String!
+    $zipCode: String!
+    $gender: String!
+  ) {
+    createUser(
+      username: $username
+      email: $email
+      password: $password
+      phone: $phone
+      dateOfBirth: $dateOfBirth
+      zipCode: $zipCode
+      gender: $gender
+    ) {
+      token
+    }
+  }
+`;
 
 const RegisterScreen = () => {
+  const { control, handleSubmit } = useForm();
+  // const [showPassword, setShowPassword] = useState(false);
+  const [selectedDateOfBirth, setSelectedDateOfBirth] = useState(new Date());
+
+  const [
+    register,
+    { data: registerData, loading: registerLoading, error: registerError },
+  ] = useMutation(REGISTER_MUTATION);
+
+  useEffect(() => {
+    if (registerData) {
+      const authToken = registerData.createUser.token;
+      setItem('authToken', authToken);
+      handleChangeLoginState(true);
+    }
+  }, [registerData, registerLoading, registerError]);
+
+  const onRegister = ({
+    email,
+    password,
+    phoneNumber,
+    zipCode,
+    gender,
+    username,
+  }) => {
+    console.log(
+      email,
+      password,
+      phoneNumber,
+      zipCode,
+      gender,
+      username,
+      selectedDateOfBirth
+    );
+
+    register({
+      variables: {
+        email,
+        password,
+        phone: phoneNumber,
+        zipCode,
+        gender,
+        username,
+        dateOfBirth: selectedDateOfBirth,
+      },
+    });
+  };
+
+  const ControlledInput = ({
+    label,
+    styles,
+    type,
+    name,
+    control,
+    secureTextEntry,
+  }) => {
+    const { field } = useController({
+      control,
+      defaultValue: '',
+      name,
+    });
+
+    return (
+      <Input
+        label={label}
+        style={styles}
+        type={type}
+        autoCapitalize="none"
+        value={field.value}
+        onChangeText={field.onChange}
+        secureTextEntry={secureTextEntry}
+      />
+    );
+  };
+
   return (
-    <Layout>
-      <Text>Register screen</Text>
-    </Layout>
+    <KeyboardAvoidingView>
+      <ImageOverlay style={styles.container}>
+        <View style={styles.signInContainer}>
+          <Text style={styles.signInLabel} status="control" category="h4">
+            Register
+          </Text>
+        </View>
+
+        <View style={styles.formContainer}>
+          <ControlledInput label="Email" name="email" control={control} />
+          <ControlledInput
+            label="Password"
+            name="password"
+            control={control}
+            secureTextEntry={true}
+          />
+          <ControlledInput label="Username" name="username" control={control} />
+
+          <ControlledInput
+            label="Phone Number"
+            name="phoneNumber"
+            control={control}
+          />
+
+          <Datepicker
+            label="Date of Birth"
+            onSelect={(nextDate) => setSelectedDateOfBirth(nextDate)}
+            date={selectedDateOfBirth}
+            accessoryRight={CalendarIcon}
+            min={new Date(1920, 1, 1)}
+            max={new Date()}
+          />
+          <ControlledInput label="Zip Code" name="zipCode" control={control} />
+          <ControlledInput label="Gender" name="gender" control={control} />
+        </View>
+        <Button
+          mt="2"
+          colorScheme="indigo"
+          _text={{ color: 'white' }}
+          onPress={handleSubmit(onRegister)}
+        >
+          Register
+        </Button>
+      </ImageOverlay>
+    </KeyboardAvoidingView>
   );
 };
 
 export default RegisterScreen;
 
-// import React, { useState } from 'react';
-// // import {
-// //   Box,
-// //   Text,
-// //   Heading,
-// //   VStack,
-// //   FormControl,
-// //   Input,
-// //   Button,
-// //   HStack,
-// // } from 'native-base';
-
-// import { Layout, Text, Button, Input } from '@ui-kitten/components';
-
-// import { Link } from '@react-navigation/native';
-// import { useForm, useController, Controller } from 'react-hook-form';
-// import DatePicker from 'react-native-date-picker';
-
-// const RegisterScreen = () => {
-//   const { control, handleSubmit } = useForm();
-
-//   const [showPassword, setShowPassword] = useState(false);
-//   const [datePickerOpen, setDatePickerOpen] = useState(false);
-//   const [selectedDateOfBirth, setSelectedDateOfBirth] = useState(new Date());
-
-//   console.log(selectedDateOfBirth.toDateString());
-
-//   const onRegister = (data) => {
-//     console.log(data);
-
-//     // login({ variables: { email, password } });
-//   };
-
-//   const ControlledInput = ({ type, name, control, InputRightElement }) => {
-//     const { field } = useController({
-//       control,
-//       defaultValue: '',
-//       name,
-//     });
-
-//     return (
-//       <Input
-//         type={showPassword ? 'text' : type}
-//         autoCapitalize="none"
-//         value={field.value}
-//         onChangeText={field.onChange}
-//         InputRightElement={InputRightElement}
-//       />
-//     );
-//   };
-
-//   return (
-//     <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//       <Heading size="lg" fontWeight="600" color="coolGray.800">
-//         Register
-//       </Heading>
-
-//       <VStack space={3} mt="5">
-//         <ControlledInput
-//           label="Email"
-//           type="text"
-//           name="email"
-//           control={control}
-//         />
-
-//         <ControlledInput
-//           type="password"
-//           name="password"
-//           control={control}
-//           InputRightElement={
-//             <Button
-//               size="xs"
-//               m="1"
-//               onPress={() => setShowPassword(!showPassword)}
-//             >
-//               {showPassword ? 'Hide' : 'Show'}
-//             </Button>
-//           }
-//         />
-
-//         <FormControl>
-//           <FormControl.Label
-//             _text={{
-//               color: 'coolGray.800',
-//               fontSize: 'xs',
-//               fontWeight: 500,
-//             }}
-//           >
-//             Username
-//           </FormControl.Label>
-//           <ControlledInput type="text" name="username" control={control} />
-//         </FormControl>
-
-//         <FormControl>
-//           <FormControl.Label
-//             _text={{
-//               color: 'coolGray.800',
-//               fontSize: 'xs',
-//               fontWeight: 500,
-//             }}
-//           >
-//             Phone
-//           </FormControl.Label>
-//           <ControlledInput type="text" name="phone" control={control} />
-//         </FormControl>
-
-//         <FormControl>
-//           <FormControl.Label
-//             _text={{
-//               color: 'coolGray.800',
-//               fontSize: 'xs',
-//               fontWeight: 500,
-//             }}
-//           >
-//             Date Of Birth
-//           </FormControl.Label>
-//           <DatePicker
-//             display="modal"
-//             open={datePickerOpen}
-//             date={selectedDateOfBirth}
-//             onConfirm={(date) => {
-//               setDatePickerOpen(false);
-//               setSelectedDateOfBirth(date);
-//             }}
-//             onCancel={() => {
-//               setDatePickerOpen(false);
-//             }}
-//           />
-
-//           <Input
-//             type="text"
-//             name="dateOfBirth"
-//             value={selectedDateOfBirth.toDateString()}
-//             onFocus={() => setDatePickerOpen(true)}
-//           />
-//         </FormControl>
-
-//         <FormControl>
-//           <FormControl.Label
-//             _text={{
-//               color: 'coolGray.800',
-//               fontSize: 'xs',
-//               fontWeight: 500,
-//             }}
-//           >
-//             Zip Code
-//           </FormControl.Label>
-//           <ControlledInput type="text" name="zipCode" control={control} />
-//         </FormControl>
-
-//         <FormControl>
-//           <FormControl.Label
-//             _text={{
-//               color: 'coolGray.800',
-//               fontSize: 'xs',
-//               fontWeight: 500,
-//             }}
-//           >
-//             Gender
-//           </FormControl.Label>
-//           <ControlledInput type="text" name="gender" control={control} />
-//         </FormControl>
-
-//         <Button
-//           mt="2"
-//           colorScheme="indigo"
-//           _text={{ color: 'white' }}
-//           onPress={handleSubmit(onRegister)}
-//         >
-//           Register
-//         </Button>
-//         <HStack mt="6" justifyContent="center">
-//           <Text fontSize="sm" color="muted.700" fontWeight={400}>
-//             Already Have An Account?
-//           </Text>
-//           <Link to={{ screen: 'Login' }}>Sign In</Link>
-//         </HStack>
-//       </VStack>
-//     </Layout>
-//   );
-// };
-
-// export default RegisterScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingVertical: 24,
+    paddingHorizontal: 16,
+  },
+  signInContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 24,
+  },
+  socialAuthContainer: {
+    marginTop: 48,
+  },
+  evaButton: {
+    maxWidth: 72,
+    paddingHorizontal: 0,
+  },
+  formContainer: {
+    flex: 1,
+    marginTop: 48,
+  },
+  passwordInput: {
+    marginTop: 16,
+  },
+  signInLabel: {
+    flex: 1,
+  },
+  signUpButton: {
+    flexDirection: 'row-reverse',
+    paddingHorizontal: 0,
+  },
+  socialAuthButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  socialAuthHintText: {
+    alignSelf: 'center',
+    marginBottom: 16,
+  },
+});

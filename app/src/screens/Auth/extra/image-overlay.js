@@ -1,7 +1,7 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 
-const DEFAULT_OVERLAY_COLOR = 'rgba(0, 0, 0, 0.45)';
+const DEFAULT_OVERLAY_COLOR = '#1c1c1c';
 
 export const ImageOverlay = (props) => {
   const { style, children, ...imageBackgroundProps } = props;

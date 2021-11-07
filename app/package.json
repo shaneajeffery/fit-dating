@@ -16,6 +16,7 @@
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/stack": "^6.0.11",
     "@ui-kitten/components": "^5.1.1",
+    "@ui-kitten/eva-icons": "^5.1.1",
     "apollo3-cache-persist": "^0.13.0",
     "expo": "~43.0.0",
     "expo-dev-client": "~0.6.3",
