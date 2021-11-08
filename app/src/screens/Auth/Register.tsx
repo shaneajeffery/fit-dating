@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { KeyboardAvoidingView } from './extra/keyboard-avoiding-view';
 import { ImageOverlay } from './extra/image-overlay';
 import {
@@ -19,6 +19,8 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { useForm, useController } from 'react-hook-form';
 import { CalendarIcon } from './extra/icons';
 import IntlPhoneInput from 'react-native-intl-phone-input';
+
+import { AppContext } from '../../../App';
 
 const REGISTER_MUTATION = gql`
   mutation RegisterMutation(
@@ -53,11 +55,7 @@ const GENDER_QUERY = gql`
   }
 `;
 
-interface Props {
-  handleChangeLoginState: any;
-}
-
-const RegisterScreen = (props: Props) => {
+const RegisterScreen = () => {
   const { control, handleSubmit } = useForm();
   // const [showPassword, setShowPassword] = useState(false);
   const [selectedDateOfBirth, setSelectedDateOfBirth] = useState(new Date());
@@ -65,6 +63,7 @@ const RegisterScreen = (props: Props) => {
   const [selectedGenderIndex, setSelectedGenderIndex] = useState<any>(
     new IndexPath(0)
   );
+  const { handleChangeLoginState } = useContext(AppContext);
 
   const formatDateService = new NativeDateService('en', {
     format: 'MM/DD/YYYY',
@@ -85,7 +84,7 @@ const RegisterScreen = (props: Props) => {
     if (registerData) {
       const authToken = registerData.createUser.token;
       setItem('authToken', authToken);
-      props.handleChangeLoginState(true);
+      handleChangeLoginState(true);
     }
   }, [registerData, registerLoading, registerError]);
 

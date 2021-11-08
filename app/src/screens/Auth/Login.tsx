@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { AppContext } from '../../../App';
 
 import { StyleSheet, View } from 'react-native';
 import { Button, Input, Text } from '@ui-kitten/components';
@@ -21,11 +22,12 @@ const LOGIN_MUTATION = gql`
 
 interface Props {
   navigation: any;
-  handleChangeLoginState: any;
 }
 
-const LoginScreen = ({ navigation, handleChangeLoginState }: Props) => {
+const LoginScreen = ({ navigation }: Props) => {
   const { control, handleSubmit } = useForm();
+
+  const { handleChangeLoginState } = useContext(AppContext);
 
   const [login, { data: loginData, loading: loginLoading, error: loginError }] =
     useMutation(LOGIN_MUTATION);
@@ -54,6 +56,7 @@ const LoginScreen = ({ navigation, handleChangeLoginState }: Props) => {
         label={params.label}
         style={params.styles}
         autoCapitalize="none"
+        secureTextEntry={params.secureTextEntry}
         value={field.value}
         onChangeText={field.onChange}
       />
@@ -88,7 +91,7 @@ const LoginScreen = ({ navigation, handleChangeLoginState }: Props) => {
           <ControlledInput
             styles={styles.passwordInput}
             label="Password"
-            type="password"
+            secureTextEntry={true}
             name="password"
             control={control}
           />
