@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect, useContext } from 'react';
-import { KeyboardAvoidingView } from './extra/keyboard-avoiding-view';
-import { ImageOverlay } from './extra/image-overlay';
+
 import {
   Text,
   Button,
@@ -20,7 +19,7 @@ import { useForm, useController } from 'react-hook-form';
 import { CalendarIcon } from './extra/icons';
 import IntlPhoneInput from 'react-native-intl-phone-input';
 
-import { AppContext } from '../../../App';
+import { AuthContext } from '../../context/AuthContext';
 
 const REGISTER_MUTATION = gql`
   mutation RegisterMutation(
@@ -63,7 +62,7 @@ const RegisterScreen = () => {
   const [selectedGenderIndex, setSelectedGenderIndex] = useState<any>(
     new IndexPath(0)
   );
-  const { handleChangeLoginState } = useContext(AppContext);
+  const { handleChangeLoginState } = useContext(AuthContext);
 
   const formatDateService = new NativeDateService('en', {
     format: 'MM/DD/YYYY',
@@ -132,54 +131,52 @@ const RegisterScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView>
-      <ImageOverlay style={styles.container}>
-        <View style={styles.signInContainer}>
-          <Text style={styles.signInLabel} status="control" category="h4">
-            Register
-          </Text>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.signInContainer}>
+        <Text style={styles.signInLabel} status="control" category="h4">
+          Register
+        </Text>
+      </View>
 
-        <View style={styles.formContainer}>
-          <ControlledInput label="Email" name="email" control={control} />
-          <ControlledInput
-            label="Password"
-            name="password"
-            control={control}
-            secureTextEntry={true}
-          />
-          <ControlledInput label="Username" name="username" control={control} />
+      <View style={styles.formContainer}>
+        <ControlledInput label="Email" name="email" control={control} />
+        <ControlledInput
+          label="Password"
+          name="password"
+          control={control}
+          secureTextEntry={true}
+        />
+        <ControlledInput label="Username" name="username" control={control} />
 
-          <Text>Phone Number</Text>
+        <Text>Phone Number</Text>
 
-          <IntlPhoneInput onChangeText={onChangeText} defaultCountry="US" />
+        <IntlPhoneInput onChangeText={onChangeText} defaultCountry="US" />
 
-          <Datepicker
-            label="Date of Birth"
-            onSelect={(nextDate) => setSelectedDateOfBirth(nextDate)}
-            date={selectedDateOfBirth}
-            accessoryRight={CalendarIcon}
-            min={new Date(1920, 1, 1)}
-            max={new Date()}
-            dateService={formatDateService}
-          />
-          <ControlledInput label="Zip Code" name="zipCode" control={control} />
+        <Datepicker
+          label="Date of Birth"
+          onSelect={(nextDate) => setSelectedDateOfBirth(nextDate)}
+          date={selectedDateOfBirth}
+          accessoryRight={CalendarIcon}
+          min={new Date(1920, 1, 1)}
+          max={new Date()}
+          dateService={formatDateService}
+        />
+        <ControlledInput label="Zip Code" name="zipCode" control={control} />
 
-          <Select
-            selectedIndex={selectedGenderIndex}
-            onSelect={(index: any) => {
-              setSelectedGenderIndex(index);
-            }}
-            value={genderData.listGenders[selectedGenderIndex - 1].name}
-          >
-            {genderData.listGenders.map((gender: Record<string, string>) => (
-              <SelectItem title={gender.name} />
-            ))}
-          </Select>
-        </View>
-        <Button onPress={handleSubmit(onRegister)}>Register</Button>
-      </ImageOverlay>
-    </KeyboardAvoidingView>
+        <Select
+          selectedIndex={selectedGenderIndex}
+          onSelect={(index: any) => {
+            setSelectedGenderIndex(index);
+          }}
+          value={genderData.listGenders[selectedGenderIndex - 1].name}
+        >
+          {genderData.listGenders.map((gender: Record<string, string>) => (
+            <SelectItem title={gender.name} />
+          ))}
+        </Select>
+      </View>
+      <Button onPress={handleSubmit(onRegister)}>Register</Button>
+    </View>
   );
 };
 
@@ -190,6 +187,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 24,
     paddingHorizontal: 16,
+    // backgroundColor: '#092147',
   },
   signInContainer: {
     flexDirection: 'row',

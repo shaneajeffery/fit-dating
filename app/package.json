@@ -10,6 +10,8 @@
   "dependencies": {
     "@apollo/client": "^3.4.16",
     "@eva-design/eva": "^2.1.1",
+    "@expo-google-fonts/inter": "^0.2.0",
+    "@expo-google-fonts/rubik": "^0.2.0",
     "@react-native-async-storage/async-storage": "^1.15.9",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.0.9",
@@ -20,6 +22,7 @@
     "apollo3-cache-persist": "^0.13.0",
     "expo": "~43.0.0",
     "expo-dev-client": "~0.6.3",
+    "expo-font": "~10.0.3",
     "expo-status-bar": "~1.1.0",
     "graphql": "^15.6.1",
     "graphql-tag": "^2.12.5",

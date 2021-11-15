@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { Layout, Text, Button } from '@ui-kitten/components';
 import { removeItem } from '../../utils/async-storage';
-import { AppContext } from '../../../App';
+import { AuthContext } from '../../context/AuthContext';
 
 const ProfileScreen = () => {
-  const { handleChangeLoginState } = useContext(AppContext);
+  const { handleChangeLoginState } = useContext(AuthContext);
 
   const handleLogout = () => {
     removeItem('authToken');

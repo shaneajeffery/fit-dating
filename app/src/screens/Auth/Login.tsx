@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../../../App';
+import { AuthContext } from '../../context/AuthContext';
 
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image, SafeAreaView } from 'react-native';
 import { Button, Input, Text } from '@ui-kitten/components';
 
 import { gql, useMutation } from '@apollo/client';
 import { setItem } from '../../utils/async-storage';
 import { useForm, useController } from 'react-hook-form';
-import { ImageOverlay } from './extra/image-overlay';
+
 import { ArrowForwardIcon } from './extra/icons';
-import { KeyboardAvoidingView } from './extra/keyboard-avoiding-view';
 
 const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
@@ -27,7 +26,7 @@ interface Props {
 const LoginScreen = ({ navigation }: Props) => {
   const { control, handleSubmit } = useForm();
 
-  const { handleChangeLoginState } = useContext(AppContext);
+  const { handleChangeLoginState } = useContext(AuthContext);
 
   const [login, { data: loginData, loading: loginLoading, error: loginError }] =
     useMutation(LOGIN_MUTATION);
@@ -53,6 +52,7 @@ const LoginScreen = ({ navigation }: Props) => {
 
     return (
       <Input
+        placeholder={params.placeholder}
         label={params.label}
         style={params.styles}
         autoCapitalize="none"
@@ -64,43 +64,35 @@ const LoginScreen = ({ navigation }: Props) => {
   };
 
   return (
-    <KeyboardAvoidingView>
-      <ImageOverlay style={styles.container}>
-        <View style={styles.signInContainer}>
-          <Text style={styles.signInLabel} status="control" category="h4">
-            Login
-          </Text>
-          <Button
-            style={styles.signUpButton}
-            appearance="ghost"
-            status="control"
-            size="giant"
-            accessoryLeft={ArrowForwardIcon}
-            onPress={() => navigation.navigate('Register')}
-          >
-            Sign Up
-          </Button>
-        </View>
-        <View style={styles.formContainer}>
-          <ControlledInput
-            label="Email"
-            type="text"
-            name="email"
-            control={control}
-          />
-          <ControlledInput
-            styles={styles.passwordInput}
-            label="Password"
-            secureTextEntry={true}
-            name="password"
-            control={control}
-          />
-        </View>
-        <Button status="control" size="large" onPress={handleSubmit(onLogin)}>
-          SIGN IN
-        </Button>
-      </ImageOverlay>
-    </KeyboardAvoidingView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Image source={require('./assets/logo.png')} />
+      </View>
+
+      <View style={styles.signInContainer}>
+        <Text style={styles.signInLabel} status="control" category="h4">
+          Login
+        </Text>
+      </View>
+      <View style={styles.formContainer}>
+        <ControlledInput
+          placeholder="Enter your e-mail or phone number"
+          type="text"
+          name="email"
+          control={control}
+        />
+        <ControlledInput
+          styles={styles.passwordInput}
+          placeholder="Enter your password"
+          secureTextEntry={true}
+          name="password"
+          control={control}
+        />
+      </View>
+      <Button status="control" size="large" onPress={handleSubmit(onLogin)}>
+        SIGN IN
+      </Button>
+    </SafeAreaView>
   );
 };
 
@@ -109,11 +101,18 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 24,
     paddingHorizontal: 16,
+    backgroundColor: '#092147',
+  },
+  logoContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 150,
   },
   signInContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 24,
+    marginTop: 43,
+    marginLeft: 5,
   },
   socialAuthContainer: {
     marginTop: 48,
@@ -124,13 +123,14 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 1,
-    marginTop: 48,
+    marginTop: 30,
   },
   passwordInput: {
     marginTop: 16,
   },
   signInLabel: {
     flex: 1,
+    fontFamily: 'Rubik_500Medium',
   },
   signUpButton: {
     flexDirection: 'row-reverse',
