@@ -7,14 +7,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { persistCache } from 'apollo3-cache-persist';
-import * as eva from '@eva-design/eva';
-import { IconRegistry, ApplicationProvider } from '@ui-kitten/components';
+import { NativeBaseProvider } from 'native-base';
 import { createStackNavigator } from '@react-navigation/stack';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import { default as theme } from './theme.json';
+
 import {
   useFonts,
-  Rubik_300Light_Italic,
   Rubik_400Regular,
   Rubik_500Medium,
 } from '@expo-google-fonts/rubik';
@@ -25,6 +22,7 @@ import RegisterScreen from './src/screens/Auth/Register';
 import LikesScreen from './src/screens/Likes/Likes';
 import MessagesScreen from './src/screens/Messages/Messages';
 import ProfileScreen from './src/screens/Profile/Profile';
+import ResetPasswordScreen from './src/screens/Auth/ResetPassword';
 
 import { AuthContext } from './src/context/AuthContext';
 
@@ -66,8 +64,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <ApolloProvider client={client}>
-        <IconRegistry icons={EvaIconsPack} />
-        <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
+        <NativeBaseProvider>
           <AuthContext.Provider
             value={{
               handleChangeLoginState: handleChangeLoginState,
@@ -81,7 +78,10 @@ export default function App() {
                     {(props) => <LoginScreen {...props} />}
                   </Stack.Screen>
                   <Stack.Screen name="Register" component={RegisterScreen} />
-                  {/* <Tab.Screen name="ResetPassword" component={ResetPassword} /> */}
+                  <Stack.Screen
+                    name="ResetPassword"
+                    component={ResetPasswordScreen}
+                  />
                 </Stack.Navigator>
               ) : (
                 <Tab.Navigator screenOptions={{ headerShown: false }}>
@@ -93,7 +93,7 @@ export default function App() {
               )}
             </NavigationContainer>
           </AuthContext.Provider>
-        </ApplicationProvider>
+        </NativeBaseProvider>
       </ApolloProvider>
     </SafeAreaView>
   );

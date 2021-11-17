@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Layout, Text, Button } from '@ui-kitten/components';
+import { Box, Button, Text } from 'native-base';
 import { removeItem } from '../../utils/async-storage';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -12,13 +12,13 @@ const ProfileScreen = () => {
   };
 
   return (
-    <Layout>
+    <Box>
       <Text>Profile screen</Text>
 
-      <Button status="control" size="giant" onPress={() => handleLogout()}>
+      <Button size="giant" onPress={() => handleLogout()}>
         Logout
       </Button>
-    </Layout>
+    </Box>
   );
 };
 

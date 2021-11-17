@@ -1,11 +1,11 @@
 import React from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import { Box, Text } from 'native-base';
 
 const LikesScreen = () => {
   return (
-    <Layout>
+    <Box>
       <Text>Likes screen</Text>
-    </Layout>
+    </Box>
   );
 };
 

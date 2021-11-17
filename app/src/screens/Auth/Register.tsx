@@ -2,16 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect, useContext } from 'react';
 
-import {
-  Text,
-  Button,
-  Input,
-  IndexPath,
-  Datepicker,
-  Select,
-  SelectItem,
-  NativeDateService,
-} from '@ui-kitten/components';
+import { Text, Button, Input, Select } from 'native-base';
 import { StyleSheet, View } from 'react-native';
 import { setItem } from '../../utils/async-storage';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -59,14 +50,14 @@ const RegisterScreen = () => {
   // const [showPassword, setShowPassword] = useState(false);
   const [selectedDateOfBirth, setSelectedDateOfBirth] = useState(new Date());
   const [enteredPhoneNumber, setEnteredPhoneNumber] = useState('');
-  const [selectedGenderIndex, setSelectedGenderIndex] = useState<any>(
-    new IndexPath(0)
-  );
+  // const [selectedGenderIndex, setSelectedGenderIndex] = useState<any>(
+  //   new IndexPath(0)
+  // );
   const { handleChangeLoginState } = useContext(AuthContext);
 
-  const formatDateService = new NativeDateService('en', {
-    format: 'MM/DD/YYYY',
-  });
+  // const formatDateService = new NativeDateService('en', {
+  //   format: 'MM/DD/YYYY',
+  // });
 
   const {
     data: genderData,
@@ -100,7 +91,7 @@ const RegisterScreen = () => {
         password: params.password,
         phone: enteredPhoneNumber,
         zipCode: params.zipCode,
-        gender: genderData.listGenders[selectedGenderIndex].id,
+        // gender: genderData.listGenders[selectedGenderIndex].id,
         username: params.username,
         dateOfBirth: selectedDateOfBirth,
       },
@@ -116,7 +107,6 @@ const RegisterScreen = () => {
 
     return (
       <Input
-        label={params.label}
         style={params.styles}
         autoCapitalize="none"
         value={field.value}
@@ -133,9 +123,7 @@ const RegisterScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.signInContainer}>
-        <Text style={styles.signInLabel} status="control" category="h4">
-          Register
-        </Text>
+        <Text style={styles.signInLabel}>Register</Text>
       </View>
 
       <View style={styles.formContainer}>
@@ -152,7 +140,7 @@ const RegisterScreen = () => {
 
         <IntlPhoneInput onChangeText={onChangeText} defaultCountry="US" />
 
-        <Datepicker
+        {/* <Datepicker
           label="Date of Birth"
           onSelect={(nextDate) => setSelectedDateOfBirth(nextDate)}
           date={selectedDateOfBirth}
@@ -160,10 +148,10 @@ const RegisterScreen = () => {
           min={new Date(1920, 1, 1)}
           max={new Date()}
           dateService={formatDateService}
-        />
+        /> */}
         <ControlledInput label="Zip Code" name="zipCode" control={control} />
 
-        <Select
+        {/* <Select
           selectedIndex={selectedGenderIndex}
           onSelect={(index: any) => {
             setSelectedGenderIndex(index);
@@ -172,8 +160,8 @@ const RegisterScreen = () => {
         >
           {genderData.listGenders.map((gender: Record<string, string>) => (
             <SelectItem title={gender.name} />
-          ))}
-        </Select>
+          ))} */}
+        {/* </Select> */}
       </View>
       <Button onPress={handleSubmit(onRegister)}>Register</Button>
     </View>

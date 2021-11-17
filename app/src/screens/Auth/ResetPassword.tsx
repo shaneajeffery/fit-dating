@@ -1,11 +1,11 @@
 import React from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import { Box, Text } from 'native-base';
 
 const ResetPasswordScreen = () => {
   return (
-    <Layout>
+    <Box>
       <Text>Reset Password screen</Text>
-    </Layout>
+    </Box>
   );
 };
 
