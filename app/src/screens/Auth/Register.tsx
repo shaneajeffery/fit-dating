@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect, useContext } from 'react';
 
-import { Text, Button, Input, Select } from 'native-base';
-import { StyleSheet, View } from 'react-native';
+import { Text, Button, Input, Select, Image, Stack, VStack } from 'native-base';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { setItem } from '../../utils/async-storage';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useForm, useController } from 'react-hook-form';
@@ -107,11 +107,14 @@ const RegisterScreen = () => {
 
     return (
       <Input
-        style={params.styles}
+        placeholder={params.placeholder}
         autoCapitalize="none"
         value={field.value}
         onChangeText={field.onChange}
         secureTextEntry={params.secureTextEntry}
+        color="#ffffff"
+        borderColor="grey"
+        size="lg"
       />
     );
   };
@@ -121,24 +124,34 @@ const RegisterScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.signInContainer}>
-        <Text style={styles.signInLabel}>Register</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Image
+          width={200}
+          height={100}
+          resizeMode="contain"
+          source={require('./assets/logo.png')}
+          alt="logo"
+        />
       </View>
 
-      <View style={styles.formContainer}>
-        <ControlledInput label="Email" name="email" control={control} />
+      <View style={styles.registerContainer}>
+        <Text style={styles.registerLabel}>Register</Text>
+      </View>
+
+      <Stack ml={3} mr={3} mt={3} space={4}>
+        <ControlledInput placeholder="Email" name="email" control={control} />
         <ControlledInput
-          label="Password"
+          placeholder="Password"
           name="password"
           control={control}
           secureTextEntry={true}
         />
-        <ControlledInput label="Username" name="username" control={control} />
-
-        <Text>Phone Number</Text>
-
-        <IntlPhoneInput onChangeText={onChangeText} defaultCountry="US" />
+        <ControlledInput
+          placeholder="Username"
+          name="username"
+          control={control}
+        />
 
         {/* <Datepicker
           label="Date of Birth"
@@ -149,7 +162,15 @@ const RegisterScreen = () => {
           max={new Date()}
           dateService={formatDateService}
         /> */}
+
+        <IntlPhoneInput onChangeText={onChangeText} defaultCountry="US" />
+
         <ControlledInput label="Zip Code" name="zipCode" control={control} />
+
+        <VStack>
+          <ControlledInput label="Zip Code" name="zipCode" control={control} />
+          <ControlledInput label="Zip Code" name="zipCode" control={control} />
+        </VStack>
 
         {/* <Select
           selectedIndex={selectedGenderIndex}
@@ -162,20 +183,25 @@ const RegisterScreen = () => {
             <SelectItem title={gender.name} />
           ))} */}
         {/* </Select> */}
-      </View>
+      </Stack>
       <Button onPress={handleSubmit(onRegister)}>Register</Button>
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
+  logoContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 0,
+  },
   container: {
     flex: 1,
-    paddingVertical: 24,
-    paddingHorizontal: 16,
-    // backgroundColor: '#092147',
+    paddingVertical: 0,
+    paddingHorizontal: 5,
+    backgroundColor: '#092147',
   },
   signInContainer: {
     flexDirection: 'row',
@@ -210,5 +236,17 @@ const styles = StyleSheet.create({
   socialAuthHintText: {
     alignSelf: 'center',
     marginBottom: 16,
+  },
+  registerContainer: {
+    marginTop: 10,
+    marginLeft: 5,
+  },
+  registerLabel: {
+    fontFamily: 'Rubik_500Medium',
+    color: '#ffffff',
+    fontSize: 24,
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginLeft: 8,
   },
 });

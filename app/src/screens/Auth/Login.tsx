@@ -87,17 +87,13 @@ const LoginScreen = ({ navigation }: Props) => {
         />
       </Stack>
 
-      <Stack>
-        <Button
-          variant="link"
-          onPress={() => navigation.navigate('ResetPassword')}
-          color="#97C153"
-        >
-          Forgot Your Password?
+      <Stack ml={-175} mr={3} mt={2} space={0}>
+        <Button variant="link" onPress={() => navigation.push('ResetPassword')}>
+          <Text style={styles.forgotPasswordText}>Forgot Your Password?</Text>
         </Button>
       </Stack>
 
-      <Stack ml={3} mr={3} mt={20} space={0}>
+      <Stack ml={3} mr={3} mt={10} space={0}>
         <Button
           size="lg"
           onPress={handleSubmit(onLogin)}
@@ -107,7 +103,7 @@ const LoginScreen = ({ navigation }: Props) => {
         </Button>
         <Button
           size="lg"
-          onPress={() => navigation.navigate('Register')}
+          onPress={() => navigation.push('Register')}
           style={styles.registerButton}
         >
           REGISTER
@@ -118,6 +114,11 @@ const LoginScreen = ({ navigation }: Props) => {
 };
 
 const styles = StyleSheet.create({
+  forgotPasswordText: {
+    color: '#97C153',
+    fontFamily: 'Rubik_500Medium',
+  },
+
   signInButton: {
     marginBottom: 10,
     backgroundColor: '#00ABE7',
@@ -140,17 +141,17 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingVertical: 100,
+    paddingVertical: 0,
     paddingHorizontal: 5,
     backgroundColor: '#092147',
   },
   logoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 150,
+    marginTop: 200,
   },
   signInContainer: {
-    marginTop: 43,
+    marginTop: 40,
     marginLeft: 5,
   },
   socialAuthContainer: {
