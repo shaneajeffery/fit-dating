@@ -58,6 +58,7 @@ const LoginScreen = ({ navigation }: Props) => {
         onChangeText={field.onChange}
         color="#ffffff"
         borderColor="grey"
+        selectionColor="white"
       />
     );
   };

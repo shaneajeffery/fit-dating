@@ -2,13 +2,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect, useContext } from 'react';
 
-import { Text, Button, Input, Select, Image, Stack, VStack } from 'native-base';
+import {
+  Text,
+  Button,
+  Input,
+  Select,
+  Image,
+  Stack,
+  HStack,
+  CheckIcon,
+} from 'native-base';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { setItem } from '../../utils/async-storage';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useForm, useController } from 'react-hook-form';
 import { CalendarIcon } from './extra/icons';
-import IntlPhoneInput from 'react-native-intl-phone-input';
+// import IntlPhoneInput from 'react-native-intl-phone-input';
 
 import { AuthContext } from '../../context/AuthContext';
 
@@ -45,11 +54,14 @@ const GENDER_QUERY = gql`
   }
 `;
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }) => {
   const { control, handleSubmit } = useForm();
   // const [showPassword, setShowPassword] = useState(false);
   const [selectedDateOfBirth, setSelectedDateOfBirth] = useState(new Date());
   const [enteredPhoneNumber, setEnteredPhoneNumber] = useState('');
+
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedGender, setSelectedGender] = useState('');
   // const [selectedGenderIndex, setSelectedGenderIndex] = useState<any>(
   //   new IndexPath(0)
   // );
@@ -65,6 +77,8 @@ const RegisterScreen = () => {
     error: genderError,
   } = useQuery(GENDER_QUERY);
 
+  console.log(genderData);
+
   const [
     register,
     { data: registerData, loading: registerLoading, error: registerError },
@@ -78,11 +92,11 @@ const RegisterScreen = () => {
     }
   }, [registerData, registerLoading, registerError]);
 
-  const onChangeText = (params: any) => {
-    if (params.isVerified) {
-      setEnteredPhoneNumber(`${params.dialCode} ${params.phoneNumber}`);
-    }
-  };
+  // const onChangeText = (params: any) => {
+  //   if (params.isVerified) {
+  //     setEnteredPhoneNumber(`${params.dialCode} ${params.phoneNumber}`);
+  //   }
+  // };
 
   const onRegister = (params: any) => {
     register({
@@ -115,6 +129,8 @@ const RegisterScreen = () => {
         color="#ffffff"
         borderColor="grey"
         size="lg"
+        selectionColor="white"
+        autoCorrect={false}
       />
     );
   };
@@ -142,14 +158,26 @@ const RegisterScreen = () => {
       <Stack ml={3} mr={3} mt={3} space={4}>
         <ControlledInput placeholder="Email" name="email" control={control} />
         <ControlledInput
+          placeholder="Username"
+          name="username"
+          control={control}
+        />
+        <ControlledInput
           placeholder="Password"
           name="password"
           control={control}
           secureTextEntry={true}
         />
         <ControlledInput
-          placeholder="Username"
-          name="username"
+          placeholder="Confirm Password"
+          name="confirm_password"
+          control={control}
+          secureTextEntry={true}
+        />
+
+        <ControlledInput
+          placeholder="Date of Birth"
+          name="date_of_birth"
           control={control}
         />
 
@@ -163,14 +191,79 @@ const RegisterScreen = () => {
           dateService={formatDateService}
         /> */}
 
-        <IntlPhoneInput onChangeText={onChangeText} defaultCountry="US" />
+        {/* <IntlPhoneInput onChangeText={onChangeText} defaultCountry="US" /> */}
 
-        <ControlledInput label="Zip Code" name="zipCode" control={control} />
+        <ControlledInput
+          placeholder="Phone Number"
+          name="phone_number"
+          control={control}
+        />
 
-        <VStack>
-          <ControlledInput label="Zip Code" name="zipCode" control={control} />
-          <ControlledInput label="Zip Code" name="zipCode" control={control} />
-        </VStack>
+        {/* <ControlledInput
+          placeholder="Country"
+          name="country"
+          control={control}
+        /> */}
+
+        <Select
+          selectedValue={selectedCountry}
+          accessibilityLabel="Select Country"
+          placeholder="Select Country"
+          _selectedItem={{
+            bg: 'teal.600',
+            endIcon: <CheckIcon size="5" />,
+          }}
+          mt={1}
+          color="white"
+          onValueChange={(itemValue) => setSelectedCountry(itemValue)}
+          borderColor="grey"
+        >
+          <Select.Item label="Australia" value="australia" />
+          <Select.Item label="New Zealand" value="new_zealand" />
+          <Select.Item label="United States" value="united_states" />
+          <Select.Item label="United Kingdom" value="united_kingdom" />
+        </Select>
+
+        <HStack space={3} alignItems="center">
+          <View style={{ width: '48.3%' }}>
+            <ControlledInput
+              placeholder="Zip Code"
+              name="zipCode"
+              control={control}
+            />
+          </View>
+          <View style={{ width: '48.3%' }}>
+            {/* <ControlledInput
+              placeholder="Gender"
+              name="gender"
+              control={control}
+            /> */}
+
+            <Select
+              selectedValue={selectedGender}
+              accessibilityLabel="Select Gender"
+              placeholder="Select Gender"
+              _selectedItem={{
+                bg: 'teal.600',
+                endIcon: <CheckIcon size="5" />,
+              }}
+              mt={1}
+              color="white"
+              onValueChange={(itemValue) => setSelectedGender(itemValue)}
+              borderColor="grey"
+            >
+              {genderData.listGenders.map(
+                (gender: Record<string, string>, index: number) => (
+                  <Select.Item
+                    key={index}
+                    label={gender.name}
+                    value={gender.id}
+                  />
+                )
+              )}
+            </Select>
+          </View>
+        </HStack>
 
         {/* <Select
           selectedIndex={selectedGenderIndex}
@@ -184,7 +277,23 @@ const RegisterScreen = () => {
           ))} */}
         {/* </Select> */}
       </Stack>
-      <Button onPress={handleSubmit(onRegister)}>Register</Button>
+
+      <Stack ml={3} mr={3} mt={10} space={0}>
+        <Button
+          size="lg"
+          onPress={handleSubmit(onRegister)}
+          style={styles.registerButton}
+        >
+          REGISTER
+        </Button>
+        <Button
+          size="lg"
+          onPress={() => navigation.push('Register')}
+          style={styles.backButton}
+        >
+          BACK TO LOGIN
+        </Button>
+      </Stack>
     </SafeAreaView>
   );
 };
@@ -192,6 +301,26 @@ const RegisterScreen = () => {
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  inputWrap: {},
+
+  registerButton: {
+    marginBottom: 10,
+    backgroundColor: '#00ABE7',
+    borderColor: '#00ABE7',
+    color: '#FFFFFF',
+  },
+
+  backButton: {
+    marginBottom: 10,
+    backgroundColor: '#81C14B',
+    borderColor: '#81C14B',
+    color: '#FFFFFF',
+  },
+
   logoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
