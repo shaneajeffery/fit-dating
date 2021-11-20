@@ -14,7 +14,7 @@ import {
   Icon,
   Checkbox,
 } from 'native-base';
-import { StyleSheet, View, SafeAreaView, Dimensions } from 'react-native';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { setItem } from '../../utils/async-storage';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useForm, useController } from 'react-hook-form';
@@ -189,7 +189,13 @@ const RegisterScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image resizeMode="contain" source={require('./assets/logo.png')} />
+        <Image
+          width={200}
+          height={100}
+          resizeMode="contain"
+          source={require('./assets/logo.png')}
+          alt="logo"
+        />
       </View>
 
       <View style={styles.registerContainer}>
@@ -361,11 +367,15 @@ const styles = StyleSheet.create({
     borderColor: '#81C14B',
     color: '#FFFFFF',
   },
-  logoContainer: {},
-  container: {
-    flex: 1,
+  logoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 0,
+  },
+  container: {
+    flex: 1,
+    paddingVertical: 0,
+    paddingHorizontal: 5,
     backgroundColor: '#092147',
   },
   signInContainer: {
