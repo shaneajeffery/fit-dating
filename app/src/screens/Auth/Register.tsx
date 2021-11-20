@@ -11,16 +11,67 @@ import {
   Image,
   Stack,
   HStack,
-  CheckIcon,
+  Icon,
 } from 'native-base';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { setItem } from '../../utils/async-storage';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useForm, useController } from 'react-hook-form';
 import { CalendarIcon } from './extra/icons';
-// import IntlPhoneInput from 'react-native-intl-phone-input';
+import DatePicker from 'react-native-date-picker';
+import { format } from 'date-fns';
+import MaskInput from 'react-native-mask-input';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import { AuthContext } from '../../context/AuthContext';
+
+const PHONE_NUMBER_MASKS = {
+  australia: [/\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/],
+  new_zealand: [
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+  ],
+  united_states: [
+    '(',
+    /\d/,
+    /\d/,
+    /\d/,
+    ')',
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    '-',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+  ],
+  united_kingdom: [
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+  ],
+};
 
 const REGISTER_MUTATION = gql`
   mutation RegisterMutation(
@@ -57,28 +108,21 @@ const GENDER_QUERY = gql`
 
 const RegisterScreen = ({ navigation }) => {
   const { control, handleSubmit } = useForm();
-  // const [showPassword, setShowPassword] = useState(false);
-  const [selectedDateOfBirth, setSelectedDateOfBirth] = useState(new Date());
+  const [selectedDateOfBirth, setSelectedDateOfBirth] = useState<
+    Date | undefined
+  >();
   const [enteredPhoneNumber, setEnteredPhoneNumber] = useState('');
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedGender, setSelectedGender] = useState('');
-  // const [selectedGenderIndex, setSelectedGenderIndex] = useState<any>(
-  //   new IndexPath(0)
-  // );
   const { handleChangeLoginState } = useContext(AuthContext);
-
-  // const formatDateService = new NativeDateService('en', {
-  //   format: 'MM/DD/YYYY',
-  // });
 
   const {
     data: genderData,
     loading: genderLoading,
     error: genderError,
   } = useQuery(GENDER_QUERY);
-
-  console.log(genderData);
 
   const [
     register,
@@ -93,12 +137,6 @@ const RegisterScreen = ({ navigation }) => {
     }
   }, [registerData, registerLoading, registerError]);
 
-  // const onChangeText = (params: any) => {
-  //   if (params.isVerified) {
-  //     setEnteredPhoneNumber(`${params.dialCode} ${params.phoneNumber}`);
-  //   }
-  // };
-
   const onRegister = (params: any) => {
     register({
       variables: {
@@ -106,11 +144,15 @@ const RegisterScreen = ({ navigation }) => {
         password: params.password,
         phone: enteredPhoneNumber,
         zipCode: params.zipCode,
-        // gender: genderData.listGenders[selectedGenderIndex].id,
+        gender: selectedGender,
         username: params.username,
         dateOfBirth: selectedDateOfBirth,
       },
     });
+  };
+
+  const formatDate = (date: Date) => {
+    return format(date, 'MM/dd/yyyy');
   };
 
   const ControlledInput = (params: any) => {
@@ -132,6 +174,9 @@ const RegisterScreen = ({ navigation }) => {
         size="lg"
         selectionColor="white"
         autoCorrect={false}
+        onFocus={params.onFocus}
+        style={params.style}
+        InputRightElement={params.InputRightElement}
       />
     );
   };
@@ -176,17 +221,40 @@ const RegisterScreen = ({ navigation }) => {
           secureTextEntry={true}
         />
 
-        <ControlledInput
+        <Input
           placeholder="Date of Birth"
-          name="date_of_birth"
-          control={control}
+          onPressIn={() => setCalendarOpen(true)}
+          value={selectedDateOfBirth ? formatDate(selectedDateOfBirth) : ''}
+          color="#ffffff"
+          borderColor="grey"
+          size="lg"
+          selectionColor="white"
+          InputRightElement={
+            <Icon
+              as={<MaterialIcons name="calendar-today" />}
+              onPress={() => setCalendarOpen(true)}
+              size={5}
+              mr="2"
+              color="muted.400"
+            />
+          }
         />
 
-        <ControlledInput
-          placeholder="Phone Number"
-          name="phone_number"
-          control={control}
-        />
+        <Select
+          selectedValue={selectedGender}
+          placeholder="Select Gender"
+          color="white"
+          onValueChange={(itemValue) => setSelectedGender(itemValue)}
+          borderColor="grey"
+          // @ts-ignore
+          style={{ height: 37, width: 10, fontSize: 16, padding: 0 }}
+        >
+          {genderData.listGenders.map(
+            (gender: Record<string, string>, index: number) => (
+              <Select.Item key={index} label={gender.name} value={gender.id} />
+            )
+          )}
+        </Select>
 
         <Select
           selectedValue={selectedCountry}
@@ -204,36 +272,32 @@ const RegisterScreen = ({ navigation }) => {
           <Select.Item label="United Kingdom" value="united_kingdom" />
         </Select>
 
-        <HStack space={3} alignItems="center">
-          <View style={{ width: '48.3%' }}>
-            <ControlledInput
-              placeholder="Zip Code"
-              name="zipCode"
-              control={control}
-            />
-          </View>
-          <View style={{ width: '48.3%' }}>
-            <Select
-              selectedValue={selectedGender}
-              placeholder="Select Gender"
-              color="white"
-              onValueChange={(itemValue) => setSelectedGender(itemValue)}
-              borderColor="grey"
-              // @ts-ignore
-              style={{ height: 37, width: '100%', fontSize: 16 }}
-            >
-              {genderData.listGenders.map(
-                (gender: Record<string, string>, index: number) => (
-                  <Select.Item
-                    key={index}
-                    label={gender.name}
-                    value={gender.id}
-                  />
-                )
-              )}
-            </Select>
-          </View>
-        </HStack>
+        {selectedCountry ? (
+          <HStack space={3} alignItems="center">
+            <View style={{ width: '48.3%' }}>
+              <MaskInput
+                value={enteredPhoneNumber}
+                onChangeText={(masked, unmasked) => {
+                  setEnteredPhoneNumber(unmasked); // you can use the unmasked value as well
+                }}
+                mask={PHONE_NUMBER_MASKS[selectedCountry]}
+                style={styles.phoneInput}
+                placeholder="Phone Number"
+                selectionColor="white"
+                placeholderTextColor="#FFFFFF96"
+              />
+            </View>
+            <View style={{ width: '48.3%' }}>
+              <ControlledInput
+                placeholder="Zip Code"
+                name="zipCode"
+                control={control}
+              />
+            </View>
+          </HStack>
+        ) : (
+          <View />
+        )}
       </Stack>
 
       <Stack ml={3} mr={3} mt={10} space={0}>
@@ -252,6 +316,21 @@ const RegisterScreen = ({ navigation }) => {
           BACK TO LOGIN
         </Button>
       </Stack>
+
+      <DatePicker
+        mode="date"
+        modal
+        open={calendarOpen}
+        date={selectedDateOfBirth ? selectedDateOfBirth : new Date()}
+        onConfirm={(date) => {
+          setCalendarOpen(false);
+          setSelectedDateOfBirth(date);
+        }}
+        onCancel={() => {
+          setCalendarOpen(false);
+        }}
+        style={{ height: 0 }}
+      />
     </SafeAreaView>
   );
 };
@@ -259,6 +338,16 @@ const RegisterScreen = ({ navigation }) => {
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
+  phoneInput: {
+    color: 'white',
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: 'grey',
+    paddingHorizontal: 12,
+    height: 37,
+    borderRadius: 3,
+  },
+
   row: {
     flex: 1,
     flexDirection: 'row',
