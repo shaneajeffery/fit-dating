@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect, useContext } from 'react';
@@ -181,42 +182,21 @@ const RegisterScreen = ({ navigation }) => {
           control={control}
         />
 
-        {/* <Datepicker
-          label="Date of Birth"
-          onSelect={(nextDate) => setSelectedDateOfBirth(nextDate)}
-          date={selectedDateOfBirth}
-          accessoryRight={CalendarIcon}
-          min={new Date(1920, 1, 1)}
-          max={new Date()}
-          dateService={formatDateService}
-        /> */}
-
-        {/* <IntlPhoneInput onChangeText={onChangeText} defaultCountry="US" /> */}
-
         <ControlledInput
           placeholder="Phone Number"
           name="phone_number"
           control={control}
         />
 
-        {/* <ControlledInput
-          placeholder="Country"
-          name="country"
-          control={control}
-        /> */}
-
         <Select
           selectedValue={selectedCountry}
           accessibilityLabel="Select Country"
           placeholder="Select Country"
-          _selectedItem={{
-            bg: 'teal.600',
-            endIcon: <CheckIcon size="5" />,
-          }}
-          mt={1}
           color="white"
           onValueChange={(itemValue) => setSelectedCountry(itemValue)}
           borderColor="grey"
+          // @ts-ignore
+          style={{ height: 37, width: '100%', fontSize: 16 }}
         >
           <Select.Item label="Australia" value="australia" />
           <Select.Item label="New Zealand" value="new_zealand" />
@@ -233,24 +213,14 @@ const RegisterScreen = ({ navigation }) => {
             />
           </View>
           <View style={{ width: '48.3%' }}>
-            {/* <ControlledInput
-              placeholder="Gender"
-              name="gender"
-              control={control}
-            /> */}
-
             <Select
               selectedValue={selectedGender}
-              accessibilityLabel="Select Gender"
               placeholder="Select Gender"
-              _selectedItem={{
-                bg: 'teal.600',
-                endIcon: <CheckIcon size="5" />,
-              }}
-              mt={1}
               color="white"
               onValueChange={(itemValue) => setSelectedGender(itemValue)}
               borderColor="grey"
+              // @ts-ignore
+              style={{ height: 37, width: '100%', fontSize: 16 }}
             >
               {genderData.listGenders.map(
                 (gender: Record<string, string>, index: number) => (
@@ -264,18 +234,6 @@ const RegisterScreen = ({ navigation }) => {
             </Select>
           </View>
         </HStack>
-
-        {/* <Select
-          selectedIndex={selectedGenderIndex}
-          onSelect={(index: any) => {
-            setSelectedGenderIndex(index);
-          }}
-          value={genderData.listGenders[selectedGenderIndex - 1].name}
-        >
-          {genderData.listGenders.map((gender: Record<string, string>) => (
-            <SelectItem title={gender.name} />
-          ))} */}
-        {/* </Select> */}
       </Stack>
 
       <Stack ml={3} mr={3} mt={10} space={0}>
@@ -288,7 +246,7 @@ const RegisterScreen = ({ navigation }) => {
         </Button>
         <Button
           size="lg"
-          onPress={() => navigation.push('Register')}
+          onPress={() => navigation.push('Login')}
           style={styles.backButton}
         >
           BACK TO LOGIN
