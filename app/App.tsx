@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-  Text,
-  StatusBar,
-  SafeAreaView,
-  StyleSheet,
-  Dimensions,
-  View,
-} from 'react-native';
+import { StatusBar, SafeAreaView, StyleSheet } from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
@@ -17,7 +10,6 @@ import { persistCache } from 'apollo3-cache-persist';
 import { NativeBaseProvider } from 'native-base';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
-import { Video } from 'expo-av';
 
 import {
   useFonts,
@@ -34,6 +26,7 @@ import ProfileScreen from './src/screens/Profile/Profile';
 import ResetPasswordScreen from './src/screens/Auth/ResetPassword';
 
 import { AuthContext } from './src/context/AuthContext';
+import { Splash } from './src/components/Splash';
 
 const cache = new InMemoryCache();
 
@@ -92,21 +85,7 @@ export default function App() {
   }, [appIsReady]);
 
   if (!appIsReady || !fontsLoaded || loadingCache) {
-    const { width } = Dimensions.get('window');
-
-    return (
-      <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
-        <StatusBar barStyle="light-content" />
-        <View style={styles.videoContainer}>
-          <Video
-            source={require('./assets/splash-logo.mp4')}
-            shouldPlay
-            resizeMode="cover"
-            style={{ width, height: 300 }}
-          />
-        </View>
-      </SafeAreaView>
-    );
+    return <Splash onLayoutRootView={onLayoutRootView} />;
   }
 
   const handleChangeLoginState = (loggedIn: boolean) => {
@@ -158,6 +137,8 @@ const styles = StyleSheet.create({
   },
 
   videoContainer: {
-    marginTop: 100,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

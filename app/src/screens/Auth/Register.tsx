@@ -189,12 +189,7 @@ const RegisterScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image
-          width={500}
-          height={null}
-          resizeMode="contain"
-          source={require('./assets/logo.png')}
-        />
+        <Image resizeMode="contain" source={require('./assets/logo.png')} />
       </View>
 
       <View style={styles.registerContainer}>
@@ -369,7 +364,8 @@ const styles = StyleSheet.create({
   logoContainer: {},
   container: {
     flex: 1,
-
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#092147',
   },
   signInContainer: {
