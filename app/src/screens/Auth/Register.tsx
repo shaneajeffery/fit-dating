@@ -17,11 +17,11 @@ import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { setItem } from '../../utils/async-storage';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useForm, useController } from 'react-hook-form';
-import { CalendarIcon } from './extra/icons';
 import DatePicker from 'react-native-date-picker';
 import { format } from 'date-fns';
 import MaskInput from 'react-native-mask-input';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Loading } from '../../components/Loading';
 
 import { AuthContext } from '../../context/AuthContext';
 
@@ -181,8 +181,8 @@ const RegisterScreen = ({ navigation }) => {
     );
   };
 
-  if (genderLoading) {
-    return <Text>Loading...</Text>;
+  if (!genderLoading) {
+    return <Loading />;
   }
 
   return (
@@ -338,6 +338,13 @@ const RegisterScreen = ({ navigation }) => {
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 145,
+    backgroundColor: '#092147',
+  },
+
   phoneInput: {
     color: 'white',
     fontSize: 16,
@@ -347,27 +354,22 @@ const styles = StyleSheet.create({
     height: 37,
     borderRadius: 3,
   },
-
   row: {
     flex: 1,
     flexDirection: 'row',
   },
-  inputWrap: {},
-
   registerButton: {
     marginBottom: 10,
     backgroundColor: '#00ABE7',
     borderColor: '#00ABE7',
     color: '#FFFFFF',
   },
-
   backButton: {
     marginBottom: 10,
     backgroundColor: '#81C14B',
     borderColor: '#81C14B',
     color: '#FFFFFF',
   },
-
   logoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -383,13 +385,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 24,
-  },
-  socialAuthContainer: {
-    marginTop: 48,
-  },
-  evaButton: {
-    maxWidth: 72,
-    paddingHorizontal: 0,
   },
   formContainer: {
     flex: 1,

@@ -59,6 +59,7 @@ const LoginScreen = ({ navigation }: Props) => {
         color="#ffffff"
         borderColor="grey"
         selectionColor="white"
+        autoCorrect={false}
       />
     );
   };
