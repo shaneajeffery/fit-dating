@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-// import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import { Text, StatusBar, SafeAreaView, StyleSheet } from 'react-native';
+
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  Text,
+  StatusBar,
+  SafeAreaView,
+  StyleSheet,
+  Dimensions,
+  View,
+} from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
@@ -9,6 +16,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { persistCache } from 'apollo3-cache-persist';
 import { NativeBaseProvider } from 'native-base';
 import { createStackNavigator } from '@react-navigation/stack';
+import * as SplashScreen from 'expo-splash-screen';
+import { Video } from 'expo-av';
 
 import {
   useFonts,
@@ -40,11 +49,29 @@ const client = new ApolloClient({
 export default function App() {
   const [loadingCache, setLoadingCache] = useState(true);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [appIsReady, setAppIsReady] = useState(false);
 
   const [fontsLoaded] = useFonts({
     Rubik_400Regular,
     Rubik_500Medium,
   });
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Keep the splash screen visible while we fetch resources
+        await SplashScreen.preventAutoHideAsync();
+        await new Promise((resolve) => setTimeout(resolve, 4000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
 
   useEffect(() => {
     persistCache({
@@ -53,8 +80,33 @@ export default function App() {
     }).then(() => setLoadingCache(false));
   }, []);
 
-  if (!fontsLoaded || loadingCache) {
-    return <Text>Loading...</Text>;
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady || !fontsLoaded || loadingCache) {
+    const { width } = Dimensions.get('window');
+
+    return (
+      <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
+        <StatusBar barStyle="light-content" />
+        <View style={styles.videoContainer}>
+          <Video
+            source={require('./assets/splash-logo.mp4')}
+            shouldPlay
+            resizeMode="cover"
+            style={{ width, height: 300 }}
+          />
+        </View>
+      </SafeAreaView>
+    );
   }
 
   const handleChangeLoginState = (loggedIn: boolean) => {
@@ -62,7 +114,7 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
       <ApolloProvider client={client}>
         <NativeBaseProvider>
           <AuthContext.Provider
@@ -103,5 +155,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#092147',
+  },
+
+  videoContainer: {
+    marginTop: 100,
   },
 });

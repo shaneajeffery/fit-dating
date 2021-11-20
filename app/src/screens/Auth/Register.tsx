@@ -12,8 +12,9 @@ import {
   Stack,
   HStack,
   Icon,
+  Checkbox,
 } from 'native-base';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
+import { StyleSheet, View, SafeAreaView, Dimensions } from 'react-native';
 import { setItem } from '../../utils/async-storage';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useForm, useController } from 'react-hook-form';
@@ -181,7 +182,7 @@ const RegisterScreen = ({ navigation }) => {
     );
   };
 
-  if (!genderLoading) {
+  if (genderLoading) {
     return <Loading />;
   }
 
@@ -189,11 +190,10 @@ const RegisterScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
-          width={200}
-          height={100}
+          width={500}
+          height={null}
           resizeMode="contain"
           source={require('./assets/logo.png')}
-          alt="logo"
         />
       </View>
 
@@ -211,12 +211,6 @@ const RegisterScreen = ({ navigation }) => {
         <ControlledInput
           placeholder="Password"
           name="password"
-          control={control}
-          secureTextEntry={true}
-        />
-        <ControlledInput
-          placeholder="Confirm Password"
-          name="confirm_password"
           control={control}
           secureTextEntry={true}
         />
@@ -298,9 +292,18 @@ const RegisterScreen = ({ navigation }) => {
         ) : (
           <View />
         )}
+
+        <Checkbox value="test">
+          <View style={{ marginLeft: 15, width: 325 }}>
+            <Text color="white">
+              By creating an account, you agree to our Terms and Conditions and
+              Privacy Policy.
+            </Text>
+          </View>
+        </Checkbox>
       </Stack>
 
-      <Stack ml={3} mr={3} mt={10} space={0}>
+      <Stack ml={3} mr={3} mt={5} space={0}>
         <Button
           size="lg"
           onPress={handleSubmit(onRegister)}
@@ -338,13 +341,6 @@ const RegisterScreen = ({ navigation }) => {
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 145,
-    backgroundColor: '#092147',
-  },
-
   phoneInput: {
     color: 'white',
     fontSize: 16,
@@ -370,15 +366,10 @@ const styles = StyleSheet.create({
     borderColor: '#81C14B',
     color: '#FFFFFF',
   },
-  logoContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 0,
-  },
+  logoContainer: {},
   container: {
     flex: 1,
-    paddingVertical: 0,
-    paddingHorizontal: 5,
+
     backgroundColor: '#092147',
   },
   signInContainer: {
