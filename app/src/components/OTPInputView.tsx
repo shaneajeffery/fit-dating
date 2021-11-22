@@ -210,7 +210,8 @@ export default class OTPInputView extends Component<
     const { selectedIndex, digits } = this.state;
     const { clearInputs, placeholderCharacter, placeholderTextColor } =
       this.props;
-    const { color: defaultPlaceholderTextColor } = {
+
+    const { color: defaultPlaceholderTextColor = '' } = {
       ...defaultTextFieldStyle,
       ...codeInputFieldStyle,
     };
