@@ -56,15 +56,31 @@ module.exports = {
 
   Mutation: {
     async requestPhoneVerificationCode(_, { phoneNumber }) {
-      console.log(phoneNumber);
-
       const params = {
-        phoneNumber,
+        phoneNumber: `+1${phoneNumber}`,
       };
 
       try {
         const response = await client.otps.sms.loginOrCreate(params);
-        console.log(response);
+        return {
+          phoneId: response.phone_id,
+        };
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    async verifyPhoneVerificationCode(_, { phoneId, code }) {
+      const params = {
+        method_id: phoneId,
+        code,
+      };
+
+      try {
+        await client.otps.authenticate(params);
+        // Given there is nothing of note in the authenticate response,
+        // as long as it doesn't throw an error, we know the code was correct.
+        return true;
       } catch (err) {
         console.log(err);
       }

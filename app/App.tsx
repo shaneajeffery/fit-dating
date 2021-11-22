@@ -20,6 +20,8 @@ import {
 import HomeScreen from './src/screens/Home';
 import LoginScreen from './src/screens/Auth/Login';
 import RegisterScreen from './src/screens/Auth/Register';
+import PhoneVerification from './src/screens/Auth/PhoneVerification';
+import PhoneVerificationCode from './src/screens/Auth/PhoneVerificationCode';
 import LikesScreen from './src/screens/Likes/Likes';
 import MessagesScreen from './src/screens/Messages/Messages';
 import ProfileScreen from './src/screens/Profile/Profile';
@@ -101,6 +103,14 @@ export default function App() {
                       {(props) => <LoginScreen {...props} />}
                     </Stack.Screen>
                     <Stack.Screen name="Register" component={RegisterScreen} />
+                    <Stack.Screen
+                      name="PhoneVerification"
+                      component={PhoneVerification}
+                    />
+                    <Stack.Screen
+                      name="PhoneVerificationCode"
+                      component={PhoneVerificationCode}
+                    />
                   </Stack.Navigator>
                 ) : (
                   <Tab.Navigator screenOptions={{ headerShown: false }}>

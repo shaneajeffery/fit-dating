@@ -6,7 +6,7 @@ const typeDef = `
 
   extend type Mutation {
     requestPhoneVerificationCode(phoneNumber: String!): PhoneVerificationResponse!
-    cancelPhoneVerificationCode(requestId: String!): PhoneVerificationResponse!
+    verifyPhoneVerificationCode(phoneId: String!, code: String!): Boolean
     createUser(
       username: String!
       email: String!
@@ -37,7 +37,7 @@ const typeDef = `
   }
 
   type PhoneVerificationResponse {
-    verifyRequestId: String!
+    phoneId: String!
   }
 
   type AuthPayload {

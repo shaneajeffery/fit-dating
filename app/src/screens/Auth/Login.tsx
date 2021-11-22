@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
-import { StyleSheet, View, Image, SafeAreaView, Text, Box } from 'react-native';
+import { StyleSheet, View, Image, SafeAreaView } from 'react-native';
 import { Stack, Button } from 'native-base';
 
 import { gql, useMutation } from '@apollo/client';
@@ -51,8 +51,8 @@ const LoginScreen = ({ navigation }: Props) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
-          width={100}
-          height={100}
+          width={null}
+          height={null}
           resizeMode="contain"
           source={require('./assets/logo.png')}
         />
@@ -66,7 +66,7 @@ const LoginScreen = ({ navigation }: Props) => {
       >
         <Button
           size="lg"
-          onPress={handleLogin}
+          onPress={() => navigation.navigate('PhoneVerification')}
           style={styles.phoneButton}
           leftIcon={
             <FontAwesome
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#092147',
   },
   logoContainer: {
-    marginTop: 50,
+    marginTop: 25,
     justifyContent: 'center',
     alignItems: 'center',
   },
