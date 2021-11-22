@@ -2,6 +2,15 @@ const bcrypt = require('bcryptjs');
 const jsonwebtoken = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const Op = require('Sequelize').Op;
+require('dotenv').config();
+
+const stytch = require('stytch');
+
+const client = new stytch.Client({
+  project_id: 'project-test-198ac537-620e-4ebe-8127-30740942759f',
+  secret: 'secret-test-rG3xW1afi8mo_9czcYA-GQh3zvK4-gzV--Y=',
+  env: stytch.envs.test,
+});
 
 module.exports = {
   Query: {
@@ -46,6 +55,21 @@ module.exports = {
   },
 
   Mutation: {
+    async requestPhoneVerificationCode(_, { phoneNumber }) {
+      console.log(phoneNumber);
+
+      const params = {
+        phoneNumber,
+      };
+
+      try {
+        const response = await client.otps.sms.loginOrCreate(params);
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
     async createUser(
       _,
       { username, email, password, phone, dateOfBirth, zipCode, gender },

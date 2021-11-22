@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
-import { StyleSheet, View, Image, SafeAreaView } from 'react-native';
-import { Stack, Button, Input, Text } from 'native-base';
+import { StyleSheet, View, Image, SafeAreaView, Text, Box } from 'react-native';
+import { Stack, Button } from 'native-base';
 
 import { gql, useMutation } from '@apollo/client';
 import { setItem } from '../../utils/async-storage';
-import { useForm, useController } from 'react-hook-form';
+import { FontAwesome } from '@expo/vector-icons';
+
+// import MaskInput from 'react-native-mask-input';
+
+// import PHONE_NUMBER_MASKS from '../../utils/phone-number-masks';
 
 const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
@@ -22,7 +26,7 @@ interface Props {
 }
 
 const LoginScreen = ({ navigation }: Props) => {
-  const { control, handleSubmit } = useForm();
+  const [enteredPhoneNumber, setEnteredPhoneNumber] = useState('');
 
   const { handleChangeLoginState } = useContext(AuthContext);
 
@@ -37,70 +41,114 @@ const LoginScreen = ({ navigation }: Props) => {
     }
   }, [loginData, loginLoading, loginError]);
 
-  const onLogin = (params: any) => {
-    login({ variables: { email: params.email, password: params.password } });
-  };
+  const handleLogin = async () => {
+    console.log('hello worl');
 
-  const ControlledInput = (params: any) => {
-    const { field } = useController({
-      control: params.control,
-      defaultValue: '',
-      name: params.name,
-    });
-
-    return (
-      <Input
-        size="lg"
-        placeholder={params.placeholder}
-        autoCapitalize="none"
-        secureTextEntry={params.secureTextEntry}
-        value={field.value}
-        onChangeText={field.onChange}
-        color="#ffffff"
-        borderColor="grey"
-        selectionColor="white"
-        autoCorrect={false}
-      />
-    );
+    // login({ variables: { email: params.email, password: params.password } });
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require('./assets/logo.png')} />
+        <Image
+          width={100}
+          height={100}
+          resizeMode="contain"
+          source={require('./assets/logo.png')}
+        />
       </View>
 
-      <View style={styles.signInContainer}>
-        <Text style={styles.signInLabel}>Login</Text>
-      </View>
-      <Stack ml={3} mr={3} mt={3} space={4}>
-        <ControlledInput
-          placeholder="Enter your e-mail or phone number"
-          type="text"
-          name="email"
-          control={control}
-        />
-        <ControlledInput
-          styles={styles.passwordInput}
-          placeholder="Enter your password"
-          secureTextEntry={true}
-          name="password"
-          control={control}
-        />
-      </Stack>
+      <Stack
+        ml={3}
+        mr={3}
+        space={1}
+        style={{ flex: 1, justifyContent: 'flex-end' }}
+      >
+        <Button
+          size="lg"
+          onPress={handleLogin}
+          style={styles.phoneButton}
+          leftIcon={
+            <FontAwesome
+              name="mobile-phone"
+              size={25}
+              color="white"
+              style={{ marginRight: 10 }}
+            />
+          }
+        >
+          Login with Phone Number
+        </Button>
+        <Button
+          size="lg"
+          onPress={handleLogin}
+          style={styles.facebookButton}
+          leftIcon={
+            <FontAwesome
+              name="facebook"
+              size={20}
+              color="white"
+              style={{ marginRight: 10 }}
+            />
+          }
+        >
+          Login with Facebook
+        </Button>
 
-      <Stack ml={-175} mr={3} mt={2} space={0}>
-        <Button variant="link" onPress={() => navigation.push('ResetPassword')}>
-          <Text style={styles.forgotPasswordText}>Forgot Your Password?</Text>
+        <Button
+          size="lg"
+          onPress={handleLogin}
+          style={styles.appleButton}
+          leftIcon={
+            <FontAwesome
+              name="apple"
+              size={20}
+              color="white"
+              style={{ marginRight: 5 }}
+            />
+          }
+        >
+          Login with Apple
+        </Button>
+
+        <Button
+          size="lg"
+          onPress={handleLogin}
+          style={styles.googleButton}
+          leftIcon={
+            <FontAwesome
+              name="google"
+              size={20}
+              color="white"
+              style={{ marginRight: 4 }}
+            />
+          }
+        >
+          Login with Google
         </Button>
       </Stack>
 
-      <Stack ml={3} mr={3} mt={10} space={0}>
-        <Button
-          size="lg"
-          onPress={handleSubmit(onLogin)}
-          style={styles.signInButton}
-        >
+      {/* <View style={styles.signInContainer}>
+        <Text style={styles.signInLabel}>Login</Text>
+      </View>
+      <Stack ml={3} mr={3} mt={3} space={4}>
+        <View>
+          <MaskInput
+            value={enteredPhoneNumber}
+            onChangeText={(masked, unmasked) => {
+              setEnteredPhoneNumber(unmasked); // you can use the unmasked value as well
+            }}
+            mask={PHONE_NUMBER_MASKS['united_states']}
+            placeholder="Enter your phone number"
+            selectionColor="white"
+            placeholderTextColor="#FFFFFF96"
+            style={styles.phoneInput}
+          />
+        </View>
+      </Stack>
+
+      <Stack ml={3} mr={3} mt={5} space={0}>
+        <Button size="lg" onPress={handleLogin} style={styles.signInButton}>
           SIGN IN
         </Button>
         <Button
@@ -110,15 +158,60 @@ const LoginScreen = ({ navigation }: Props) => {
         >
           REGISTER
         </Button>
-      </Stack>
+      </Stack> */}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  phoneInput: {
+    color: 'white',
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: 'grey',
+    paddingHorizontal: 12,
+    height: 37,
+    borderRadius: 3,
+  },
   forgotPasswordText: {
     color: '#97C153',
     fontFamily: 'Rubik_500Medium',
+  },
+
+  phoneButton: {
+    fontFamily: 'Rubik_500Medium',
+    marginBottom: 10,
+    backgroundColor: '#092147',
+    borderColor: 'grey',
+    borderWidth: 1,
+    borderStyle: 'solid',
+
+    justifyContent: 'flex-start',
+    fontSize: 100,
+  },
+
+  googleButton: {
+    marginBottom: 10,
+    backgroundColor: '#EA4335',
+    borderColor: '#EA4335',
+    color: '#FFFFFF',
+    justifyContent: 'flex-start',
+  },
+
+  facebookButton: {
+    marginBottom: 10,
+    backgroundColor: '#4267B2',
+    borderColor: '#4267B2',
+    color: '#FFFFFF',
+    justifyContent: 'flex-start',
+  },
+
+  appleButton: {
+    marginBottom: 10,
+    backgroundColor: '#7D7D7D',
+    borderColor: '#7D7D7D',
+    color: '#FFFFFF',
+    justifyContent: 'flex-start',
   },
 
   signInButton: {
@@ -126,6 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#00ABE7',
     borderColor: '#00ABE7',
     color: '#FFFFFF',
+    justifyContent: 'flex-start',
   },
 
   registerButton: {
@@ -148,9 +242,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#092147',
   },
   logoContainer: {
+    marginTop: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 200,
   },
   signInContainer: {
     marginTop: 40,

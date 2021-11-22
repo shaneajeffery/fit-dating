@@ -23,10 +23,11 @@ import RegisterScreen from './src/screens/Auth/Register';
 import LikesScreen from './src/screens/Likes/Likes';
 import MessagesScreen from './src/screens/Messages/Messages';
 import ProfileScreen from './src/screens/Profile/Profile';
-import ResetPasswordScreen from './src/screens/Auth/ResetPassword';
 
 import { AuthContext } from './src/context/AuthContext';
 import { Splash } from './src/components/Splash';
+
+import AnimatedSplash from 'react-native-animated-splash-screen';
 
 const cache = new InMemoryCache();
 
@@ -73,59 +74,47 @@ export default function App() {
     }).then(() => setLoadingCache(false));
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      // This tells the splash screen to hide immediately! If we call this after
-      // `setAppIsReady`, then we may see a blank screen while the app is
-      // loading its initial state and rendering its first pixels. So instead,
-      // we hide the splash screen once we know the root view has already
-      // performed layout.
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
-  if (!appIsReady || !fontsLoaded || loadingCache) {
-    return <Splash onLayoutRootView={onLayoutRootView} />;
-  }
-
   const handleChangeLoginState = (loggedIn: boolean) => {
     setLoggedIn(loggedIn);
   };
 
   return (
-    <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
-      <ApolloProvider client={client}>
-        <NativeBaseProvider>
-          <AuthContext.Provider
-            value={{
-              handleChangeLoginState: handleChangeLoginState,
-            }}
-          >
-            <StatusBar barStyle="light-content" />
-            <NavigationContainer>
-              {loggedIn === false ? (
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="Login">
-                    {(props) => <LoginScreen {...props} />}
-                  </Stack.Screen>
-                  <Stack.Screen name="Register" component={RegisterScreen} />
-                  <Stack.Screen
-                    name="ResetPassword"
-                    component={ResetPasswordScreen}
-                  />
-                </Stack.Navigator>
-              ) : (
-                <Tab.Navigator screenOptions={{ headerShown: false }}>
-                  <Tab.Screen name="Home" component={HomeScreen} />
-                  <Tab.Screen name="Likes" component={LikesScreen} />
-                  <Tab.Screen name="Messages" component={MessagesScreen} />
-                  <Tab.Screen name="Profile" component={ProfileScreen} />
-                </Tab.Navigator>
-              )}
-            </NavigationContainer>
-          </AuthContext.Provider>
-        </NativeBaseProvider>
-      </ApolloProvider>
+    <SafeAreaView style={styles.container}>
+      <AnimatedSplash
+        isLoaded={appIsReady && fontsLoaded && !loadingCache}
+        customComponent={<Splash />}
+        backgroundColor={'#092147'}
+        translucent={true}
+      >
+        <ApolloProvider client={client}>
+          <NativeBaseProvider>
+            <AuthContext.Provider
+              value={{
+                handleChangeLoginState: handleChangeLoginState,
+              }}
+            >
+              <StatusBar barStyle="light-content" />
+              <NavigationContainer>
+                {loggedIn === false ? (
+                  <Stack.Navigator screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="Login">
+                      {(props) => <LoginScreen {...props} />}
+                    </Stack.Screen>
+                    <Stack.Screen name="Register" component={RegisterScreen} />
+                  </Stack.Navigator>
+                ) : (
+                  <Tab.Navigator screenOptions={{ headerShown: false }}>
+                    <Tab.Screen name="Home" component={HomeScreen} />
+                    <Tab.Screen name="Likes" component={LikesScreen} />
+                    <Tab.Screen name="Messages" component={MessagesScreen} />
+                    <Tab.Screen name="Profile" component={ProfileScreen} />
+                  </Tab.Navigator>
+                )}
+              </NavigationContainer>
+            </AuthContext.Provider>
+          </NativeBaseProvider>
+        </ApolloProvider>
+      </AnimatedSplash>
     </SafeAreaView>
   );
 }

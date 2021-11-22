@@ -26,53 +26,7 @@ import { Loading } from '../../components/Loading';
 
 import { AuthContext } from '../../context/AuthContext';
 
-const PHONE_NUMBER_MASKS = {
-  australia: [/\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/],
-  new_zealand: [
-    /\d/,
-    /\d/,
-    /\d/,
-    ' ',
-    /\d/,
-    /\d/,
-    /\d/,
-    ' ',
-    /\d/,
-    /\d/,
-    /\d/,
-    /\d/,
-  ],
-  united_states: [
-    '(',
-    /\d/,
-    /\d/,
-    /\d/,
-    ')',
-    ' ',
-    /\d/,
-    /\d/,
-    /\d/,
-    '-',
-    /\d/,
-    /\d/,
-    /\d/,
-    /\d/,
-  ],
-  united_kingdom: [
-    /\d/,
-    /\d/,
-    ' ',
-    /\d/,
-    /\d/,
-    /\d/,
-    /\d/,
-    ' ',
-    /\d/,
-    /\d/,
-    /\d/,
-    /\d/,
-  ],
-};
+import PHONE_NUMBER_MASKS from '../../utils/phone-number-masks';
 
 const REGISTER_MUTATION = gql`
   mutation RegisterMutation(
@@ -115,7 +69,7 @@ const RegisterScreen = ({ navigation }) => {
   const [enteredPhoneNumber, setEnteredPhoneNumber] = useState('');
   const [calendarOpen, setCalendarOpen] = useState(false);
 
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('united_states');
   const [selectedGender, setSelectedGender] = useState('');
   const { handleChangeLoginState } = useContext(AuthContext);
 
@@ -251,7 +205,7 @@ const RegisterScreen = ({ navigation }) => {
           )}
         </Select>
 
-        <Select
+        {/* <Select
           selectedValue={selectedCountry}
           accessibilityLabel="Select Country"
           placeholder="Select Country"
@@ -265,7 +219,7 @@ const RegisterScreen = ({ navigation }) => {
           <Select.Item label="New Zealand" value="new_zealand" />
           <Select.Item label="United States" value="united_states" />
           <Select.Item label="United Kingdom" value="united_kingdom" />
-        </Select>
+        </Select> */}
 
         {selectedCountry ? (
           <HStack space={3} alignItems="center">
