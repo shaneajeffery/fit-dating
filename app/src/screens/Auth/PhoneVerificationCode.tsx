@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import OTPInputView from '../../components/OTPInputView';
-import { StyleSheet, View, Image, SafeAreaView } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Box, Text, Heading, Stack, Button } from 'native-base';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useLazyQuery } from '@apollo/client';
+import { AuthContext } from '../../context/AuthContext';
+import { setItem } from '../../utils/async-storage';
 
 const VERIFY_PHONE_VERIFICATION_CODE_MUTATION = gql`
   mutation VerifyPhoneVerificationCodeMutation(
@@ -14,9 +16,21 @@ const VERIFY_PHONE_VERIFICATION_CODE_MUTATION = gql`
   }
 `;
 
+const GET_USER_BY_STYTCH_ID_QUERY = gql`
+  query GetUserByStytchIdQuery($phoneId: String!, $userId: String!) {
+    getUserByStytchId(phoneId: $phoneId, userId: $userId) {
+      id
+      finishedOnboarding
+    }
+  }
+`;
+
 const PhoneVerificationCodeScreen = ({ route, navigation }) => {
+  // TODO: left off needing to handle logging the user in if they already
+  // exist in Stytch and then that will take care of the redirect to Home.
+
+  const { handleChangeLoginState } = useContext(AuthContext);
   const [enteredCode, setEnteredCode] = useState('');
-  const [clearInputs, setClearInputs] = useState(false);
 
   const [
     verifyPhoneVerificationCode,
@@ -27,6 +41,15 @@ const PhoneVerificationCodeScreen = ({ route, navigation }) => {
     },
   ] = useMutation(VERIFY_PHONE_VERIFICATION_CODE_MUTATION);
 
+  const [
+    getUserByStytchId,
+    {
+      data: stytchUserData,
+      loading: stytchUserDataLoading,
+      error: stytchUserDataError,
+    },
+  ] = useLazyQuery(GET_USER_BY_STYTCH_ID_QUERY);
+
   const handleContinue = () => {
     verifyPhoneVerificationCode({
       variables: { phoneId: route.params.phoneId, code: enteredCode },
@@ -34,12 +57,28 @@ const PhoneVerificationCodeScreen = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    console.log(phoneVerificationCodeData);
+    getUserByStytchId({
+      variables: {
+        phoneId: route.params.phoneId,
+        userId: route.params.userId,
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    if (phoneVerificationCodeError) {
+      console.log(phoneVerificationCodeError);
+    }
 
     if (phoneVerificationCodeData) {
-      if (phoneVerificationCodeData.verifyPhoneVerificationCode) {
-        navigation.navigate('Register');
+      if (
+        stytchUserData &&
+        stytchUserData.getUserByStytchId.finishedOnboarding
+      ) {
+        setItem('authToken', '1234');
+        handleChangeLoginState(true);
       } else {
+        navigation.navigate('Register');
       }
     }
   }, [phoneVerificationCodeData]);

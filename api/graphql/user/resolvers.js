@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs');
 const jsonwebtoken = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const Op = require('Sequelize').Op;
@@ -15,7 +14,7 @@ const client = new stytch.Client({
 module.exports = {
   Query: {
     async getUser(root, { id }, { models }) {
-      const data = await models.User.findByPk(id, {
+      return await models.User.findByPk(id, {
         include: [
           {
             model: models.Gender,
@@ -39,9 +38,37 @@ module.exports = {
           },
         ],
       });
-
-      return data;
     },
+
+    async getUserByStytchId(_, { phoneId, userId }, { models }) {
+      console.log('hello world');
+
+      try {
+        const data = await models.User.findOne({
+          where: {
+            [Op.or]: [
+              {
+                stytchPhoneId: {
+                  [Op.eq]: phoneId,
+                },
+              },
+              {
+                stytchUserId: {
+                  [Op.eq]: userId,
+                },
+              },
+            ],
+          },
+        });
+
+        console.log(data);
+
+        return data;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+
     async listUsers(root, _, { models }) {
       return await models.User.findAll({
         include: [
@@ -62,8 +89,11 @@ module.exports = {
 
       try {
         const response = await client.otps.sms.loginOrCreate(params);
+
         return {
           phoneId: response.phone_id,
+          userId: response.user_id,
+          userCreated: response.user_created,
         };
       } catch (err) {
         console.log(err);
@@ -76,103 +106,88 @@ module.exports = {
         code,
       };
 
+      console.log(params);
+
       try {
         await client.otps.authenticate(params);
-        // Given there is nothing of note in the authenticate response,
-        // as long as it doesn't throw an error, we know the code was correct.
+
         return true;
       } catch (err) {
-        console.log(err);
+        throw new Error('Entered phone verification code was invalid.');
       }
     },
 
-    async createUser(
+    async createUserByPhone(
       _,
-      { username, email, password, phone, dateOfBirth, zipCode, gender },
+      { phone, stytchPhoneId, stytchUserId },
       { models }
     ) {
       try {
-        // Checks to make sure that an account does not already exist with
-        // either the entered email or username.
-        const preExistingUser = await models.User.findOne({
-          where: {
-            [Op.or]: [
-              {
-                email: {
-                  [Op.eq]: email,
-                },
-              },
-              {
-                username: {
-                  [Op.eq]: username,
-                },
-              },
-            ],
-          },
-        });
-
-        if (preExistingUser) {
-          throw new Error('An account already exists with that e-mail.');
-        }
-
-        const user = models.User.create({
+        return await models.User.create({
           id: await uuidv4(),
-          username,
-          email,
-          password: await bcrypt.hash(password, 10),
           phone,
-          dateOfBirth,
-          zipCode,
-          gender,
+          stytchPhoneId,
+          stytchUserId,
+          finishedOnboarding: false,
         });
-
-        const token = jsonwebtoken.sign(
-          { id: user.id, email: user.email },
-          process.env.JWT_SECRET,
-          { expiresIn: '1y' }
-        );
-
-        return {
-          token,
-          user,
-        };
       } catch (error) {
         throw new Error(error.message);
       }
     },
 
-    async login(_, { email, password }, { models }) {
-      try {
-        const user = await models.User.findOne({ where: { email } });
-        if (!user) {
-          throw new Error(
-            'No account with that e-mail / password combination.'
-          );
-        }
+    // async createUser(
+    //   _,
+    //   { username, email, password, phone, dateOfBirth, zipCode, gender },
+    //   { models }
+    // ) {
+    //   try {
+    //     // Checks to make sure that an account does not already exist with
+    //     // either the entered email or username.
+    //     const preExistingUser = await models.User.findOne({
+    //       where: {
+    //         [Op.or]: [
+    //           {
+    //             email: {
+    //               [Op.eq]: email,
+    //             },
+    //           },
+    //           {
+    //             username: {
+    //               [Op.eq]: username,
+    //             },
+    //           },
+    //         ],
+    //       },
+    //     });
 
-        const isValid = await bcrypt.compare(password, user.password);
-        if (!isValid) {
-          throw new Error(
-            'No account with that e-mail / password combination.'
-          );
-        }
+    //     if (preExistingUser) {
+    //       throw new Error('An account already exists with that e-mail.');
+    //     }
 
-        const token = jsonwebtoken.sign(
-          { id: user.id, email: user.email },
-          process.env.JWT_SECRET,
-          { expiresIn: '1d' }
-        );
+    //     const user = models.User.create({
+    //       id: await uuidv4(),
+    //       username,
+    //       email,
+    //       password: await bcrypt.hash(password, 10),
+    //       phone,
+    //       dateOfBirth,
+    //       zipCode,
+    //       gender,
+    //     });
 
-        return {
-          token,
-          user: {
-            ...user.dataValues,
-            password: '',
-          },
-        };
-      } catch (error) {
-        throw new Error(error.message);
-      }
-    },
+    //     const token = jsonwebtoken.sign(
+    //       { id: user.id, email: user.email },
+    //       process.env.JWT_SECRET,
+    //       { expiresIn: '1y' }
+    //     );
+
+    //     return {
+    //       token,
+    //       user,
+    //     };
+    //   } catch (error) {
+    //     throw new Error(error.message);
+    //   }
+    // },
   },
 };

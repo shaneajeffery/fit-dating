@@ -41,14 +41,16 @@ module.exports = (sequelize, DataTypes) => {
 
   User.init(
     {
-      username: DataTypes.STRING,
+      firstName: DataTypes.STRING,
       email: DataTypes.STRING,
-      password: DataTypes.STRING,
       phone: DataTypes.STRING,
       dateOfBirth: DataTypes.STRING,
       zipCode: DataTypes.STRING,
       gender: DataTypes.UUID,
       lastLogin: DataTypes.DATE,
+      stytchUserId: DataTypes.STRING,
+      stytchPhoneId: DataTypes.STRING,
+      finishedOnboarding: DataTypes.BOOLEAN,
     },
     {
       sequelize,

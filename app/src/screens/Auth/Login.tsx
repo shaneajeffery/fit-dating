@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
 import { StyleSheet, View, Image, SafeAreaView } from 'react-native';
@@ -26,8 +26,6 @@ interface Props {
 }
 
 const LoginScreen = ({ navigation }: Props) => {
-  const [enteredPhoneNumber, setEnteredPhoneNumber] = useState('');
-
   const { handleChangeLoginState } = useContext(AuthContext);
 
   const [login, { data: loginData, loading: loginLoading, error: loginError }] =

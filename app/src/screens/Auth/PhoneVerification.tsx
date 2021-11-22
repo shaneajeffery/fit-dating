@@ -11,6 +11,8 @@ const REQUEST_PHONE_VERIFICATION_CODE_MUTATION = gql`
   mutation RequestPhoneVerificationCodeMutation($phoneNumber: String!) {
     requestPhoneVerificationCode(phoneNumber: $phoneNumber) {
       phoneId
+      userId
+      userCreated
     }
   }
 `;
@@ -39,6 +41,9 @@ const PhoneVerificationScreen = ({ navigation }) => {
       console.log(phoneVerificationCodeData);
       navigation.navigate('PhoneVerificationCode', {
         phoneId: phoneVerificationCodeData.requestPhoneVerificationCode.phoneId,
+        userId: phoneVerificationCodeData.requestPhoneVerificationCode.userId,
+        userCreated:
+          phoneVerificationCodeData.requestPhoneVerificationCode.userCreated,
         phoneNumber: maskedEnteredPhoneNumber,
       });
     }
@@ -73,14 +78,14 @@ const PhoneVerificationScreen = ({ navigation }) => {
           <Button
             size="lg"
             onPress={handleContinue}
-            style={styles.signInButton}
+            style={styles.continueButton}
           >
             Continue
           </Button>
           <Button
             size="lg"
             onPress={() => navigation.push('Login')}
-            style={styles.registerButton}
+            style={styles.cancelButton}
           >
             Cancel
           </Button>
@@ -119,13 +124,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 10,
   },
-  signInButton: {
+  continueButton: {
     backgroundColor: '#00ABE7',
     borderColor: '#00ABE7',
     color: '#FFFFFF',
   },
-
-  registerButton: {
+  cancelButton: {
     backgroundColor: '#81C14B',
     borderColor: '#81C14B',
     color: '#FFFFFF',
