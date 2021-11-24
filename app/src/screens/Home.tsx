@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, Image, FlatList } from 'react-native';
+import { ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, FlatList, Image } from 'react-native';
 import data from '../config/data/salon';
 import { SPACING, width, height } from '../config/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SharedElement } from 'react-navigation-shared-element';
 import TouchableScale from 'react-native-touchable-scale';
-// import GoBack from '../components/GoBack';
+
+import LinearGradient from 'react-native-linear-gradient';
 
 export const CELL_HEIGHT = height * 0.5;
 
@@ -36,41 +38,57 @@ export default function SalonList({ navigation }) {
               friction={7}
               useNativeDriver
               onPress={() => navigation.push('SalonListDetails', { item })}
-              style={{ height: CELL_HEIGHT, marginBottom: SPACING }}
+              style={{
+                height: CELL_HEIGHT,
+                marginBottom: SPACING,
+              }}
             >
               <View style={{ flex: 1, padding: SPACING }}>
                 <SharedElement
                   id={`item.${item.key}.bg`}
                   style={[StyleSheet.absoluteFillObject]}
                 >
-                  <View
-                    style={[
-                      StyleSheet.absoluteFillObject,
-                      { borderRadius: 16, backgroundColor: item.color },
-                    ]}
-                  >
-                    <Image
+                  <View style={[StyleSheet.absoluteFillObject]}>
+                    <ImageBackground
                       source={{ uri: item.image }}
                       style={{
                         flex: 1,
-                        width: undefined,
-                        height: undefined,
-                        borderRadius: 16,
                       }}
-                    />
+                      imageStyle={{ borderRadius: 16 }}
+                    >
+                      <LinearGradient
+                        colors={['#ffffff00', 'black']}
+                        style={{
+                          backgroundColor: 'transparent',
+                          position: 'absolute',
+                          top: 0,
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          borderRadius: 16,
+                        }}
+                      />
+                    </ImageBackground>
                   </View>
                 </SharedElement>
 
-                <SharedElement id={`item.${item.key}.name`}>
-                  <Text style={styles.name}>{item.name}</Text>
-                </SharedElement>
-                <Text
-                  style={styles.jobTitle}
-                  numberOfLines={1}
-                  adjustsFontSizeToFit
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'flex-end',
+                  }}
                 >
-                  {item.jobTitle}
-                </Text>
+                  <SharedElement id={`item.${item.key}.name`}>
+                    <Text style={styles.name}>{item.name}</Text>
+                  </SharedElement>
+                  <Text
+                    style={styles.location}
+                    numberOfLines={1}
+                    adjustsFontSizeToFit
+                  >
+                    {item.location}
+                  </Text>
+                </View>
               </View>
             </TouchableScale>
           );
@@ -101,15 +119,17 @@ export default function SalonList({ navigation }) {
 
 const styles = StyleSheet.create({
   name: {
-    fontSize: 22,
-    color: '#222',
+    fontFamily: 'Rubik_500Medium',
+    fontSize: 32,
+    color: 'white',
     position: 'absolute',
   },
-  jobTitle: {
-    fontSize: 10,
-    color: '#222',
+  location: {
+    fontFamily: 'Rubik_400Regular',
+    fontSize: 16,
+    color: 'white',
     width: width * 0.6,
-    textTransform: 'uppercase',
+
     marginTop: 32,
   },
   itemImage: {
@@ -127,5 +147,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: -20,
+  },
+  linearGradient: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
