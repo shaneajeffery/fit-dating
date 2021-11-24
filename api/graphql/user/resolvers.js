@@ -82,6 +82,13 @@ module.exports = {
   },
 
   Mutation: {
+    async createJwtToken(_, { userId }) {
+      const token = jsonwebtoken.sign({ userId }, process.env.JWT_SECRET);
+      return {
+        token,
+      };
+    },
+
     async requestPhoneVerificationCode(_, { phoneNumber }) {
       const params = {
         phoneNumber: `+1${phoneNumber}`,
@@ -105,8 +112,6 @@ module.exports = {
         method_id: phoneId,
         code,
       };
-
-      console.log(params);
 
       try {
         await client.otps.authenticate(params);

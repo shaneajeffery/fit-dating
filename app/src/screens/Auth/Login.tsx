@@ -49,8 +49,8 @@ const LoginScreen = ({ navigation }: Props) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
-          width={null}
-          height={null}
+          width={100}
+          height={100}
           resizeMode="contain"
           source={require('./assets/logo.png')}
         />
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 0,
     paddingHorizontal: 5,
-    backgroundColor: '#092147',
+    backgroundColor: 'white',
   },
   logoContainer: {
     marginTop: 25,

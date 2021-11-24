@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import { Box, Text, Heading, Stack, Button } from 'native-base';
 import { gql, useMutation, useLazyQuery } from '@apollo/client';
 import { AuthContext } from '../../context/AuthContext';
-import { setItem } from '../../utils/async-storage';
+import LinearGradient from 'react-native-linear-gradient';
 
 const VERIFY_PHONE_VERIFICATION_CODE_MUTATION = gql`
   mutation VerifyPhoneVerificationCodeMutation(
@@ -25,6 +25,14 @@ const GET_USER_BY_STYTCH_ID_QUERY = gql`
   }
 `;
 
+const CREATE_JWT_TOKEN_MUTATION = gql`
+  mutation createJwtTokenMutation($userId: String!) {
+    createJwtToken(userId: $userId) {
+      token
+    }
+  }
+`;
+
 const PhoneVerificationCodeScreen = ({ route, navigation }) => {
   // TODO: left off needing to handle logging the user in if they already
   // exist in Stytch and then that will take care of the redirect to Home.
@@ -40,6 +48,9 @@ const PhoneVerificationCodeScreen = ({ route, navigation }) => {
       error: phoneVerificationCodeError,
     },
   ] = useMutation(VERIFY_PHONE_VERIFICATION_CODE_MUTATION);
+
+  const [createJwtToken, { data: jwtTokenData, error: jwtTokenDataError }] =
+    useMutation(CREATE_JWT_TOKEN_MUTATION);
 
   const [
     getUserByStytchId,
@@ -66,6 +77,15 @@ const PhoneVerificationCodeScreen = ({ route, navigation }) => {
   }, []);
 
   useEffect(() => {
+    console.log(jwtTokenDataError);
+
+    if (jwtTokenData) {
+      handleChangeLoginState(true, jwtTokenData.createJwtToken.token);
+      console.log(jwtTokenData);
+    }
+  }, [jwtTokenData]);
+
+  useEffect(() => {
     if (phoneVerificationCodeError) {
       console.log(phoneVerificationCodeError);
     }
@@ -75,8 +95,11 @@ const PhoneVerificationCodeScreen = ({ route, navigation }) => {
         stytchUserData &&
         stytchUserData.getUserByStytchId.finishedOnboarding
       ) {
-        setItem('authToken', '1234');
-        handleChangeLoginState(true);
+        console.log(stytchUserData);
+
+        createJwtToken({
+          variables: { userId: stytchUserData.getUserByStytchId.id },
+        });
       } else {
         navigation.navigate('Register');
       }
@@ -103,24 +126,32 @@ const PhoneVerificationCodeScreen = ({ route, navigation }) => {
           autoFocusOnLoad
           codeInputFieldStyle={styles.borderStyleBase}
           codeInputHighlightStyle={styles.borderStyleHighLighted}
-          selectionColor="white"
+          selectionColor="#092147"
         />
 
         <Stack mt={0} space={2}>
-          <Button
-            size="lg"
-            onPress={handleContinue}
-            style={styles.continueButton}
+          <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            colors={['#58B29A', '#8AC33D']}
+            style={styles.linearGradient}
           >
-            Continue
-          </Button>
+            <Button
+              size="lg"
+              onPress={handleContinue}
+              style={styles.continueButton}
+            >
+              Continue
+            </Button>
+          </LinearGradient>
 
           <Button
             size="lg"
             onPress={() => navigation.push('Login')}
+            variant=""
             style={styles.cancelButton}
           >
-            Cancel
+            <Text style={styles.cancelButtonText}>Cancel</Text>
           </Button>
         </Stack>
       </Stack>
@@ -135,53 +166,48 @@ const styles = StyleSheet.create({
   },
 
   borderStyleHighLighted: {
-    borderColor: '#0FB599',
+    borderColor: '#092147',
   },
 
-  underlineStyleBase: {
-    width: 30,
-    height: 45,
-    borderWidth: 0,
-    borderBottomWidth: 1,
-  },
-
-  underlineStyleHighLighted: {
-    borderColor: '#03DAC6',
-  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
     paddingHorizontal: 30,
-    backgroundColor: '#092147',
+    backgroundColor: 'white',
   },
   textInputContainer: {
     marginBottom: 20,
   },
-  roundedTextInput: {
-    borderRadius: 6,
-    borderWidth: 2,
-    color: 'white',
-    margin: 3,
-  },
+
   heading: {
-    color: '#FFFFFF',
+    color: '#092147',
     fontFamily: 'Rubik_500Medium',
   },
   text: {
-    color: '#FFFFFF',
+    color: '#092147',
     fontWeight: '800',
     fontFamily: 'Rubik_400Regular',
   },
   continueButton: {
-    backgroundColor: '#00ABE7',
-    borderColor: '#00ABE7',
-    color: '#FFFFFF',
+    backgroundColor: 'transparent',
   },
-  cancelButton: {
-    backgroundColor: '#81C14B',
-    borderColor: '#81C14B',
-    color: '#FFFFFF',
+  continueButtonText: {
+    color: 'white',
+    fontFamily: 'Rubik_500Medium',
+    fontSize: 16,
+  },
+  cancelButton: {},
+  cancelButtonText: {
+    color: '#092147',
+    fontFamily: 'Rubik_400Regular',
+    fontSize: 16,
+  },
+  linearGradient: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
+    width: '100%',
   },
 });
 

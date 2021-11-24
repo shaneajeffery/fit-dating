@@ -308,6 +308,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 2,
     textAlign: 'center',
-    color: 'rgba(226, 226, 226, 1)',
+    color: '#092147',
   },
 });

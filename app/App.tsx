@@ -10,6 +10,9 @@ import { persistCache } from 'apollo3-cache-persist';
 import { NativeBaseProvider } from 'native-base';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
+import { getItem, setItem } from './src/utils/async-storage';
+
+import { FontAwesome } from '@expo/vector-icons';
 
 import {
   useFonts,
@@ -66,7 +69,18 @@ export default function App() {
       }
     }
 
+    const userAuthToken = getItem('authToken');
+
+    console.log('START :: Auth Token');
+    console.log(userAuthToken);
+    console.log('END :: Auth Token');
+
+    // if (userAuthToken) {
+    //   setAppIsReady(true);
+    //   // setLoggedIn(true);
+    // } else {
     prepare();
+    // }
   }, []);
 
   useEffect(() => {
@@ -76,7 +90,13 @@ export default function App() {
     }).then(() => setLoadingCache(false));
   }, []);
 
-  const handleChangeLoginState = (loggedIn: boolean) => {
+  const handleChangeLoginState = (loggedIn: boolean, token?: string) => {
+    if (token) {
+      console.log(token);
+
+      setItem('authToken', token);
+    }
+
     setLoggedIn(loggedIn);
   };
 
@@ -95,7 +115,7 @@ export default function App() {
                 handleChangeLoginState: handleChangeLoginState,
               }}
             >
-              <StatusBar barStyle="light-content" />
+              <StatusBar />
               <NavigationContainer>
                 {loggedIn === false ? (
                   <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -113,11 +133,63 @@ export default function App() {
                     />
                   </Stack.Navigator>
                 ) : (
-                  <Tab.Navigator screenOptions={{ headerShown: false }}>
-                    <Tab.Screen name="Home" component={HomeScreen} />
-                    <Tab.Screen name="Likes" component={LikesScreen} />
-                    <Tab.Screen name="Messages" component={MessagesScreen} />
-                    <Tab.Screen name="Profile" component={ProfileScreen} />
+                  <Tab.Navigator
+                    screenOptions={{
+                      headerShown: false,
+                      tabBarStyle: {
+                        backgroundColor: '#092147',
+                        borderTopLeftRadius: 30,
+                        borderTopRightRadius: 30,
+                        marginTop: -30,
+                        borderTopWidth: 0,
+                      },
+                      tabBarShowLabel: false,
+                    }}
+                  >
+                    <Tab.Screen
+                      name="Home"
+                      component={HomeScreen}
+                      options={{
+                        tabBarIcon: ({}) => (
+                          <FontAwesome name="home" size={20} color="white" />
+                        ),
+                      }}
+                    />
+                    <Tab.Screen
+                      name="Likes"
+                      component={LikesScreen}
+                      options={{
+                        tabBarIcon: ({}) => (
+                          <FontAwesome name="heart" size={16} color="white" />
+                        ),
+                      }}
+                    />
+                    <Tab.Screen
+                      name="Messages"
+                      component={MessagesScreen}
+                      options={{
+                        tabBarIcon: ({}) => (
+                          <FontAwesome
+                            name="comments"
+                            size={20}
+                            color="white"
+                          />
+                        ),
+                      }}
+                    />
+                    <Tab.Screen
+                      name="Profile"
+                      component={ProfileScreen}
+                      options={{
+                        tabBarIcon: ({}) => (
+                          <FontAwesome
+                            name="user-circle"
+                            size={18}
+                            color="white"
+                          />
+                        ),
+                      }}
+                    />
                   </Tab.Navigator>
                 )}
               </NavigationContainer>
@@ -132,7 +204,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#092147',
+    backgroundColor: '#ffffff',
   },
 
   videoContainer: {

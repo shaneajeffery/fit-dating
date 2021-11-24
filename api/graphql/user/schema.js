@@ -6,9 +6,14 @@ const typeDef = `
   }
 
   extend type Mutation {
+    createJwtToken(userId: String!): JwtToken!
     requestPhoneVerificationCode(phoneNumber: String!): PhoneVerificationResponse!
     verifyPhoneVerificationCode(phoneId: String!, code: String!): Boolean
     createUserByPhone(phone: String!, stytchUserId: String!, stytchPhoneId: String!): User!
+  }
+
+  type JwtToken {
+    token: String!
   }
 
   type User {

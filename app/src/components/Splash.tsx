@@ -21,7 +21,7 @@ export const Splash = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#092147',
+    backgroundColor: '#ffffff',
   },
 
   videoContainer: {

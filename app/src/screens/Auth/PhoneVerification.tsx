@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 import { Box, Text, Heading, Stack, Button } from 'native-base';
 import { gql, useMutation } from '@apollo/client';
 import MaskInput from 'react-native-mask-input';
+import LinearGradient from 'react-native-linear-gradient';
 
 import PHONE_NUMBER_MASKS from '../../utils/phone-number-masks';
 
@@ -65,8 +66,8 @@ const PhoneVerificationScreen = ({ navigation }) => {
           }}
           mask={PHONE_NUMBER_MASKS['united_states']}
           placeholder="(123) 456-7890"
-          selectionColor="white"
-          placeholderTextColor="#FFFFFF96"
+          selectionColor="#092147"
+          placeholderTextColor="grey"
           style={styles.phoneInput}
         />
         <Text fontSize="xs" style={styles.text}>
@@ -75,19 +76,28 @@ const PhoneVerificationScreen = ({ navigation }) => {
         </Text>
 
         <Stack mt={0} space={2}>
-          <Button
-            size="lg"
-            onPress={handleContinue}
-            style={styles.continueButton}
+          <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            colors={['#58B29A', '#8AC33D']}
+            style={styles.linearGradient}
           >
-            Continue
-          </Button>
+            <Button
+              size="lg"
+              onPress={handleContinue}
+              style={styles.continueButton}
+            >
+              <Text style={styles.continueButtonText}>Continue</Text>
+            </Button>
+          </LinearGradient>
+
           <Button
             size="lg"
             onPress={() => navigation.push('Login')}
+            variant=""
             style={styles.cancelButton}
           >
-            Cancel
+            <Text style={styles.cancelButtonText}>Cancel</Text>
           </Button>
         </Stack>
       </Stack>
@@ -103,18 +113,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     paddingHorizontal: 30,
-    backgroundColor: '#092147',
+    backgroundColor: 'white',
+  },
+  linearGradient: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
+    width: '100%',
   },
   heading: {
-    color: '#FFFFFF',
+    color: '#092147',
     fontFamily: 'Rubik_500Medium',
   },
   text: {
-    color: '#FFFFFF',
+    color: '#092147',
     fontFamily: 'Rubik_400Regular',
   },
   phoneInput: {
-    color: 'white',
+    color: '#092147',
     fontSize: 16,
     borderWidth: 1,
     borderColor: 'grey',
@@ -125,13 +141,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   continueButton: {
-    backgroundColor: '#00ABE7',
-    borderColor: '#00ABE7',
-    color: '#FFFFFF',
+    backgroundColor: 'transparent',
   },
-  cancelButton: {
-    backgroundColor: '#81C14B',
-    borderColor: '#81C14B',
-    color: '#FFFFFF',
+  continueButtonText: {
+    color: 'white',
+    fontFamily: 'Rubik_500Medium',
+    fontSize: 16,
+  },
+  cancelButton: {},
+  cancelButtonText: {
+    color: '#092147',
+    fontFamily: 'Rubik_400Regular',
+    fontSize: 16,
   },
 });
