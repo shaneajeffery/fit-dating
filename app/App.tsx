@@ -11,6 +11,7 @@ import { NativeBaseProvider } from 'native-base';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
 import { getItem, setItem } from './src/utils/async-storage';
+import LinearGradient from 'react-native-linear-gradient';
 
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -75,12 +76,12 @@ export default function App() {
     console.log(userAuthToken);
     console.log('END :: Auth Token');
 
-    // if (userAuthToken) {
-    //   setAppIsReady(true);
-    //   // setLoggedIn(true);
-    // } else {
-    prepare();
-    // }
+    if (userAuthToken) {
+      setAppIsReady(true);
+      setLoggedIn(true);
+    } else {
+      prepare();
+    }
   }, []);
 
   useEffect(() => {
@@ -137,12 +138,16 @@ export default function App() {
                     screenOptions={{
                       headerShown: false,
                       tabBarStyle: {
-                        backgroundColor: '#092147',
+                        backgroundColor: '#ffffff',
                         borderTopLeftRadius: 30,
                         borderTopRightRadius: 30,
                         marginTop: -30,
                         borderTopWidth: 0,
+                        shadowColor: 'black',
+                        shadowOpacity: 0.1,
+                        shadowRadius: 3,
                       },
+
                       tabBarShowLabel: false,
                     }}
                   >
@@ -150,8 +155,12 @@ export default function App() {
                       name="Home"
                       component={HomeScreen}
                       options={{
-                        tabBarIcon: ({}) => (
-                          <FontAwesome name="home" size={20} color="white" />
+                        tabBarIcon: ({ focused }) => (
+                          <FontAwesome
+                            name="home"
+                            size={20}
+                            color={focused ? '#0FB599' : 'lightgrey'}
+                          />
                         ),
                       }}
                     />
@@ -159,8 +168,12 @@ export default function App() {
                       name="Likes"
                       component={LikesScreen}
                       options={{
-                        tabBarIcon: ({}) => (
-                          <FontAwesome name="heart" size={16} color="white" />
+                        tabBarIcon: ({ focused }) => (
+                          <FontAwesome
+                            name="heart"
+                            size={16}
+                            color={focused ? '#0FB599' : 'lightgrey'}
+                          />
                         ),
                       }}
                     />
@@ -168,11 +181,11 @@ export default function App() {
                       name="Messages"
                       component={MessagesScreen}
                       options={{
-                        tabBarIcon: ({}) => (
+                        tabBarIcon: ({ focused }) => (
                           <FontAwesome
                             name="comments"
                             size={20}
-                            color="white"
+                            color={focused ? '#0FB599' : 'lightgrey'}
                           />
                         ),
                       }}
@@ -181,11 +194,11 @@ export default function App() {
                       name="Profile"
                       component={ProfileScreen}
                       options={{
-                        tabBarIcon: ({}) => (
+                        tabBarIcon: ({ focused }) => (
                           <FontAwesome
                             name="user-circle"
                             size={18}
-                            color="white"
+                            color={focused ? '#0FB599' : 'lightgrey'}
                           />
                         ),
                       }}
@@ -205,6 +218,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
+  },
+
+  linearGradient: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
+    width: '100%',
   },
 
   videoContainer: {
