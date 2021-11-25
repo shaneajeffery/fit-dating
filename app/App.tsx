@@ -76,12 +76,12 @@ export default function App() {
     // console.log(userAuthToken);
     // console.log('END :: Auth Token');
 
-    // if (userAuthToken) {
-    //   setAppIsReady(true);
-    //   setLoggedIn(true);
-    // } else {
-    prepare();
-    // }
+    if (userAuthToken) {
+      setAppIsReady(true);
+      setLoggedIn(true);
+    } else {
+      prepare();
+    }
   }, []);
 
   useEffect(() => {
@@ -106,7 +106,7 @@ export default function App() {
       <AnimatedSplash
         isLoaded={appIsReady && fontsLoaded && !loadingCache}
         customComponent={<Splash />}
-        backgroundColor={'#ffffff'}
+        backgroundColor={'white'}
         translucent={true}
       >
         <ApolloProvider client={client}>

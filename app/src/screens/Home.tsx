@@ -5,11 +5,19 @@ import data from '../config/data/salon';
 import { SPACING, width, height } from '../config/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SharedElement } from 'react-navigation-shared-element';
-import TouchableScale from 'react-native-touchable-scale';
 
+import {
+  Badge,
+  HStack,
+  ScrollView,
+  VStack,
+  Box,
+  IconButton,
+} from 'native-base';
+import { Feather } from '@expo/vector-icons';
 import LinearGradient from 'react-native-linear-gradient';
 
-export const CELL_HEIGHT = height * 0.5;
+export const CELL_HEIGHT = height * 0.4;
 
 export default function SalonList({ navigation }) {
   return (
@@ -32,12 +40,8 @@ export default function SalonList({ navigation }) {
         style={{ marginTop: -10 }}
         renderItem={({ item }) => {
           return (
-            <TouchableScale
-              activeScale={0.9}
-              tension={20}
-              friction={7}
-              useNativeDriver
-              onPress={() => navigation.push('SalonListDetails', { item })}
+            <View
+              // onPress={() => navigation.push('SalonListDetails', { item })}
               style={{
                 height: CELL_HEIGHT,
                 marginBottom: SPACING,
@@ -75,6 +79,65 @@ export default function SalonList({ navigation }) {
                 <View
                   style={{
                     flex: 1,
+                    justifyContent: 'flex-start',
+                    alignItems: 'flex-end',
+                  }}
+                >
+                  <VStack space={1} alignItems="center">
+                    <Box>
+                      <IconButton
+                        size="sm"
+                        variant="outline"
+                        icon={<Feather name="heart" />}
+                        borderRadius="full"
+                        padding={2}
+                        style={{
+                          backgroundColor: 'white',
+                          borderColor: '#00ABE7',
+                          shadowRadius: 2,
+                          shadowColor: '#000000',
+                          shadowOpacity: 0.2,
+                          shadowOffset: {
+                            width: 0,
+                            height: 2,
+                          },
+                        }}
+                        _icon={{
+                          size: 25,
+                          color: '#00ABE7',
+                        }}
+                      />
+                    </Box>
+                    <Box>
+                      <IconButton
+                        size="sm"
+                        variant="outline"
+                        icon={<Feather name="send" />}
+                        borderRadius="full"
+                        padding={2}
+                        style={{
+                          backgroundColor: 'white',
+                          borderColor: '#81C14B',
+                          shadowRadius: 2,
+                          shadowColor: '#000000',
+                          shadowOpacity: 0.2,
+                          shadowOffset: {
+                            width: 0,
+                            height: 2,
+                          },
+                        }}
+                        _icon={{
+                          size: 25,
+                          color: '#81C14B',
+                        }}
+                      />
+                    </Box>
+                  </VStack>
+                </View>
+
+                <View
+                  style={{
+                    flex: 1,
                     justifyContent: 'flex-end',
                   }}
                 >
@@ -88,9 +151,86 @@ export default function SalonList({ navigation }) {
                   >
                     {item.age} &#183; {item.location}
                   </Text>
+                  <ScrollView
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    maxHeight={25}
+                    marginTop={2}
+                    marginBottom={2}
+                  >
+                    <HStack
+                      space={{
+                        base: 1,
+                      }}
+                      height={25}
+                    >
+                      <LinearGradient
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        colors={['#58B29A', '#8AC33D']}
+                        style={styles.linearGradient}
+                      >
+                        <Badge variant="outline" style={styles.activityBadge}>
+                          <Text style={styles.activityBadgeText}>Crossfit</Text>
+                        </Badge>
+                      </LinearGradient>
+                      <LinearGradient
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        colors={['#58B29A', '#8AC33D']}
+                        style={styles.linearGradient}
+                      >
+                        <Badge variant="outline" style={styles.activityBadge}>
+                          <Text style={styles.activityBadgeText}>F45</Text>
+                        </Badge>
+                      </LinearGradient>
+                      <LinearGradient
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        colors={['#58B29A', '#8AC33D']}
+                        style={styles.linearGradient}
+                      >
+                        <Badge variant="outline" style={styles.activityBadge}>
+                          <Text style={styles.activityBadgeText}>Running</Text>
+                        </Badge>
+                      </LinearGradient>
+                      <LinearGradient
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        colors={['#58B29A', '#8AC33D']}
+                        style={styles.linearGradient}
+                      >
+                        <Badge variant="outline" style={styles.activityBadge}>
+                          <Text style={styles.activityBadgeText}>Peleton</Text>
+                        </Badge>
+                      </LinearGradient>
+                      <LinearGradient
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        colors={['#58B29A', '#8AC33D']}
+                        style={styles.linearGradient}
+                      >
+                        <Badge variant="outline" style={styles.activityBadge}>
+                          <Text style={styles.activityBadgeText}>
+                            Gluten Free
+                          </Text>
+                        </Badge>
+                      </LinearGradient>
+                      <LinearGradient
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        colors={['#58B29A', '#8AC33D']}
+                        style={styles.linearGradient}
+                      >
+                        <Badge variant="outline" style={styles.activityBadge}>
+                          <Text style={styles.activityBadgeText}>Paleo</Text>
+                        </Badge>
+                      </LinearGradient>
+                    </HStack>
+                  </ScrollView>
                 </View>
               </View>
-            </TouchableScale>
+            </View>
           );
         }}
       />
@@ -118,6 +258,17 @@ export default function SalonList({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  activityBadge: {
+    borderRadius: 15,
+    borderColor: 'transparent',
+  },
+  activityBadgeText: {
+    color: 'white',
+    fontFamily: 'Rubik_400Regular',
+    fontSize: 14,
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
   name: {
     fontFamily: 'Rubik_500Medium',
     fontSize: 32,
@@ -149,11 +300,6 @@ const styles = StyleSheet.create({
     marginTop: -20,
   },
   linearGradient: {
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
+    borderRadius: 5,
   },
 });
