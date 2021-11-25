@@ -57,7 +57,7 @@ export default function SalonList({ navigation }) {
                       imageStyle={{ borderRadius: 16 }}
                     >
                       <LinearGradient
-                        colors={['#ffffff00', 'black']}
+                        colors={['#ffffff00', '#00000090']}
                         style={{
                           backgroundColor: 'transparent',
                           position: 'absolute',
@@ -86,7 +86,7 @@ export default function SalonList({ navigation }) {
                     numberOfLines={1}
                     adjustsFontSizeToFit
                   >
-                    {item.location}
+                    {item.age} &#183; {item.location}
                   </Text>
                 </View>
               </View>
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     color: 'white',
     width: width * 0.6,
 
-    marginTop: 32,
+    marginTop: 40,
   },
   itemImage: {
     width: CELL_HEIGHT * 0.75,

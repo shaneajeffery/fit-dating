@@ -171,6 +171,10 @@ export default data.map((item, index) => ({
   color: colors[index % colors.length],
   name: faker.name.findName(),
   location: `${faker.address.city()}, ${faker.address.state()}`,
+  age: faker.datatype.number({
+    min: 18,
+    max: 80,
+  }),
   categories: [...Array(3).keys()].map(() => {
     return {
       key: faker.random.uuid(),
