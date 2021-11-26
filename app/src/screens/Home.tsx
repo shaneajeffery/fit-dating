@@ -16,6 +16,7 @@ import {
 } from 'native-base';
 import { Feather } from '@expo/vector-icons';
 import LinearGradient from 'react-native-linear-gradient';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export const CELL_HEIGHT = height * 0.4;
 
@@ -65,7 +66,7 @@ export default function Home({ navigation }) {
         style={{ marginTop: -10 }}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity
+            <TouchableWithoutFeedback
               onPress={() => navigation.push('ProfileDetails', { item })}
             >
               <View
@@ -180,10 +181,10 @@ export default function Home({ navigation }) {
                     </Text>
                     <ScrollView
                       horizontal={true}
-                      showsHorizontalScrollIndicator={false}
                       maxHeight={25}
                       marginTop={2}
                       marginBottom={2}
+                      showsHorizontalScrollIndicator={false}
                     >
                       <HStack
                         space={{
@@ -264,7 +265,7 @@ export default function Home({ navigation }) {
                   </View>
                 </View>
               </View>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
           );
         }}
       />
