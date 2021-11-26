@@ -76,12 +76,12 @@ export default function App() {
     // console.log(userAuthToken);
     // console.log('END :: Auth Token');
 
-    if (userAuthToken) {
-      setAppIsReady(true);
-      setLoggedIn(true);
-    } else {
-      prepare();
-    }
+    // if (userAuthToken) {
+    //   setAppIsReady(true);
+    //   setLoggedIn(true);
+    // } else {
+    prepare();
+    // }
   }, []);
 
   useEffect(() => {
@@ -143,7 +143,7 @@ export default function App() {
                     <Stack.Screen
                       name="ProfileFiltersModal"
                       component={ModalScreen}
-                      options={{
+                      options={({ navigation }) => ({
                         presentation: 'modal',
                         title: 'Profile Filters',
                         headerBackTitle: 'Cancel',
@@ -152,6 +152,7 @@ export default function App() {
                             <Button
                               style={{ marginRight: 10 }}
                               variant="unstyled"
+                              onPress={() => navigation.navigate('Home')}
                             >
                               <Text
                                 color="#00ABE7"
@@ -167,6 +168,7 @@ export default function App() {
                             <Button
                               style={{ marginLeft: 10 }}
                               variant="unstyled"
+                              onPress={() => navigation.navigate('Home')}
                             >
                               Cancel
                             </Button>
@@ -176,7 +178,7 @@ export default function App() {
                           fontSize: 16,
                           fontFamily: 'Rubik_500Medium',
                         },
-                      }}
+                      })}
                     />
                   </Stack.Navigator>
                 )}
