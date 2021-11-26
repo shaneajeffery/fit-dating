@@ -1,36 +1,19 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  StatusBar,
-} from 'react-native';
-import data, { iconColors } from '../../config/data/salon';
-import { SPACING, width, height } from '../../config/theme';
+import { StyleSheet, View, Text, Image } from 'react-native';
+import { Box, IconButton, VStack } from 'native-base';
+import { iconColors } from '../../config/data/salon';
+import { SPACING, height } from '../../config/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AntDesign } from '@expo/vector-icons';
 import { SharedElement } from 'react-navigation-shared-element';
-import { CELL_HEIGHT } from '../Home';
+
 import * as Animatable from 'react-native-animatable';
 import { ScrollView } from 'react-native-gesture-handler';
-const AnimatableAntDesign = Animatable.createAnimatableComponent(AntDesign);
+import { Feather, Ionicons } from '@expo/vector-icons';
 
 const TOP_HEIGHT_HEIGHT = height * 0.33;
 const DURATION = 400;
 
-const fadeInRight = {
-  0: {
-    opacity: 0,
-    translateX: 10,
-  },
-  1: {
-    opacity: 1,
-    translateX: 0,
-  },
-};
 const fadeInBottom = {
   0: {
     opacity: 0,
@@ -46,22 +29,6 @@ const ProfileDetails = ({ navigation, route }) => {
   const { item } = route.params;
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <AnimatableAntDesign
-        delay={DURATION}
-        animation={fadeInRight}
-        name="arrowleft"
-        size={28}
-        style={{
-          padding: 12,
-          position: 'absolute',
-          zIndex: 2,
-        }}
-        color={'#092147'}
-        onPress={() => {
-          // animation(0).start()
-          navigation.goBack();
-        }}
-      />
       <SharedElement
         id={`item.${item.key}.bg`}
         style={[StyleSheet.absoluteFillObject]}
@@ -81,9 +48,97 @@ const ProfileDetails = ({ navigation, route }) => {
         >
           <Image source={{ uri: item.image }} style={styles.itemImage} />
         </SharedElement>
-        {/* <SharedElement id={`item.${item.key}.name`}>
-          <Text style={styles.name}>{item.name}</Text>
-        </SharedElement> */}
+
+        <View
+          style={{
+            flex: 1,
+            position: 'absolute',
+            marginTop: 5,
+            marginLeft: 10,
+            zIndex: 2,
+          }}
+        >
+          <VStack space={1} alignItems="center">
+            <Box>
+              <IconButton
+                size="sm"
+                variant="unstyled"
+                icon={<Ionicons name="arrow-back-outline" />}
+                padding={2}
+                style={{
+                  borderColor: 'transparent',
+                }}
+                _icon={{
+                  size: 25,
+                  color: '#092147',
+                }}
+                onPress={() => navigation.goBack()}
+              />
+            </Box>
+          </VStack>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'flex-start',
+            alignItems: 'flex-end',
+            marginTop: 5,
+            marginRight: 10,
+          }}
+        >
+          <VStack space={1} alignItems="center">
+            <Box>
+              <IconButton
+                size="sm"
+                variant="outline"
+                icon={<Feather name="heart" />}
+                borderRadius="full"
+                padding={2}
+                style={{
+                  backgroundColor: 'white',
+                  borderColor: 'white',
+                  shadowRadius: 2,
+                  shadowColor: '#000000',
+                  shadowOpacity: 0.2,
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                }}
+                _icon={{
+                  size: 25,
+                  color: '#092147',
+                }}
+                onPress={() => navigation.goBack()}
+              />
+            </Box>
+            <Box>
+              <IconButton
+                size="sm"
+                variant="outline"
+                icon={<Feather name="send" />}
+                borderRadius="full"
+                padding={2}
+                style={{
+                  backgroundColor: 'white',
+                  borderColor: 'white',
+                  shadowRadius: 2,
+                  shadowColor: '#000000',
+                  shadowOpacity: 0.2,
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                }}
+                _icon={{
+                  size: 25,
+                  color: '#092147',
+                }}
+              />
+            </Box>
+          </VStack>
+        </View>
       </View>
       <SharedElement
         id="general.bg"
