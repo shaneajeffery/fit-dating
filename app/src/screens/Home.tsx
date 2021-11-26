@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground } from 'react-native';
+import { ImageBackground, TouchableOpacity } from 'react-native';
 import { StyleSheet, View, Text, FlatList, Image } from 'react-native';
 import data from '../config/data/salon';
 import { SPACING, width, height } from '../config/theme';
@@ -65,200 +65,210 @@ export default function Home({ navigation }) {
         style={{ marginTop: -10 }}
         renderItem={({ item }) => {
           return (
-            <View
-              // onPress={() => navigation.push('SalonListDetails', { item })}
-              style={{
-                height: CELL_HEIGHT,
-                marginBottom: SPACING,
-              }}
+            <TouchableOpacity
+              onPress={() => navigation.push('ProfileDetails', { item })}
             >
-              <View style={{ flex: 1, padding: SPACING }}>
-                <SharedElement
-                  id={`item.${item.key}.bg`}
-                  style={[StyleSheet.absoluteFillObject]}
-                >
-                  <View style={[StyleSheet.absoluteFillObject]}>
-                    <ImageBackground
-                      source={{ uri: item.image }}
-                      style={{
-                        flex: 1,
-                      }}
-                      imageStyle={{ borderRadius: 16 }}
-                    >
-                      <LinearGradient
-                        colors={['#ffffff00', '#00000090']}
+              <View
+                style={{
+                  height: CELL_HEIGHT,
+                  marginBottom: SPACING,
+                }}
+              >
+                <View style={{ flex: 1, padding: SPACING }}>
+                  <SharedElement
+                    id={`item.${item.key}.bg`}
+                    style={[StyleSheet.absoluteFillObject]}
+                  >
+                    <View style={[StyleSheet.absoluteFillObject]}>
+                      <ImageBackground
+                        source={{ uri: item.image }}
                         style={{
-                          backgroundColor: 'transparent',
-                          position: 'absolute',
-                          top: 0,
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          borderRadius: 16,
+                          flex: 1,
                         }}
-                      />
-                    </ImageBackground>
-                  </View>
-                </SharedElement>
-
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'flex-start',
-                    alignItems: 'flex-end',
-                  }}
-                >
-                  <VStack space={1} alignItems="center">
-                    <Box>
-                      <IconButton
-                        size="sm"
-                        variant="outline"
-                        icon={<Feather name="heart" />}
-                        borderRadius="full"
-                        padding={2}
-                        style={{
-                          backgroundColor: 'white',
-                          borderColor: 'white',
-                          shadowRadius: 2,
-                          shadowColor: '#000000',
-                          shadowOpacity: 0.2,
-                          shadowOffset: {
-                            width: 0,
-                            height: 2,
-                          },
-                        }}
-                        _icon={{
-                          size: 25,
-                          color: '#092147',
-                        }}
-                      />
-                    </Box>
-                    <Box>
-                      <IconButton
-                        size="sm"
-                        variant="outline"
-                        icon={<Feather name="send" />}
-                        borderRadius="full"
-                        padding={2}
-                        style={{
-                          backgroundColor: 'white',
-                          borderColor: 'white',
-                          shadowRadius: 2,
-                          shadowColor: '#000000',
-                          shadowOpacity: 0.2,
-                          shadowOffset: {
-                            width: 0,
-                            height: 2,
-                          },
-                        }}
-                        _icon={{
-                          size: 25,
-                          color: '#092147',
-                        }}
-                      />
-                    </Box>
-                  </VStack>
-                </View>
-
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <SharedElement id={`item.${item.key}.name`}>
-                    <Text style={styles.name}>{item.name}</Text>
+                        imageStyle={{ borderRadius: 16 }}
+                      >
+                        <LinearGradient
+                          colors={['#ffffff00', '#00000090']}
+                          style={{
+                            backgroundColor: 'transparent',
+                            position: 'absolute',
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            borderRadius: 16,
+                          }}
+                        />
+                      </ImageBackground>
+                    </View>
                   </SharedElement>
-                  <Text
-                    style={styles.location}
-                    numberOfLines={1}
-                    adjustsFontSizeToFit
+
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'flex-start',
+                      alignItems: 'flex-end',
+                    }}
                   >
-                    {item.age} &#183; {item.location}
-                  </Text>
-                  <ScrollView
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    maxHeight={25}
-                    marginTop={2}
-                    marginBottom={2}
+                    <VStack space={1} alignItems="center">
+                      <Box>
+                        <IconButton
+                          size="sm"
+                          variant="outline"
+                          icon={<Feather name="heart" />}
+                          borderRadius="full"
+                          padding={2}
+                          style={{
+                            backgroundColor: 'white',
+                            borderColor: 'white',
+                            shadowRadius: 2,
+                            shadowColor: '#000000',
+                            shadowOpacity: 0.2,
+                            shadowOffset: {
+                              width: 0,
+                              height: 2,
+                            },
+                          }}
+                          _icon={{
+                            size: 25,
+                            color: '#092147',
+                          }}
+                        />
+                      </Box>
+                      <Box>
+                        <IconButton
+                          size="sm"
+                          variant="outline"
+                          icon={<Feather name="send" />}
+                          borderRadius="full"
+                          padding={2}
+                          style={{
+                            backgroundColor: 'white',
+                            borderColor: 'white',
+                            shadowRadius: 2,
+                            shadowColor: '#000000',
+                            shadowOpacity: 0.2,
+                            shadowOffset: {
+                              width: 0,
+                              height: 2,
+                            },
+                          }}
+                          _icon={{
+                            size: 25,
+                            color: '#092147',
+                          }}
+                        />
+                      </Box>
+                    </VStack>
+                  </View>
+
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                    }}
                   >
-                    <HStack
-                      space={{
-                        base: 1,
-                      }}
-                      height={25}
+                    <SharedElement id={`item.${item.key}.name`}>
+                      <Text style={styles.name}>{item.name}</Text>
+                    </SharedElement>
+                    <Text
+                      style={styles.location}
+                      numberOfLines={1}
+                      adjustsFontSizeToFit
                     >
-                      <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={['#58B29A', '#8AC33D']}
-                        style={styles.linearGradient}
+                      {item.age} &#183; {item.location}
+                    </Text>
+                    <ScrollView
+                      horizontal={true}
+                      showsHorizontalScrollIndicator={false}
+                      maxHeight={25}
+                      marginTop={2}
+                      marginBottom={2}
+                    >
+                      <HStack
+                        space={{
+                          base: 1,
+                        }}
+                        height={25}
                       >
-                        <Badge variant="outline" style={styles.activityBadge}>
-                          <Text style={styles.activityBadgeText}>Crossfit</Text>
-                        </Badge>
-                      </LinearGradient>
-                      <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={['#58B29A', '#8AC33D']}
-                        style={styles.linearGradient}
-                      >
-                        <Badge variant="outline" style={styles.activityBadge}>
-                          <Text style={styles.activityBadgeText}>F45</Text>
-                        </Badge>
-                      </LinearGradient>
-                      <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={['#58B29A', '#8AC33D']}
-                        style={styles.linearGradient}
-                      >
-                        <Badge variant="outline" style={styles.activityBadge}>
-                          <Text style={styles.activityBadgeText}>Running</Text>
-                        </Badge>
-                      </LinearGradient>
-                      <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={['#58B29A', '#8AC33D']}
-                        style={styles.linearGradient}
-                      >
-                        <Badge variant="outline" style={styles.activityBadge}>
-                          <Text style={styles.activityBadgeText}>Peleton</Text>
-                        </Badge>
-                      </LinearGradient>
-                      <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={['#58B29A', '#8AC33D']}
-                        style={styles.linearGradient}
-                      >
-                        <Badge variant="outline" style={styles.activityBadge}>
-                          <Text style={styles.activityBadgeText}>
-                            Gluten Free
-                          </Text>
-                        </Badge>
-                      </LinearGradient>
-                      <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={['#58B29A', '#8AC33D']}
-                        style={styles.linearGradient}
-                      >
-                        <Badge variant="outline" style={styles.activityBadge}>
-                          <Text style={styles.activityBadgeText}>Paleo</Text>
-                        </Badge>
-                      </LinearGradient>
-                    </HStack>
-                  </ScrollView>
+                        <LinearGradient
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          colors={['#58B29A', '#8AC33D']}
+                          style={styles.linearGradient}
+                        >
+                          <Badge variant="outline" style={styles.activityBadge}>
+                            <Text style={styles.activityBadgeText}>
+                              Crossfit
+                            </Text>
+                          </Badge>
+                        </LinearGradient>
+                        <LinearGradient
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          colors={['#58B29A', '#8AC33D']}
+                          style={styles.linearGradient}
+                        >
+                          <Badge variant="outline" style={styles.activityBadge}>
+                            <Text style={styles.activityBadgeText}>F45</Text>
+                          </Badge>
+                        </LinearGradient>
+                        <LinearGradient
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          colors={['#58B29A', '#8AC33D']}
+                          style={styles.linearGradient}
+                        >
+                          <Badge variant="outline" style={styles.activityBadge}>
+                            <Text style={styles.activityBadgeText}>
+                              Running
+                            </Text>
+                          </Badge>
+                        </LinearGradient>
+                        <LinearGradient
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          colors={['#58B29A', '#8AC33D']}
+                          style={styles.linearGradient}
+                        >
+                          <Badge variant="outline" style={styles.activityBadge}>
+                            <Text style={styles.activityBadgeText}>
+                              Peleton
+                            </Text>
+                          </Badge>
+                        </LinearGradient>
+                        <LinearGradient
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          colors={['#58B29A', '#8AC33D']}
+                          style={styles.linearGradient}
+                        >
+                          <Badge variant="outline" style={styles.activityBadge}>
+                            <Text style={styles.activityBadgeText}>
+                              Gluten Free
+                            </Text>
+                          </Badge>
+                        </LinearGradient>
+                        <LinearGradient
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          colors={['#58B29A', '#8AC33D']}
+                          style={styles.linearGradient}
+                        >
+                          <Badge variant="outline" style={styles.activityBadge}>
+                            <Text style={styles.activityBadgeText}>Paleo</Text>
+                          </Badge>
+                        </LinearGradient>
+                      </HStack>
+                    </ScrollView>
+                  </View>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           );
         }}
       />
+
       <SharedElement
         id="general.bg"
         style={[

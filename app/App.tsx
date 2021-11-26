@@ -34,6 +34,7 @@ import { AuthContext } from './src/context/AuthContext';
 import { Splash } from './src/components/Splash';
 
 import AnimatedSplash from 'react-native-animated-splash-screen';
+import ProfileDetails from './src/screens/Profile/Profile';
 
 const cache = new InMemoryCache();
 
@@ -76,12 +77,12 @@ export default function App() {
     // console.log(userAuthToken);
     // console.log('END :: Auth Token');
 
-    // if (userAuthToken) {
-    //   setAppIsReady(true);
-    //   setLoggedIn(true);
-    // } else {
-    prepare();
-    // }
+    if (userAuthToken) {
+      setAppIsReady(true);
+      setLoggedIn(true);
+    } else {
+      prepare();
+    }
   }, []);
 
   useEffect(() => {
@@ -140,6 +141,12 @@ export default function App() {
                       component={LoggedInScreens}
                       options={{ headerShown: false }}
                     />
+                    <Stack.Screen
+                      name="ProfileDetails"
+                      component={ProfileDetails}
+                      options={{ headerShown: false }}
+                    />
+
                     <Stack.Screen
                       name="ProfileFiltersModal"
                       component={ModalScreen}
