@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { ImageBackground } from 'react-native';
 import { StyleSheet, View, Text, FlatList, Image } from 'react-native';
 import data from '../config/data/salon';
@@ -19,17 +19,42 @@ import LinearGradient from 'react-native-linear-gradient';
 
 export const CELL_HEIGHT = height * 0.4;
 
-export default function SalonList({ navigation }) {
+export default function Home({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image
-          width={undefined}
-          height={undefined}
-          resizeMode="contain"
-          aspectRatio={1.8}
-          source={require('./Auth/assets/logo.png')}
-        />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <View style={{ flex: 0.9 }}>
+          <Image
+            width={undefined}
+            height={undefined}
+            resizeMode="contain"
+            aspectRatio={1.8}
+            source={require('./Auth/assets/logo.png')}
+          />
+        </View>
+
+        <View>
+          <IconButton
+            size="sm"
+            variant="ghost"
+            icon={<Feather name="filter" />}
+            padding={2}
+            style={{
+              backgroundColor: 'white',
+            }}
+            _icon={{
+              size: 25,
+              color: '#092147',
+            }}
+            onPress={() => navigation.navigate('ProfileFiltersModal')}
+          />
+        </View>
       </View>
 
       <FlatList
@@ -93,7 +118,7 @@ export default function SalonList({ navigation }) {
                         padding={2}
                         style={{
                           backgroundColor: 'white',
-                          borderColor: '#00ABE7',
+                          borderColor: 'white',
                           shadowRadius: 2,
                           shadowColor: '#000000',
                           shadowOpacity: 0.2,
@@ -104,7 +129,7 @@ export default function SalonList({ navigation }) {
                         }}
                         _icon={{
                           size: 25,
-                          color: '#00ABE7',
+                          color: '#092147',
                         }}
                       />
                     </Box>
@@ -117,7 +142,7 @@ export default function SalonList({ navigation }) {
                         padding={2}
                         style={{
                           backgroundColor: 'white',
-                          borderColor: '#81C14B',
+                          borderColor: 'white',
                           shadowRadius: 2,
                           shadowColor: '#000000',
                           shadowOpacity: 0.2,
@@ -128,7 +153,7 @@ export default function SalonList({ navigation }) {
                         }}
                         _icon={{
                           size: 25,
-                          color: '#81C14B',
+                          color: '#092147',
                         }}
                       />
                     </Box>
@@ -264,19 +289,19 @@ const styles = StyleSheet.create({
   },
   activityBadgeText: {
     color: 'white',
-    fontFamily: 'Rubik_400Regular',
+    // fontFamily: 'Rubik_400Regular',
     fontSize: 14,
     paddingLeft: 5,
     paddingRight: 5,
   },
   name: {
-    fontFamily: 'Rubik_500Medium',
+    // fontFamily: 'Rubik_500Medium',
     fontSize: 32,
     color: 'white',
     position: 'absolute',
   },
   location: {
-    fontFamily: 'Rubik_400Regular',
+    // fontFamily: 'Rubik_400Regular',
     fontSize: 16,
     color: 'white',
     width: width * 0.6,

@@ -7,11 +7,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { persistCache } from 'apollo3-cache-persist';
-import { NativeBaseProvider } from 'native-base';
+import { HStack, NativeBaseProvider, Button, Text } from 'native-base';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
 import { getItem, setItem } from './src/utils/async-storage';
-import LinearGradient from 'react-native-linear-gradient';
+import { ModalScreen } from './src/screens/Modal';
 
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -134,76 +134,51 @@ export default function App() {
                     />
                   </Stack.Navigator>
                 ) : (
-                  <Tab.Navigator
-                    screenOptions={{
-                      headerShown: false,
-                      tabBarStyle: {
-                        backgroundColor: '#ffffff',
-                        borderTopLeftRadius: 30,
-                        borderTopRightRadius: 30,
-                        marginTop: -30,
-                        borderTopWidth: 0,
-                        shadowColor: 'black',
-                        shadowOpacity: 0.1,
-                        shadowRadius: 3,
-                      },
-
-                      tabBarShowLabel: false,
-                    }}
-                  >
-                    <Tab.Screen
-                      name="Home"
-                      component={HomeScreen}
+                  <Stack.Navigator>
+                    <Stack.Screen
+                      name="LoggedInScreens"
+                      component={LoggedInScreens}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="ProfileFiltersModal"
+                      component={ModalScreen}
                       options={{
-                        tabBarIcon: ({ focused }) => (
-                          <FontAwesome
-                            name="home"
-                            size={20}
-                            color={focused ? '#0FB599' : 'lightgrey'}
-                          />
-                        ),
+                        presentation: 'modal',
+                        title: 'Profile Filters',
+                        headerBackTitle: 'Cancel',
+                        headerRight: () => {
+                          return (
+                            <Button
+                              style={{ marginRight: 10 }}
+                              variant="unstyled"
+                            >
+                              <Text
+                                color="#00ABE7"
+                                style={{ fontWeight: 'bold' }}
+                              >
+                                Done
+                              </Text>
+                            </Button>
+                          );
+                        },
+                        headerLeft: () => {
+                          return (
+                            <Button
+                              style={{ marginLeft: 10 }}
+                              variant="unstyled"
+                            >
+                              Cancel
+                            </Button>
+                          );
+                        },
+                        headerTitleStyle: {
+                          fontSize: 16,
+                          fontFamily: 'Rubik_500Medium',
+                        },
                       }}
                     />
-                    <Tab.Screen
-                      name="Likes"
-                      component={LikesScreen}
-                      options={{
-                        tabBarIcon: ({ focused }) => (
-                          <FontAwesome
-                            name="heart"
-                            size={16}
-                            color={focused ? '#0FB599' : 'lightgrey'}
-                          />
-                        ),
-                      }}
-                    />
-                    <Tab.Screen
-                      name="Messages"
-                      component={MessagesScreen}
-                      options={{
-                        tabBarIcon: ({ focused }) => (
-                          <FontAwesome
-                            name="comments"
-                            size={20}
-                            color={focused ? '#0FB599' : 'lightgrey'}
-                          />
-                        ),
-                      }}
-                    />
-                    <Tab.Screen
-                      name="Profile"
-                      component={ProfileScreen}
-                      options={{
-                        tabBarIcon: ({ focused }) => (
-                          <FontAwesome
-                            name="user-circle"
-                            size={18}
-                            color={focused ? '#0FB599' : 'lightgrey'}
-                          />
-                        ),
-                      }}
-                    />
-                  </Tab.Navigator>
+                  </Stack.Navigator>
                 )}
               </NavigationContainer>
             </AuthContext.Provider>
@@ -211,6 +186,83 @@ export default function App() {
         </ApolloProvider>
       </AnimatedSplash>
     </SafeAreaView>
+  );
+}
+
+function LoggedInScreens() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: '#ffffff',
+          borderTopLeftRadius: 30,
+          borderTopRightRadius: 30,
+          marginTop: -30,
+          borderTopWidth: 0,
+          shadowColor: 'black',
+          shadowOpacity: 0.1,
+          shadowRadius: 3,
+        },
+
+        tabBarShowLabel: false,
+      }}
+    >
+      <Tab.Group>
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <FontAwesome
+                name="home"
+                size={20}
+                color={focused ? '#0FB599' : 'lightgrey'}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Likes"
+          component={LikesScreen}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <FontAwesome
+                name="heart"
+                size={16}
+                color={focused ? '#0FB599' : 'lightgrey'}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Messages"
+          component={MessagesScreen}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <FontAwesome
+                name="comments"
+                size={20}
+                color={focused ? '#0FB599' : 'lightgrey'}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <FontAwesome
+                name="user-circle"
+                size={18}
+                color={focused ? '#0FB599' : 'lightgrey'}
+              />
+            ),
+          }}
+        />
+      </Tab.Group>
+    </Tab.Navigator>
   );
 }
 
