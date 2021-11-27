@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
-import { Box, IconButton, VStack } from 'native-base';
+import { Box, Divider, IconButton, VStack, Badge } from 'native-base';
 import { iconColors } from '../../config/data/salon';
 import { SPACING, height } from '../../config/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,23 +12,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Feather, Ionicons } from '@expo/vector-icons';
 
 const TOP_HEIGHT_HEIGHT = height * 0.33;
-const DURATION = 400;
-
-const fadeInBottom = {
-  0: {
-    opacity: 0,
-    translateY: 10,
-  },
-  1: {
-    opacity: 1,
-    translateY: 0,
-  },
-};
 
 const ProfileDetails = ({ navigation, route }) => {
   const { item } = route.params;
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
       <SharedElement
         id={`item.${item.key}.bg`}
         style={[StyleSheet.absoluteFillObject]}
@@ -140,7 +128,27 @@ const ProfileDetails = ({ navigation, route }) => {
           </VStack>
         </View>
       </View>
-      <SharedElement
+
+      <Box style={styles.generalInfoBox}>
+        <Text>Sophia</Text>
+        <Divider orientation="vertical" />
+        <Badge
+          style={{
+            borderRadius: 15,
+            borderColor: '#58B29A',
+            backgroundColor: 'transparent',
+            borderWidth: 1,
+          }}
+        >
+          <Text style={{ color: '#58B29A' }}>25</Text>
+        </Badge>
+        <Divider orientation="vertical" />
+        <Text>Miami, FL</Text>
+        <Divider orientation="vertical" />
+        <Text>Single</Text>
+      </Box>
+
+      {/* <SharedElement
         id="general.bg"
         style={[
           StyleSheet.absoluteFillObject,
@@ -242,7 +250,7 @@ const ProfileDetails = ({ navigation, route }) => {
             </View>
           </ScrollView>
         </View>
-      </SharedElement>
+      </SharedElement> */}
     </SafeAreaView>
   );
 };
@@ -276,7 +284,27 @@ const styles = StyleSheet.create({
   itemImage: {
     height: '100%',
     resizeMode: 'contain',
-    borderRadius: 16,
+    // borderRadius: 32,
+  },
+  generalInfoBox: {
+    shadowRadius: 2,
+    shadowColor: '#000000',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    marginTop: -20,
+    marginLeft: 5,
+    marginRight: 5,
+    borderRadius: 32,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: 40,
+    width: '95%',
+    alignSelf: 'center',
+    backgroundColor: 'white',
   },
 });
 
