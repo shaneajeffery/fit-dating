@@ -9,11 +9,13 @@ import {
   Heading,
   ScrollView,
   HStack,
+  Icon,
+  Button,
 } from 'native-base';
 import { height } from '../../config/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SharedElement } from 'react-navigation-shared-element';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Feather, Ionicons, FontAwesome } from '@expo/vector-icons';
 import LinearGradient from 'react-native-linear-gradient';
 
 const TOP_HEIGHT_HEIGHT = height * 0.33;
@@ -154,52 +156,157 @@ const ProfileDetails = ({ navigation, route }) => {
         <Text>Single</Text>
       </Box>
 
-      <ScrollView>
-        <Box>
-          <Heading>Activity Interests</Heading>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Box style={{ marginTop: 25, marginHorizontal: 15 }}>
+          <Heading size="sm" style={{ marginBottom: 15 }}>
+            About
+          </Heading>
+          <Text>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </Text>
+
           <HStack
             space={{
               base: 1,
             }}
-            height={35}
             flexWrap="wrap"
+            style={{ marginTop: 10 }}
           >
             <Box style={{ marginTop: 5 }}>
-              <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                colors={['#58B29A', '#8AC33D']}
-                style={styles.linearGradient}
-              >
-                <Badge variant="outline" style={styles.activityBadge}>
-                  <Text style={styles.activityBadgeText}>Paleo</Text>
-                </Badge>
-              </LinearGradient>
+              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+                <Icon
+                  as={Ionicons}
+                  name="school-outline"
+                  size="xs"
+                  style={{ marginRight: 5 }}
+                />
+                University
+              </Badge>
             </Box>
             <Box style={{ marginTop: 5 }}>
-              <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                colors={['#58B29A', '#8AC33D']}
-                style={styles.linearGradient}
-              >
-                <Badge variant="outline" style={styles.activityBadge}>
-                  <Text style={styles.activityBadgeText}>Paleo</Text>
-                </Badge>
-              </LinearGradient>
+              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+                <Icon
+                  as={Ionicons}
+                  name="school-outline"
+                  size="xs"
+                  style={{ marginRight: 5 }}
+                />
+                University
+              </Badge>
             </Box>
             <Box style={{ marginTop: 5 }}>
-              <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                colors={['#58B29A', '#8AC33D']}
-                style={styles.linearGradient}
-              >
-                <Badge variant="outline" style={styles.activityBadge}>
-                  <Text style={styles.activityBadgeText}>Paleo</Text>
-                </Badge>
-              </LinearGradient>
+              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+                <Icon
+                  as={Ionicons}
+                  name="school-outline"
+                  size="xs"
+                  style={{ marginRight: 5 }}
+                />
+                University
+              </Badge>
             </Box>
+            <Box style={{ marginTop: 5 }}>
+              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+                <Icon
+                  as={Ionicons}
+                  name="school-outline"
+                  size="xs"
+                  style={{ marginRight: 5 }}
+                />
+                University
+              </Badge>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+                <Icon
+                  as={Ionicons}
+                  name="school-outline"
+                  size="xs"
+                  style={{ marginRight: 5 }}
+                />
+                University
+              </Badge>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+                <Icon
+                  as={Ionicons}
+                  name="school-outline"
+                  size="xs"
+                  style={{ marginRight: 5 }}
+                />
+                University
+              </Badge>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+                <Icon
+                  as={Ionicons}
+                  name="school-outline"
+                  size="xs"
+                  style={{ marginRight: 5 }}
+                />
+                University
+              </Badge>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+                <Icon
+                  as={Ionicons}
+                  name="school-outline"
+                  size="xs"
+                  style={{ marginRight: 5 }}
+                />
+                University
+              </Badge>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+                <Icon
+                  as={Ionicons}
+                  name="school-outline"
+                  size="xs"
+                  style={{ marginRight: 5 }}
+                />
+                University
+              </Badge>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+                <Icon
+                  as={Ionicons}
+                  name="school-outline"
+                  size="xs"
+                  style={{ marginRight: 5 }}
+                />
+                University
+              </Badge>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+                <Icon
+                  as={Ionicons}
+                  name="school-outline"
+                  size="xs"
+                  style={{ marginRight: 5 }}
+                />
+                University
+              </Badge>
+            </Box>
+          </HStack>
+        </Box>
+
+        <Box style={{ marginTop: 25, marginHorizontal: 15 }}>
+          <Heading size="sm" style={{ marginBottom: 15 }}>
+            Activity Interests
+          </Heading>
+          <HStack
+            space={{
+              base: 1,
+            }}
+            flexWrap="wrap"
+          >
             <Box style={{ marginTop: 5 }}>
               <LinearGradient
                 start={{ x: 0, y: 0 }}
@@ -299,16 +406,59 @@ const ProfileDetails = ({ navigation, route }) => {
           </HStack>
         </Box>
 
-        <Box>
-          <Heading>Dietary Interests</Heading>
+        <Box style={{ marginTop: 25, marginHorizontal: 15 }}>
+          <Heading size="sm" style={{ marginBottom: 15 }}>
+            Dietary Interests
+          </Heading>
+          <HStack
+            space={{
+              base: 1,
+            }}
+            flexWrap="wrap"
+          >
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+          </HStack>
         </Box>
 
-        <Box>
-          <Heading>About</Heading>
-        </Box>
-
-        <Box>
-          <Heading>Profile Questions</Heading>
+        <Box style={{ marginTop: 25, marginHorizontal: 15 }}>
+          <Heading size="sm" style={{ marginBottom: 15 }}>
+            Profile Questions
+          </Heading>
         </Box>
       </ScrollView>
     </SafeAreaView>
