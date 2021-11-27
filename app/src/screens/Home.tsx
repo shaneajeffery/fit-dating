@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
-import { ImageBackground, TouchableOpacity } from 'react-native';
+import { ImageBackground } from 'react-native';
 import { StyleSheet, View, Text, FlatList, Image } from 'react-native';
 import data from '../config/data/salon';
 import { SPACING, width, height } from '../config/theme';
@@ -35,6 +36,7 @@ export default function Home({ navigation }) {
             width={undefined}
             height={undefined}
             resizeMode="contain"
+            // @ts-ignore
             aspectRatio={1.8}
             source={require('./Auth/assets/logo.png')}
           />

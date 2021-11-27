@@ -1,20 +1,26 @@
-import * as React from 'react';
+import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
-import { Box, Divider, IconButton, VStack, Badge } from 'native-base';
-import { iconColors } from '../../config/data/salon';
-import { SPACING, height } from '../../config/theme';
+import {
+  Box,
+  Divider,
+  IconButton,
+  VStack,
+  Badge,
+  Heading,
+  ScrollView,
+  HStack,
+} from 'native-base';
+import { height } from '../../config/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AntDesign } from '@expo/vector-icons';
 import { SharedElement } from 'react-navigation-shared-element';
-
-import * as Animatable from 'react-native-animatable';
-import { ScrollView } from 'react-native-gesture-handler';
 import { Feather, Ionicons } from '@expo/vector-icons';
+import LinearGradient from 'react-native-linear-gradient';
 
 const TOP_HEIGHT_HEIGHT = height * 0.33;
 
 const ProfileDetails = ({ navigation, route }) => {
   const { item } = route.params;
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
       <SharedElement
@@ -148,109 +154,163 @@ const ProfileDetails = ({ navigation, route }) => {
         <Text>Single</Text>
       </Box>
 
-      {/* <SharedElement
-        id="general.bg"
-        style={[
-          StyleSheet.absoluteFillObject,
-          { transform: [{ translateY: height }] },
-        ]}
-      >
-        <View
-          style={[
-            StyleSheet.absoluteFillObject,
-            {
-              backgroundColor: 'white',
-              transform: [{ translateY: -height + TOP_HEIGHT_HEIGHT }],
-            },
-          ]}
-        >
-          <ScrollView
-            style={{ flexGrow: 0, height: height - TOP_HEIGHT_HEIGHT }}
-            showsVerticalScrollIndicator={false}
+      <ScrollView>
+        <Box>
+          <Heading>Activity Interests</Heading>
+          <HStack
+            space={{
+              base: 1,
+            }}
+            height={35}
+            flexWrap="wrap"
           >
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-evenly',
-                marginTop: SPACING * 4,
-              }}
-            >
-              {['isv', 'Trophy', 'edit'].map((icon, index) => {
-                return (
-                  <Animatable.View
-                    animation="bounceIn"
-                    delay={DURATION + index * 100}
-                    key={icon}
-                    style={{
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: 64,
-                      height: 64,
-                      borderRadius: 64,
-                      backgroundColor: iconColors[index],
-                    }}
-                  >
-                    <AntDesign name={icon} size={22} color={'#fff'} />
-                  </Animatable.View>
-                );
-              })}
-            </View>
-            <View style={{ margin: SPACING * 2 }}>
-              {item.categories.map((subcat, index) => {
-                return (
-                  <Animatable.View
-                    animation={fadeInBottom}
-                    delay={DURATION + 400 + index * 150}
-                    key={subcat.key}
-                    style={{ marginBottom: SPACING }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 22,
-                        marginBottom: SPACING,
-                      }}
-                    >
-                      {subcat.title}
-                    </Text>
-                    {subcat.subcats.map((ii, index) => {
-                      return (
-                        <Animatable.View
-                          animation={fadeInBottom}
-                          delay={DURATION + 600 + index * 150}
-                          style={{
-                            alignItems: 'center',
-                            flexDirection: 'row',
-                            marginLeft: SPACING,
-                          }}
-                        >
-                          <View
-                            style={{
-                              width: 4,
-                              height: 4,
-                              borderRadius: 4,
-                              backgroundColor: 'gold',
-                              marginRight: SPACING / 2,
-                            }}
-                          />
-                          <Text
-                            style={{
-                              fontSize: 13,
-                              margin: SPACING / 2,
-                            }}
-                            key={ii}
-                          >
-                            {ii}
-                          </Text>
-                        </Animatable.View>
-                      );
-                    })}
-                  </Animatable.View>
-                );
-              })}
-            </View>
-          </ScrollView>
-        </View>
-      </SharedElement> */}
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+            <Box style={{ marginTop: 5 }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#58B29A', '#8AC33D']}
+                style={styles.linearGradient}
+              >
+                <Badge variant="outline" style={styles.activityBadge}>
+                  <Text style={styles.activityBadgeText}>Paleo</Text>
+                </Badge>
+              </LinearGradient>
+            </Box>
+          </HStack>
+        </Box>
+
+        <Box>
+          <Heading>Dietary Interests</Heading>
+        </Box>
+
+        <Box>
+          <Heading>About</Heading>
+        </Box>
+
+        <Box>
+          <Heading>Profile Questions</Heading>
+        </Box>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -305,6 +365,20 @@ const styles = StyleSheet.create({
     width: '95%',
     alignSelf: 'center',
     backgroundColor: 'white',
+  },
+  linearGradient: {
+    borderRadius: 5,
+  },
+  activityBadge: {
+    borderRadius: 15,
+    borderColor: 'transparent',
+  },
+  activityBadgeText: {
+    color: 'white',
+    // fontFamily: 'Rubik_400Regular',
+    fontSize: 14,
+    paddingLeft: 5,
+    paddingRight: 5,
   },
 });
 

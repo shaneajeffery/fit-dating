@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { persistCache } from 'apollo3-cache-persist';
-import { HStack, NativeBaseProvider, Button, Text } from 'native-base';
+import { NativeBaseProvider, Button, Text } from 'native-base';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
 import { getItem, setItem } from './src/utils/async-storage';
