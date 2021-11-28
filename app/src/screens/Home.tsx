@@ -14,6 +14,7 @@ import {
   VStack,
   Box,
   IconButton,
+  StatusBar,
 } from 'native-base';
 import { Feather } from '@expo/vector-icons';
 import LinearGradient from 'react-native-linear-gradient';
@@ -24,6 +25,7 @@ export const CELL_HEIGHT = height * 0.4;
 export default function Home({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <View
         style={{
           flexDirection: 'row',

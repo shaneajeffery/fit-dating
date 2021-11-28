@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import React, { useState, useEffect } from 'react';
-import { StatusBar, SafeAreaView, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
 import { getItem, setItem } from './src/utils/async-storage';
 import { ModalScreen } from './src/screens/Modal';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -103,7 +104,7 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
       <AnimatedSplash
         isLoaded={appIsReady && fontsLoaded && !loadingCache}
         customComponent={<Splash />}
@@ -117,7 +118,6 @@ export default function App() {
                 handleChangeLoginState: handleChangeLoginState,
               }}
             >
-              <StatusBar />
               <NavigationContainer>
                 {loggedIn === false ? (
                   <Stack.Navigator screenOptions={{ headerShown: false }}>

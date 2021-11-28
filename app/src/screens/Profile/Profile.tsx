@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import {
   Box,
@@ -11,45 +11,46 @@ import {
   HStack,
   Icon,
   Button,
+  StatusBar,
 } from 'native-base';
 import { height } from '../../config/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SharedElement } from 'react-navigation-shared-element';
 import { Feather, Ionicons, FontAwesome } from '@expo/vector-icons';
 import LinearGradient from 'react-native-linear-gradient';
+import { SliderBox } from 'react-native-image-slider-box';
 
-const TOP_HEIGHT_HEIGHT = height * 0.33;
+const TOP_HEIGHT_HEIGHT = height * 0.4;
 
 const ProfileDetails = ({ navigation, route }) => {
+  const [images, setImages] = useState([
+    'https://source.unsplash.com/1024x768/?nature',
+    'https://source.unsplash.com/1024x768/?water',
+    'https://source.unsplash.com/1024x768/?girl',
+    'https://source.unsplash.com/1024x768/?tree',
+  ]);
+
   const { item } = route.params;
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-      <SharedElement
-        id={`item.${item.key}.bg`}
-        style={[StyleSheet.absoluteFillObject]}
-      >
-        <View
-          style={[
-            {
-              height: TOP_HEIGHT_HEIGHT + 32,
-            },
-          ]}
-        />
-      </SharedElement>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <StatusBar barStyle="light-content" />
       <View style={{ height: TOP_HEIGHT_HEIGHT }}>
-        <SharedElement
-          id={`item.${item.key}.image`}
+        <View
           style={[StyleSheet.absoluteFillObject, { backgroundColor: 'white' }]}
         >
-          <Image source={{ uri: item.image }} style={styles.itemImage} />
-        </SharedElement>
+          <SliderBox
+            images={images}
+            sliderBoxHeight={TOP_HEIGHT_HEIGHT}
+            dotColor="#00ABE7"
+            paginationBoxVerticalPadding={40}
+          />
+        </View>
 
         <View
           style={{
-            flex: 1,
             position: 'absolute',
-            marginTop: 5,
+            marginTop: 50,
             marginLeft: 10,
             zIndex: 2,
           }}
@@ -63,10 +64,17 @@ const ProfileDetails = ({ navigation, route }) => {
                 padding={2}
                 style={{
                   borderColor: 'transparent',
+                  shadowRadius: 2,
+                  shadowColor: '#000000',
+                  shadowOpacity: 0.2,
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
                 }}
                 _icon={{
                   size: 25,
-                  color: '#092147',
+                  color: 'white',
                 }}
                 onPress={() => navigation.goBack()}
               />
@@ -76,14 +84,14 @@ const ProfileDetails = ({ navigation, route }) => {
 
         <View
           style={{
-            flex: 1,
             justifyContent: 'flex-start',
             alignItems: 'flex-end',
-            marginTop: 5,
+            marginTop: 50,
             marginRight: 10,
+            zIndex: 0,
           }}
         >
-          <VStack space={1} alignItems="center">
+          <HStack space={1} alignItems="center">
             <Box>
               <IconButton
                 size="sm"
@@ -103,7 +111,7 @@ const ProfileDetails = ({ navigation, route }) => {
                   },
                 }}
                 _icon={{
-                  size: 25,
+                  size: 20,
                   color: '#092147',
                 }}
                 onPress={() => navigation.goBack()}
@@ -128,12 +136,12 @@ const ProfileDetails = ({ navigation, route }) => {
                   },
                 }}
                 _icon={{
-                  size: 25,
+                  size: 20,
                   color: '#092147',
                 }}
               />
             </Box>
-          </VStack>
+          </HStack>
         </View>
       </View>
 
@@ -174,124 +182,163 @@ const ProfileDetails = ({ navigation, route }) => {
             style={{ marginTop: 10 }}
           >
             <Box style={{ marginTop: 5 }}>
-              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+              <Badge
+                style={[
+                  styles.activityBadge,
+                  {
+                    flexDirection: 'row',
+                    backgroundColor: 'transparent',
+                    borderColor: 'grey',
+                  },
+                ]}
+              >
                 <Icon
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
-                  style={{ marginRight: 5 }}
+                  style={{ marginRight: 5, color: 'grey' }}
                 />
-                University
+                <Text style={{ color: '#092147' }}>University</Text>
               </Badge>
             </Box>
             <Box style={{ marginTop: 5 }}>
-              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+              <Badge
+                style={[
+                  styles.activityBadge,
+                  {
+                    flexDirection: 'row',
+                    backgroundColor: 'transparent',
+                    borderColor: 'grey',
+                  },
+                ]}
+              >
                 <Icon
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
-                  style={{ marginRight: 5 }}
+                  style={{ marginRight: 5, color: 'grey' }}
                 />
-                University
+                <Text style={{ color: '#092147' }}>University</Text>
               </Badge>
             </Box>
             <Box style={{ marginTop: 5 }}>
-              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+              <Badge
+                style={[
+                  styles.activityBadge,
+                  {
+                    flexDirection: 'row',
+                    backgroundColor: 'transparent',
+                    borderColor: 'grey',
+                  },
+                ]}
+              >
                 <Icon
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
-                  style={{ marginRight: 5 }}
+                  style={{ marginRight: 5, color: 'grey' }}
                 />
-                University
+                <Text style={{ color: '#092147' }}>University</Text>
               </Badge>
             </Box>
             <Box style={{ marginTop: 5 }}>
-              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+              <Badge
+                style={[
+                  styles.activityBadge,
+                  {
+                    flexDirection: 'row',
+                    backgroundColor: 'transparent',
+                    borderColor: 'grey',
+                  },
+                ]}
+              >
                 <Icon
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
-                  style={{ marginRight: 5 }}
+                  style={{ marginRight: 5, color: 'grey' }}
                 />
-                University
+                <Text style={{ color: '#092147' }}>University</Text>
               </Badge>
             </Box>
             <Box style={{ marginTop: 5 }}>
-              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+              <Badge
+                style={[
+                  styles.activityBadge,
+                  {
+                    flexDirection: 'row',
+                    backgroundColor: 'transparent',
+                    borderColor: 'grey',
+                  },
+                ]}
+              >
                 <Icon
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
-                  style={{ marginRight: 5 }}
+                  style={{ marginRight: 5, color: 'grey' }}
                 />
-                University
+                <Text style={{ color: '#092147' }}>University</Text>
               </Badge>
             </Box>
             <Box style={{ marginTop: 5 }}>
-              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+              <Badge
+                style={[
+                  styles.activityBadge,
+                  {
+                    flexDirection: 'row',
+                    backgroundColor: 'transparent',
+                    borderColor: 'grey',
+                  },
+                ]}
+              >
                 <Icon
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
-                  style={{ marginRight: 5 }}
+                  style={{ marginRight: 5, color: 'grey' }}
                 />
-                University
+                <Text style={{ color: '#092147' }}>University</Text>
               </Badge>
             </Box>
             <Box style={{ marginTop: 5 }}>
-              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+              <Badge
+                style={[
+                  styles.activityBadge,
+                  {
+                    flexDirection: 'row',
+                    backgroundColor: 'transparent',
+                    borderColor: 'grey',
+                  },
+                ]}
+              >
                 <Icon
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
-                  style={{ marginRight: 5 }}
+                  style={{ marginRight: 5, color: 'grey' }}
                 />
-                University
+                <Text style={{ color: '#092147' }}>University</Text>
               </Badge>
             </Box>
             <Box style={{ marginTop: 5 }}>
-              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
+              <Badge
+                style={[
+                  styles.activityBadge,
+                  {
+                    flexDirection: 'row',
+                    backgroundColor: 'transparent',
+                    borderColor: 'grey',
+                  },
+                ]}
+              >
                 <Icon
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
-                  style={{ marginRight: 5 }}
+                  style={{ marginRight: 5, color: 'grey' }}
                 />
-                University
-              </Badge>
-            </Box>
-            <Box style={{ marginTop: 5 }}>
-              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
-                <Icon
-                  as={Ionicons}
-                  name="school-outline"
-                  size="xs"
-                  style={{ marginRight: 5 }}
-                />
-                University
-              </Badge>
-            </Box>
-            <Box style={{ marginTop: 5 }}>
-              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
-                <Icon
-                  as={Ionicons}
-                  name="school-outline"
-                  size="xs"
-                  style={{ marginRight: 5 }}
-                />
-                University
-              </Badge>
-            </Box>
-            <Box style={{ marginTop: 5 }}>
-              <Badge style={[styles.activityBadge, { flexDirection: 'row' }]}>
-                <Icon
-                  as={Ionicons}
-                  name="school-outline"
-                  size="xs"
-                  style={{ marginRight: 5 }}
-                />
-                University
+                <Text style={{ color: '#092147' }}>University</Text>
               </Badge>
             </Box>
           </HStack>
@@ -461,7 +508,7 @@ const ProfileDetails = ({ navigation, route }) => {
           </Heading>
         </Box>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
