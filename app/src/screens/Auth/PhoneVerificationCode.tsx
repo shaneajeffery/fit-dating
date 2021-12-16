@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import { Box, Text, Heading, Stack, Button } from 'native-base';
 import { gql, useMutation, useLazyQuery } from '@apollo/client';
 import { AuthContext } from '../../context/AuthContext';
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const VERIFY_PHONE_VERIFICATION_CODE_MUTATION = gql`
   mutation VerifyPhoneVerificationCodeMutation(

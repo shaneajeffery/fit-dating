@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, StatusBar } from 'react-native';
 import {
   Box,
   Divider,
@@ -11,13 +12,12 @@ import {
   HStack,
   Icon,
   Button,
-  StatusBar,
 } from 'native-base';
 import { height } from '../../config/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SharedElement } from 'react-navigation-shared-element';
 import { Feather, Ionicons, FontAwesome } from '@expo/vector-icons';
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SliderBox } from 'react-native-image-slider-box';
 
 const TOP_HEIGHT_HEIGHT = height * 0.4;
@@ -33,8 +33,10 @@ const ProfileDetails = ({ navigation, route }) => {
   const { item } = route.params;
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
-      <StatusBar barStyle="light-content" />
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: 'white' }}
+      edges={['top', 'left', 'right']}
+    >
       <View style={{ height: TOP_HEIGHT_HEIGHT }}>
         <View
           style={[StyleSheet.absoluteFillObject, { backgroundColor: 'white' }]}
@@ -44,13 +46,14 @@ const ProfileDetails = ({ navigation, route }) => {
             sliderBoxHeight={TOP_HEIGHT_HEIGHT}
             dotColor="#00ABE7"
             paginationBoxVerticalPadding={40}
+            imageLoadingColor="#092147"
           />
         </View>
 
         <View
           style={{
             position: 'absolute',
-            marginTop: 50,
+            marginTop: 20,
             marginLeft: 10,
             zIndex: 2,
           }}
@@ -86,7 +89,7 @@ const ProfileDetails = ({ navigation, route }) => {
           style={{
             justifyContent: 'flex-start',
             alignItems: 'flex-end',
-            marginTop: 50,
+            marginTop: 20,
             marginRight: 10,
             zIndex: 0,
           }}
@@ -196,6 +199,7 @@ const ProfileDetails = ({ navigation, route }) => {
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
+                  //@ts-ignore
                   style={{ marginRight: 5, color: 'grey' }}
                 />
                 <Text style={{ color: '#092147' }}>University</Text>
@@ -216,6 +220,7 @@ const ProfileDetails = ({ navigation, route }) => {
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
+                  //@ts-ignore
                   style={{ marginRight: 5, color: 'grey' }}
                 />
                 <Text style={{ color: '#092147' }}>University</Text>
@@ -236,6 +241,7 @@ const ProfileDetails = ({ navigation, route }) => {
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
+                  //@ts-ignore
                   style={{ marginRight: 5, color: 'grey' }}
                 />
                 <Text style={{ color: '#092147' }}>University</Text>
@@ -256,6 +262,7 @@ const ProfileDetails = ({ navigation, route }) => {
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
+                  //@ts-ignore
                   style={{ marginRight: 5, color: 'grey' }}
                 />
                 <Text style={{ color: '#092147' }}>University</Text>
@@ -276,6 +283,7 @@ const ProfileDetails = ({ navigation, route }) => {
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
+                  // @ts-ignore
                   style={{ marginRight: 5, color: 'grey' }}
                 />
                 <Text style={{ color: '#092147' }}>University</Text>
@@ -296,6 +304,7 @@ const ProfileDetails = ({ navigation, route }) => {
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
+                  //@ts-ignore
                   style={{ marginRight: 5, color: 'grey' }}
                 />
                 <Text style={{ color: '#092147' }}>University</Text>
@@ -316,6 +325,7 @@ const ProfileDetails = ({ navigation, route }) => {
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
+                  //@ts-ignore
                   style={{ marginRight: 5, color: 'grey' }}
                 />
                 <Text style={{ color: '#092147' }}>University</Text>
@@ -336,6 +346,7 @@ const ProfileDetails = ({ navigation, route }) => {
                   as={Ionicons}
                   name="school-outline"
                   size="xs"
+                  //@ts-ignore
                   style={{ marginRight: 5, color: 'grey' }}
                 />
                 <Text style={{ color: '#092147' }}>University</Text>
@@ -508,7 +519,7 @@ const ProfileDetails = ({ navigation, route }) => {
           </Heading>
         </Box>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

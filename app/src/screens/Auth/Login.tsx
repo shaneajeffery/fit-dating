@@ -40,8 +40,6 @@ const LoginScreen = ({ navigation }: Props) => {
   }, [loginData, loginLoading, loginError]);
 
   const handleLogin = async () => {
-    console.log('hello worl');
-
     // login({ variables: { email: params.email, password: params.password } });
   };
 

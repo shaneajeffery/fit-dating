@@ -17,7 +17,7 @@ import {
   StatusBar,
 } from 'native-base';
 import { Feather } from '@expo/vector-icons';
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export const CELL_HEIGHT = height * 0.4;
@@ -25,7 +25,11 @@ export const CELL_HEIGHT = height * 0.4;
 export default function Home({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
       <View
         style={{
           flexDirection: 'row',

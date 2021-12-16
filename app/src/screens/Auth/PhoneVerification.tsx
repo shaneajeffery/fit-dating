@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { Box, Text, Heading, Stack, Button } from 'native-base';
 import { gql, useMutation } from '@apollo/client';
 import MaskInput from 'react-native-mask-input';
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import PHONE_NUMBER_MASKS from '../../utils/phone-number-masks';
 

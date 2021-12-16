@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import React, { useState, useEffect } from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,7 +12,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
 import { getItem, setItem } from './src/utils/async-storage';
 import { ModalScreen } from './src/screens/Modal';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -72,18 +72,18 @@ export default function App() {
       }
     }
 
-    const userAuthToken = getItem('authToken');
+    // const userAuthToken = getItem('authToken');
 
     // console.log('START :: Auth Token');
     // console.log(userAuthToken);
     // console.log('END :: Auth Token');
 
-    if (userAuthToken) {
-      setAppIsReady(true);
-      setLoggedIn(true);
-    } else {
-      prepare();
-    }
+    // if (userAuthToken) {
+    //   setAppIsReady(true);
+    //   setLoggedIn(true);
+    // } else {
+    prepare();
+    // }
   }, []);
 
   useEffect(() => {
