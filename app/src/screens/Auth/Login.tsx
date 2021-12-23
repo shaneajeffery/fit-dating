@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
 import { StyleSheet, View, Image, SafeAreaView } from 'react-native';
-import { Stack, Button } from 'native-base';
+import { Stack, Button, HStack, VStack } from 'native-base';
 
 import { gql, useMutation } from '@apollo/client';
 import { setItem } from '../../utils/async-storage';
@@ -54,75 +54,53 @@ const LoginScreen = ({ navigation }: Props) => {
         />
       </View>
 
-      <Stack
-        ml={3}
-        mr={3}
-        space={1}
-        style={{ flex: 1, justifyContent: 'flex-end' }}
+      <VStack
+        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
       >
-        <Button
-          size="lg"
-          onPress={() => navigation.navigate('PhoneVerification')}
-          style={styles.phoneButton}
-          leftIcon={
-            <FontAwesome
-              name="mobile-phone"
-              size={25}
-              color="white"
-              style={{ marginRight: 10 }}
-            />
-          }
-        >
-          Login with Phone Number
-        </Button>
-        <Button
-          size="lg"
-          onPress={handleLogin}
-          style={styles.facebookButton}
-          leftIcon={
-            <FontAwesome
-              name="facebook"
-              size={20}
-              color="white"
-              style={{ marginRight: 10 }}
-            />
-          }
-        >
-          Login with Facebook
-        </Button>
+        <HStack space={5}>
+          <Button
+            size="lg"
+            onPress={() => navigation.navigate('PhoneVerification')}
+            style={styles.oauthButton}
+            leftIcon={
+              <Image
+                width={24}
+                height={24}
+                resizeMode="contain"
+                source={require('./assets/apple.png')}
+              />
+            }
+          />
 
-        <Button
-          size="lg"
-          onPress={handleLogin}
-          style={styles.appleButton}
-          leftIcon={
-            <FontAwesome
-              name="apple"
-              size={20}
-              color="white"
-              style={{ marginRight: 5 }}
-            />
-          }
-        >
-          Login with Apple
-        </Button>
+          <Button
+            size="lg"
+            onPress={() => navigation.navigate('PhoneVerification')}
+            style={styles.oauthButton}
+            leftIcon={
+              <Image
+                width={24}
+                height={24}
+                resizeMode="contain"
+                source={require('./assets/google.png')}
+              />
+            }
+          />
 
-        <Button
-          size="lg"
-          onPress={handleLogin}
-          style={styles.googleButton}
-          leftIcon={
-            <FontAwesome
-              name="google"
-              size={20}
-              color="white"
-              style={{ marginRight: 4 }}
-            />
-          }
-        >
-          Login with Google
-        </Button>
-      </Stack>
+          <Button
+            size="lg"
+            onPress={() => navigation.navigate('PhoneVerification')}
+            style={styles.oauthButton}
+            leftIcon={
+              <Image
+                width={24}
+                height={24}
+                resizeMode="contain"
+                source={require('./assets/facebook.png')}
+              />
+            }
+          />
+        </HStack>
+      </VStack>
 
       {/* <View style={styles.signInContainer}>
         <Text style={styles.signInLabel}>Login</Text>
@@ -160,6 +138,20 @@ const LoginScreen = ({ navigation }: Props) => {
 };
 
 const styles = StyleSheet.create({
+  oauthButton: {
+    backgroundColor: 'white',
+    // boxShadow:
+    //   '0px 1px 4px rgba(0, 0, 0, 0.1), 0px 6px 6px rgba(0, 0, 0, 0.06)',
+    borderRadius: 15,
+    height: 55,
+    width: 55,
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    shadowColor: 'black',
+    shadowOffset: { height: 2, width: 2 },
+
+    // 0px 1px 4px rgba(0, 0, 0, 0.1), 0px 6px 6px rgba(0, 0, 0, 0.06);
+  },
   phoneInput: {
     color: 'white',
     fontSize: 16,

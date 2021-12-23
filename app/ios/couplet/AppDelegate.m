@@ -1,9 +1,5 @@
 #import "AppDelegate.h"
 
-#if RCT_DEV
-#import <React/RCTDevLoadingView.h>
-#endif
-
 #if defined(EX_DEV_MENU_ENABLED)
 @import EXDevMenu;
 #endif
@@ -43,11 +39,6 @@ static void InitializeFlipper(UIApplication *application) {
 - (RCTBridge *)initializeReactNativeApp:(NSDictionary *)launchOptions
 {
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-
-  #if RCT_DEV
-    [bridge moduleForClass:[RCTDevLoadingView class]];
-  #endif
-
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"main" initialProperties:nil];
   id rootViewBackgroundColor = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RCTRootViewBackgroundColor"];
   if (rootViewBackgroundColor != nil) {
